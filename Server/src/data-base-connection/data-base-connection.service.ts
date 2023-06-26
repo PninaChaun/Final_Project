@@ -65,7 +65,9 @@ export class DataBaseConnectionService {
     insertUser = async (user: UserDTO) => {
 
         let newId = await this.getNextSequenceValue('users')
-        console.log(newId);
+        
+        user.saveOrder =  user.saveOrder
+
         db.collection('users').insertMany([{ ...user, id: newId }])
         return newId
     }
@@ -81,8 +83,17 @@ export class DataBaseConnectionService {
     }
 
     getAllOrders = async (prevTime:Date) => {
-        let col = await db.collection('orders').find({ active:true, beginDate :{$gt: prevTime }}).toArray();
-        console.log(col[0],"col");
+        // prevTime = new Date()
+        console.log(prevTime instanceof String, 'is str, prevTime');
+        console.log(prevTime instanceof Date, 'is date, prevTime');
+        console.log(prevTime);
+        
+        // let new_prevTime = Date.parse(prevTime)        
+        
+        let col = await db.collection('orders').find({ active:true, beginDate :{$gt: prevTime }}).toArray();//
+        console.log(col[0]);
+        let type:any =await typeof(col [0].beginDate) 
+        console.log(type);
         
         return  {
             col:await col , newPrevDate:new Date()
@@ -97,10 +108,13 @@ export class DataBaseConnectionService {
             
             let u =await this.getUser(order.userId)
             u = u[0]
-            let ms = u.saveOrder * 60 * 60 * 1000
+            let ms = u.saveOrder *60 * 1000 //TODO add* 60 to get hours 
+            console.log(ms, 'ms');
+            
             // u.saveOrder = (Number) (u.saveOrder)
             // let untilDate = new Date(order.beginDate)
             // untilDate.setHours(untilDate.getHours()+u.saveOrder)
+console.log(order);
 
             db.collection('orders').insertMany([{ ...order }])
 
@@ -115,9 +129,13 @@ export class DataBaseConnectionService {
             return 500;
         }
     }
-
-    deactivateOrder=(orderId:Number)=>{
-        let o = this.getOrder(orderId)[0]
+//TODO לשמור את השעה של saveOrder saveStore int not string
+    deactivateOrder=async (orderId:Number)=>{
+        let o = await this.getOrder(orderId)
+        
+        o = o[0];
+        console.log('o',o);
+        
         
         db.collection('orders').deleteOne({ orderId: orderId })
         db.collection('orders').insertOne({...o, active:false});

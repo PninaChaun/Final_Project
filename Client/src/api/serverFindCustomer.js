@@ -4,7 +4,7 @@ import fetchAxios from './interceptor.js'
 
 export const FindCustomer = async () => {
     console.log(Cookies.get('prevRequest') ?? new Date(1970,1));
-    // let prevTime = Cookies.get('prevRequest') ?? new Date(1970,1)
+    let prevTime = Cookies.get('prevRequest') ?? new Date(1970,1)
 
     var data = JSON.stringify({
         "prevTime": prevTime

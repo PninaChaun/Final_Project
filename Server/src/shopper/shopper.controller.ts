@@ -1,4 +1,4 @@
-import { Body, Controller, Post,Get, Request,  Res,  UseGuards } from '@nestjs/common';
+import { Body, Controller, Post,Get, Request,  Res,  UseGuards, Param } from '@nestjs/common';
 import { ShopperService } from './shopper.service';
 import { AutenticationService } from 'src/autentication/autentication.service';
 import { ShopperDTO } from 'src/DTO/shopper';
@@ -21,14 +21,25 @@ export class ShopperController {
 
     @UseGuards(AutenticationService)
     @Get()
-    async getPotentialCustomer(@Request() req,@Body()prevTime:any,@Res() res:Response){
-        let id = req['user'].id;
-        
+    async getPotentialCustomer(@Request() req,@Body()prevTime:Date,@Res() res:Response){
+        let id = req['user'].id;        
+     console.log(prevTime,'controller');
      
-        let response = await this.srv.findPotentialCustomer(id , prevTime)
+     let response = await this.srv.findPotentialCustomer(id , prevTime)
         
         console.log(response);
         // console.log(prevTime,'prevTime');
         res.send(response);
+    }
+
+    @UseGuards(AutenticationService)
+    @Get(':date')
+    async getOrder(@Request() req,@Param('date') dateTime : string,@Res() res:Response)
+    {
+        let id = req['user'].id; 
+        let date = new Date(dateTime)
+        let response = await this.srv.findPotentialCustomer(id ,date);
+        res.send(response);
+
     }
 }
