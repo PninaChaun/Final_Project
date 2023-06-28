@@ -22,13 +22,12 @@ const ProtectedRoute = ({ children }) => {
 
 export default function MyRouter() {
     let navigate =useNavigate();
-    const [showPopup, setShowPopup] = useState(false);
-    // console.log('my router re', showPopup  );
+    const [order, setOrder] = useState([]);
+    console.log('my router ', order);
     return (
         <div>
-            
     <Context.Provider  value = {navigate}>
-         <PopupContext.Provider  value = {[showPopup, setShowPopup]}>
+         <PopupContext.Provider  value = {[order,setOrder]}>
             <Routes>
                 
                 <Route path="/login" element={<Login />} />
@@ -40,7 +39,7 @@ export default function MyRouter() {
                                 <Route path="/" element={<App />} />
                                 <Route path="/shopper" element={<Shopper />} />
                                 <Route path="/customer" element={<Customer />} />
-                                <Route path="/chat" element={<Chat />} />
+                                {/* <Route path="/chat" element={<Chat />} /> */}
                                 <Route path="/settings" element={<Settings />} />
                                 <Route path="/popup" element={<PotentialCustomer />} />
 
@@ -51,8 +50,9 @@ export default function MyRouter() {
                
             </Routes>
             </PopupContext.Provider>
-
             </Context.Provider>
+
+            <PotentialCustomer order ={order} setOrder={setOrder}/>
         </div>
     );
 }

@@ -27,7 +27,6 @@ export class LoginController {
         let id = req['user'].id        
         
         let user =  await this.srv.getUserById(id)
-        console.log('user in contoll', user,'id: ',id);
         
         res.send(user);
     }

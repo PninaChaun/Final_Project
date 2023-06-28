@@ -7,15 +7,24 @@ import { FindCustomer } from "../../api/serverFindCustomer";
 
 export const Shopper = () => {
 
-  let [show, setShowPopup] = useContext(PopupContext)
+  let [order, setOrder] = useContext(PopupContext)
 
     useEffect(() => {
+
     setInterval(() => {
       console.log('in set interval');
 
-      FindCustomer().then(r=>console.log(r));
+      FindCustomer().then(r=>JSON.parse(r)).then(
+        r=>{
+          //TODO for each
+          let col=r['col'];
+          // debugger
+          console.log(col);
+          setOrder(col);
+          }
+        );
       }
-    , 7000); // fetch updates every 5 seconds
+    , 5000); // fetch updates every 5 seconds
 
   }, []);
 
@@ -25,7 +34,6 @@ export const Shopper = () => {
     event.preventDefault();
     const store = event.target.store.value;
     let data = { 'store': store }
-
 
     //TODO קריאת שרת
     ServerShopper(data)

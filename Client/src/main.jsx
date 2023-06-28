@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <MyRouter />
-      <PotentialCustomer/>
+      {/* <PotentialCustomer/> */}
     </BrowserRouter>
   </React.StrictMode>,
 )

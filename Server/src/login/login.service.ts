@@ -19,7 +19,6 @@ export class LoginService {
 
     async getUserById(id:Number) {
         let user = await this.ser.getUser(id);
-        console.log('user in service', user, 'id: ',id);
         
         return user[0];
     }
@@ -57,7 +56,6 @@ export class LoginService {
             else
                 if (user.name && user.password && user.email) {
                     let newId =await this.ser.insertUser(user);
-                    console.log('newId',newId);
                     
                 const payload = { username:user.name, id: newId };
                     return { stat: 201, desc: this.createToken(payload) };

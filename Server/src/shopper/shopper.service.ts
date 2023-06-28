@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { orderDTO } from 'src/DTO/order.dto';
 import { ShopperDTO } from 'src/DTO/shopper';
 import { DataBaseConnectionService } from 'src/data-base-connection/data-base-connection.service';
 
@@ -21,7 +22,18 @@ export class ShopperService {
     }
 
     findPotentialCustomer(id:Number, prevTime:Date){
-        return this.srv.getAllOrders(prevTime)
-    }
+        let ordersUsers =[]
+        return  this.srv.getAllOrders(prevTime).then(
+            async o=>{
+                let orders:orderDTO[] = o['col']
+        for (let i =0; i< orders.length; i++){
+            let order = orders[i]
+            let user =await this.srv.getUser(order.userId)
+            user = user[0]
+            ordersUsers.push({order, user})
+        }
 
+    }).then(r=>{ console.log(ordersUsers);
+        return {col:ordersUsers, newPrevDate: new Date()}})
+}
 }

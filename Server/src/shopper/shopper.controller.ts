@@ -23,11 +23,8 @@ export class ShopperController {
     @Get()
     async getPotentialCustomer(@Request() req,@Body()prevTime:Date,@Res() res:Response){
         let id = req['user'].id;        
-     console.log(prevTime,'controller');
-     
      let response = await this.srv.findPotentialCustomer(id , prevTime)
         
-        console.log(response);
         // console.log(prevTime,'prevTime');
         res.send(response);
     }

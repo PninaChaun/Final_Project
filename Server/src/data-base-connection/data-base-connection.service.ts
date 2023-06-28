@@ -83,17 +83,10 @@ export class DataBaseConnectionService {
     }
 
     getAllOrders = async (prevTime:Date) => {
-        // prevTime = new Date()
-        console.log(prevTime instanceof String, 'is str, prevTime');
-        console.log(prevTime instanceof Date, 'is date, prevTime');
-        console.log(prevTime);
         
         // let new_prevTime = Date.parse(prevTime)        
         
         let col = await db.collection('orders').find({ active:true, beginDate :{$gt: prevTime }}).toArray();//
-        console.log(col[0]);
-        let type:any =await typeof(col [0].beginDate) 
-        console.log(type);
         
         return  {
             col:await col , newPrevDate:new Date()
@@ -109,12 +102,10 @@ export class DataBaseConnectionService {
             let u =await this.getUser(order.userId)
             u = u[0]
             let ms = u.saveOrder *60 * 1000 //TODO add* 60 to get hours 
-            console.log(ms, 'ms');
             
             // u.saveOrder = (Number) (u.saveOrder)
             // let untilDate = new Date(order.beginDate)
             // untilDate.setHours(untilDate.getHours()+u.saveOrder)
-console.log(order);
 
             db.collection('orders').insertMany([{ ...order }])
 
@@ -133,8 +124,7 @@ console.log(order);
     deactivateOrder=async (orderId:Number)=>{
         let o = await this.getOrder(orderId)
         
-        o = o[0];
-        console.log('o',o);
+        o = o[0]
         
         
         db.collection('orders').deleteOne({ orderId: orderId })
