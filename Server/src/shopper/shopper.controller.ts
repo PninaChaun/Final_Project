@@ -39,4 +39,15 @@ export class ShopperController {
         res.send(response);
 
     }
+
+    @UseGuards(AutenticationService)
+    @Post(':orderId')
+    async saveBuy(@Request() req,@Param('orderId') oId: string ,@Res() res:Response)
+    {
+        let id = req['user'].id;
+        let orderId = Number.parseInt(oId)
+        
+        let status =await this.srv.saveBuy(id, orderId)
+        res.status(status).send()
+    }
 }

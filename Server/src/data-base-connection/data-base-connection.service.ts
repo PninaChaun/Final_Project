@@ -125,10 +125,21 @@ export class DataBaseConnectionService {
         let o = await this.getOrder(orderId)
         
         o = o[0]
-        
-        
         db.collection('orders').deleteOne({ orderId: orderId })
         db.collection('orders').insertOne({...o, active:false});
+        return 200;
+    }
+
+    updateOrder_addShopperId=async (userId:number , orderId:Number)=>{
+        //TODO_AFTER change all await to then
+        //TODO_AFTER why .toArray() and then [0]  in getUser, getOrder...
+        //TODO_AFTER try to change updates to update and not to delete and insert
+        let o = await this.getOrder(orderId)
+        
+        o = o[0]
+        
+        db.collection('orders').deleteOne({ orderId: orderId })
+        db.collection('orders').insertOne({...o, active:false, shopperId:userId});
         return 200;
     }
 

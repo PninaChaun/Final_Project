@@ -10,6 +10,15 @@ export const PotentialCustomer = ({order, setOrder})=>{
     const removeOrder=()=>{
         setOrder(order.splice(1))
     }
+
+    const saveBuy = (orderId)=>{
+        saveBuy(orderId)
+
+        //TODO open chat
+        
+        removeOrder()
+    }
+
 //TODO להבין מתי נשלח לפה, כשיש ORDER  חדש
 console.log(order, 'Potential_customer');
     // let customer = {name:'n', productName: 'p', details:'d', address:'ad'}
@@ -30,7 +39,7 @@ console.log(order, 'Potential_customer');
             כתובת: {currrent_order['user'].address}  <br/>
             </p>
             {/* //TODO function to אישור */}
-            <button type="submit" onClick={()=>removeOrder()}>אישור קניה</button>
+            <button type="submit" onClick={()=>saveBuy(currrent_order['order'].orderId)}>אישור קניה</button>
             <button type="submit" onClick={()=>removeOrder()} >לא מאשר קניה </button>        
         </div>
     </Popup>
