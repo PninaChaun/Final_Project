@@ -49,6 +49,6 @@ export  function Chat() {
   }, [talkLoaded]);
 
   return <div  ref={chatboxEl} id="talkjs-container" >
-  <i>Loading chat...</i>
+  <i>Loading chat... have patience</i>
 </div> ;
 }
