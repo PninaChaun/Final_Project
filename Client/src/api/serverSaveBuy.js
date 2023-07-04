@@ -1,7 +1,7 @@
 import config from '../config.js';
 import fetchAxios from './interceptor.js'
 
-export const saveBuy = async (orderId) => {
+export const serverSaveBuy = async (orderId) => {
 
     var configuration = {
         method: 'post',

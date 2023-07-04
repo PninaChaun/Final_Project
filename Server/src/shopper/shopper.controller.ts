@@ -3,7 +3,6 @@ import { ShopperService } from './shopper.service';
 import { AutenticationService } from 'src/autentication/autentication.service';
 import { ShopperDTO } from 'src/DTO/shopper';
 import { Response } from 'express';
-import { get } from 'https';
 
 @Controller('shopper')
 export class ShopperController {

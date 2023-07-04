@@ -20,6 +20,7 @@ export const ServerOrder=  (order) => {
     fetchAxios(configuration)
     .then(function (response) {
       console.log(JSON.stringify(response.data));
+      return JSON.stringify(response.data);
     })
     .catch(function (error) {
       console.log(error);

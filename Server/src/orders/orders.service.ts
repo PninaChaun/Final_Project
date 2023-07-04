@@ -12,7 +12,19 @@ export class OrdersService {
         order.shopperId=null;
         order.active=true;
         order.beginDate = new Date()
-        let s = this.srv.insertOrder(order);
-        return {stat:s};
+        let response = this.srv.insertOrder(order);
+        return response;
+    }
+
+    async hasShopperId(orderId : Number){
+        let col =await this.srv.getOrder_hasShopperId(orderId);
+        console.log(col);
+        col = col[0]
+        if (col.shopperId){          
+          let shopper = await this.srv.getUser(col.shopperId)
+          shopper = shopper[0]
+          return {stat:200, shopper: shopper};
+        }
+        return {stat:404, shopper: null};
     }
 }

@@ -1,29 +1,26 @@
 import { useNavigate } from "react-router-dom";
-import Context, { PopupContext } from "../../context/context";
 import Popup from 'reactjs-popup';
 import { useContext, useState } from "react";
+import { serverSaveBuy } from "../../api/serverSaveBuy";
+import Context from "../../context/context";
 
 export const PotentialCustomer = ({order, setOrder})=>{
     const _navigate = useNavigate(Context);
-    // const [order, setOrder]= useContext(PopupContext)
 
     const removeOrder=()=>{
         setOrder(order.splice(1))
     }
 
     const saveBuy = (orderId)=>{
-        saveBuy(orderId)
-
-        //TODO open chat
-        
+        serverSaveBuy(orderId)
         removeOrder()
+
+        //TODO open chat 
+        
     }
 
-//TODO להבין מתי נשלח לפה, כשיש ORDER  חדש
 console.log(order, 'Potential_customer');
-    // let customer = {name:'n', productName: 'p', details:'d', address:'ad'}
     
-    // /onClose={() => setShow(false)}
     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך
     if(order.length>0){
         let currrent_order = order[0]
@@ -38,7 +35,6 @@ console.log(order, 'Potential_customer');
 
             כתובת: {currrent_order['user'].address}  <br/>
             </p>
-            {/* //TODO function to אישור */}
             <button type="submit" onClick={()=>saveBuy(currrent_order['order'].orderId)}>אישור קניה</button>
             <button type="submit" onClick={()=>removeOrder()} >לא מאשר קניה </button>        
         </div>

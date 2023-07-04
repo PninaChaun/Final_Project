@@ -1,30 +1,28 @@
 import { useNavigate } from "react-router-dom";
 import { ServerShopper } from "../../api/serverShopper";
-import Context, { PopupContext } from "../../context/context";
 import PotentialCustomer from "../PotentialCustomer/PotentialCustomer";
 import { useContext, useEffect } from "react";
 import { FindCustomer } from "../../api/serverFindCustomer";
+import Cookies from "js-cookie";
+import Context from "../../context/context";
 
-export const Shopper = () => {
+export const Shopper = ({ order, setOrder }) => {
 
-  let [order, setOrder] = useContext(PopupContext)
-
-    useEffect(() => {
+  useEffect(() => {
 
     setInterval(() => {
-      console.log('in set interval');
 
-      FindCustomer().then(r=>JSON.parse(r)).then(
-        r=>{
-          //TODO for each
-          let col=r['col'];
-          // debugger
-          console.log(col);
-          setOrder(col);
-          }
-        );
-      }
-    , 5000); // fetch updates every 5 seconds
+      FindCustomer().then(r => JSON.parse(r)).then(
+        r => {
+          let col = r['col'];
+          let newOrderList = order.map(x => x)
+          newOrderList.push(...col)
+          setOrder(newOrderList);
+          console.log(order, 'order');
+        }
+      );
+    }
+      , 5000); // fetch updates every 5 seconds
 
   }, []);
 
@@ -32,10 +30,11 @@ export const Shopper = () => {
 
   const saveShopper = ($event) => {
     event.preventDefault();
+    Cookies.set('prevRequest', new Date(1970, 1))
+    setOrder([])
+
     const store = event.target.store.value;
     let data = { 'store': store }
-
-    //TODO קריאת שרת
     ServerShopper(data)
     _navigate('/');
 

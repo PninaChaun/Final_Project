@@ -56,17 +56,18 @@ export class DataBaseConnectionService {
 
     updateUser = (user: UserDTO) => {
         let u = this.getUser(user.id)[0]
-        
-        db.collection('users').deleteOne({ id: user.id })
-        db.collection('users').insertOne({...u, ...user});
+
+        db.collection('users').deleteOne({ id: user.id }).then(
+            db.collection('users').insertOne({ ...u, ...user })
+        )
         return 200;
     };
 
     insertUser = async (user: UserDTO) => {
 
         let newId = await this.getNextSequenceValue('users')
-        
-        user.saveOrder =  user.saveOrder
+
+        user.saveOrder = user.saveOrder
 
         db.collection('users').insertMany([{ ...user, id: newId }])
         return newId
@@ -77,20 +78,20 @@ export class DataBaseConnectionService {
         return col;
     }
 
-    getOrder= (orderId)=>{
+    getOrder = (orderId) => {
         let col = db.collection('orders').find({ orderId: orderId }).toArray();
         return col;
     }
 
-    getAllOrders = async (prevTime:Date) => {
-        
+    getAllOrders = async (prevTime: Date) => {
+
         // let new_prevTime = Date.parse(prevTime)        
-        
-        let col = await db.collection('orders').find({ active:true, beginDate :{$gt: prevTime }}).toArray();//
-        
-        return  {
-            col:await col , newPrevDate:new Date()
-        } 
+
+        let col = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray();//
+
+        return {
+            col: await col, newPrevDate: new Date()
+        }
     }
 
     insertOrder = async (order: orderDTO) => {
@@ -98,11 +99,11 @@ export class DataBaseConnectionService {
             let newId = await this.getNextSequenceValue('orders')
 
             order.orderId = newId
-            
-            let u =await this.getUser(order.userId)
+
+            let u = await this.getUser(order.userId)
             u = u[0]
-            let ms = u.saveOrder *60 * 1000 //TODO add* 60 to get hours 
-            
+            let ms = u.saveOrder * 60 * 1000 //TODO add* 60 to get hours 
+
             // u.saveOrder = (Number) (u.saveOrder)
             // let untilDate = new Date(order.beginDate)
             // untilDate.setHours(untilDate.getHours()+u.saveOrder)
@@ -113,33 +114,40 @@ export class DataBaseConnectionService {
                 this.deactivateOrder(order.orderId)
             }, ms);
 
-            return 201;
+            return {stat:201, orderId: newId};
 
         }
         catch {
-            return 500;
+            return {stat:500, orderId: null};
         }
     }
-//TODO לשמור את השעה של saveOrder saveStore int not string
-    deactivateOrder=async (orderId:Number)=>{
+    //TODO לשמור את השעה של saveOrder saveStore int not string
+    deactivateOrder = async (orderId: Number) => {
         let o = await this.getOrder(orderId)
-        
+
         o = o[0]
-        db.collection('orders').deleteOne({ orderId: orderId })
-        db.collection('orders').insertOne({...o, active:false});
+        db.collection('orders').deleteOne({ orderId: orderId }).then(
+            db.collection('orders').insertOne({ ...o, active: false })
+        )
+
         return 200;
     }
 
-    updateOrder_addShopperId=async (userId:number , orderId:Number)=>{
+    updateOrder_addShopperId = async (userId: number, orderId: Number) => {
         //TODO_AFTER change all await to then
         //TODO_AFTER why .toArray() and then [0]  in getUser, getOrder...
         //TODO_AFTER try to change updates to update and not to delete and insert
         let o = await this.getOrder(orderId)
-        
+
         o = o[0]
-        
-        db.collection('orders').deleteOne({ orderId: orderId })
-        db.collection('orders').insertOne({...o, active:false, shopperId:userId});
+//TODO make sure this order is still available
+       if(!o.active)
+            return 404; //show it's not possible     
+        db.collection('orders').updateOne({orderId: orderId}, {$set: { active: false, shopperId: userId}})
+    
+        // db.collection('orders').deleteOne({ orderId: orderId }).then(
+        //     db.collection('orders').insertOne({ ...o, active: false, shopperId: userId })
+        // )
         return 200;
     }
 
@@ -166,6 +174,13 @@ export class DataBaseConnectionService {
 
         // Return the updated sequence value
         return result.value.nextId;
+    }
+
+    getOrder_hasShopperId = (orderId) => {
+        //TODO find where shopperId not null
+        let col = db.collection('orders').find({ orderId: orderId }).toArray();
+        
+        return col;
     }
 
 }
