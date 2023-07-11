@@ -235,3 +235,5 @@ export class DataBaseConnectionService {
 //     //    { $unwind: "$price" }
 //  ] )
 //TODO //HELP update to change active in order to false and add shopId 
+//TODO small documents in database? 
+//HELP stop setInterval client - customer - useEffect
