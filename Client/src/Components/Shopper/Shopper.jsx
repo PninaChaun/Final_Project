@@ -35,8 +35,22 @@ export const Shopper = ({ order, setOrder }) => {
 
     const store = event.target.store.value;
     let data = { 'store': store }
-    ServerShopper(data)
-    _navigate('/');
+    // ServerShopper(data).then(r=>{JSON.parse(r); console.log(r,'r');})
+    // .then(shopId=>Cookies.set('shopId',shopId))
+    //
+    const x = ServerShopper(data)
+               .then((result) => JSON.parse(result))
+               .then((result) => {
+                console.log('result:', result);
+                  Cookies.set('shopId',result)
+               })
+               .catch((error) => {
+                    console.log(error);
+               })
+               .finally(() => _navigate('/'));
+    //
+    
+    // _navigate('/')
 
   }
 

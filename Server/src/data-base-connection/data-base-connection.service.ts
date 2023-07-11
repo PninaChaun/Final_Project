@@ -54,6 +54,11 @@ export class DataBaseConnectionService {
         return col;
     }
 
+    getShop = (id: Number) => {
+        let col = db.collection('shoppers').find({ shopId: id }).toArray();
+        return col;
+    }
+
     updateUser = (user: UserDTO) => {
         let u = this.getUser(user.id)[0]
 
@@ -104,21 +109,17 @@ export class DataBaseConnectionService {
             u = u[0]
             let ms = u.saveOrder * 60 * 1000 //TODO add* 60 to get hours 
 
-            // u.saveOrder = (Number) (u.saveOrder)
-            // let untilDate = new Date(order.beginDate)
-            // untilDate.setHours(untilDate.getHours()+u.saveOrder)
-
             db.collection('orders').insertMany([{ ...order }])
 
             setTimeout(() => {
                 this.deactivateOrder(order.orderId)
             }, ms);
 
-            return {stat:201, orderId: newId};
+            return { stat: 201, orderId: newId };
 
         }
         catch {
-            return {stat:500, orderId: null};
+            return { stat: 500, orderId: null };
         }
     }
     //TODO לשמור את השעה של saveOrder saveStore int not string
@@ -133,31 +134,59 @@ export class DataBaseConnectionService {
         return 200;
     }
 
-    updateOrder_addShopperId = async (userId: number, orderId: Number) => {
-        //TODO_AFTER change all await to then
-        //TODO_AFTER why .toArray() and then [0]  in getUser, getOrder...
-        //TODO_AFTER try to change updates to update and not to delete and insert
-        let o = await this.getOrder(orderId)
+    deactivateShopper = async (shopId: Number) => {
+        // let shop = await this.getShop(shopId)
 
-        o = o[0]
-//TODO make sure this order is still available
-       if(!o.active)
-            return 404; //show it's not possible     
-        db.collection('orders').updateOne({orderId: orderId}, {$set: { active: false, shopperId: userId}})
-    
-        // db.collection('orders').deleteOne({ orderId: orderId }).then(
-        //     db.collection('orders').insertOne({ ...o, active: false, shopperId: userId })
-        // )
+        // shop = shop[0]
+        // db.collection('shoppers').deleteOne({ shopId: shopId }).then(
+        //     db.collection('shoppers').insertOne({ ...shop, active: false }) )
+        db.collection('shoppers').updateOne({ shopId: shopId }, { $set: { active: false } })
+
         return 200;
     }
 
-    insertShopper(shopper: ShopperDTO) {
+    updateOrder_addShopperId = async (shopId: number, orderId: Number) => {
+        //TODO_AFTER change all await to then
+        //TODO_AFTER why .toArray() and then [0]  in getUser, getOrder...
+        //TODO_AFTER try to change updates to update and not to delete and insert
+        console.log('orderId to get', orderId);
+
+        let o = await this.getOrder(orderId)
+
+        o = o[0]
+        
+        //TODO make sure this order is still available
+        if (!o.active)
+            return 404;     
+            console.log(o , 'o');
+            
+            console.log('before update');
+            db.collection('orders').updateOne({orderId: orderId}, {$set: { active: false, shopId: shopId}})
+
+        // db.collection('orders').deleteOne({ orderId: orderId }).then(
+        //     db.collection('orders').insertOne({ ...o, active: false, shopId: shopId })
+        // )
+        console.log('after update');
+
+        return 200;
+    }
+
+    async insertShopper(shopper: ShopperDTO) {
         try {
-            db.collection('shoppers').insertMany([{ userId: shopper.userId, store: shopper.store, datetime: shopper.datetime, active: shopper.active }])
-            return 201;
+            let newId = await this.getNextSequenceValue('shoppers')
+            db.collection('shoppers').insertMany([{ ...shopper, shopId: newId }])
+
+            let u = await this.getUser(shopper.userId)
+            u = u[0]
+            let ms = u.saveStore * 60 * 1000 //TODO add* 60 to get hours 
+
+            setTimeout(() => {
+                this.deactivateShopper(newId)
+            }, ms);
+            return newId;
         }
         catch {
-            return 500;
+            //TODO
         }
     }
 
@@ -179,7 +208,7 @@ export class DataBaseConnectionService {
     getOrder_hasShopperId = (orderId) => {
         //TODO find where shopperId not null
         let col = db.collection('orders').find({ orderId: orderId }).toArray();
-        
+
         return col;
     }
 
@@ -205,3 +234,4 @@ export class DataBaseConnectionService {
 //     },
 //     //    { $unwind: "$price" }
 //  ] )
+//TODO //HELP update to change active in order to false and add shopId 

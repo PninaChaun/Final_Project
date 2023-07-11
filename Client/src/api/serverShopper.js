@@ -3,7 +3,7 @@ import config from '../config.js';
 import fetchAxios from './interceptor.js'
 
 export const ServerShopper = async (shopper) => {
-    
+  return new Promise((resolve, reject) => {
     var data = JSON.stringify({
       "store": shopper.store
     });
@@ -17,14 +17,15 @@ export const ServerShopper = async (shopper) => {
       data : data
     };
 
-    return await fetchAxios(configuration )
-        .then(function (response) {
+    fetchAxios(configuration)
+          .then(function (response) {
             console.log(JSON.stringify(response.data));
-            return JSON.stringify(response.data);
-
-        })
-        // .catch(function (error) {
-        //     console.log(error);
-        // });
+            const y = JSON.stringify(response.data);
+            resolve(y); // Resolve the Promise with the value of 'y'
+          })
+          .catch(function (error) {
+            console.log(error);
+            reject(error); // Reject the Promise with the error
+          });
+  });
 }
-

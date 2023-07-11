@@ -34,13 +34,14 @@ export class ShopperService {
                 }
 
             }).then(r => {
-                console.log(ordersUsers);
                 return { col: ordersUsers, newPrevDate: new Date() }
             })
     }
 
-    saveBuy(userId:number, orderId:number){
-        const status =  this.srv.updateOrder_addShopperId(userId, orderId)
+    saveBuy(shopId:number, orderId:number){
+        console.log('shopId:', shopId, 'orderId:', orderId);
+        
+        const status =  this.srv.updateOrder_addShopperId(shopId, orderId)
         return status
     }
 }

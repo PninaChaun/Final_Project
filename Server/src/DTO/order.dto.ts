@@ -3,7 +3,7 @@ export class orderDTO{
     userId:Number;
     productName:String;
     details:String;
-    shopperId:Number;
+    shopId:Number;
     beginDate:Date;
     active:boolean;
 }

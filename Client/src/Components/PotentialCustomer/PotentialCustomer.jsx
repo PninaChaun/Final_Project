@@ -18,8 +18,6 @@ export const PotentialCustomer = ({order, setOrder})=>{
         //TODO open chat 
         
     }
-
-console.log(order, 'Potential_customer');
     
     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך
     if(order.length>0){

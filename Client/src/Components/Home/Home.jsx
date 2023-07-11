@@ -12,6 +12,6 @@ export const Home =()=>{
         <button><Link to='shopper' >אני הולך לחנות ומוכן לקנות מצרכים לאנשים</Link></button>
         <button><Link to ='customer'> אני צריך משהו מהחנות, ורוצה שמשהו יקנה לי</Link></button>
         <button><Link to ='settings'> הגדרות</Link></button>
-        <Outlet></Outlet>
+        {/* <Outlet></Outlet> */}
     </>
 }

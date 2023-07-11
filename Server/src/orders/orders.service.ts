@@ -9,7 +9,7 @@ export class OrdersService {
 
     
     insertOrder(order:orderDTO){
-        order.shopperId=null;
+        order.shopId=null;
         order.active=true;
         order.beginDate = new Date()
         let response = this.srv.insertOrder(order);
@@ -18,12 +18,14 @@ export class OrdersService {
 
     async hasShopperId(orderId : Number){
         let col =await this.srv.getOrder_hasShopperId(orderId);
-        console.log(col);
+
         col = col[0]
-        if (col.shopperId){          
-          let shopper = await this.srv.getUser(col.shopperId)
-          shopper = shopper[0]
-          return {stat:200, shopper: shopper};
+        if (col.shopId){   
+        let shopper = await this.srv.getShop(col.shopId)
+        shopper = shopper[0]
+        let user = await this.srv.getUser(shopper.userId)
+        user= user[0]
+          return {stat:200, shopper:{ shopper, user}};
         }
         return {stat:404, shopper: null};
     }

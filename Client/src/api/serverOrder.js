@@ -3,26 +3,29 @@ import config from '../config.js';
 import fetchAxios from './interceptor.js'
 import { useNavigate } from "react-router-dom";
 
-export const ServerOrder=  (order) => {
-  ///TODO  אם מוחקים את העוגיות - יחזור שגיאת אין גישה וצריך לעבור ללוגין
- 
+//   HELP///TODO  אם מוחקים את העוגיות - יחזור שגיאת אין גישה וצריך לעבור ללוגין
+export const ServerOrder = (order) => {
+  return new Promise((resolve, reject) => {
     var data = JSON.stringify(order);
-    
+
     var configuration = {
       method: 'post',
       url: `${config.api}/orders`,
-      headers: { 
+      headers: {
         'Content-Type': 'application/json'
       },
-      data : data
+      data: data
     };
-    
+
     fetchAxios(configuration)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-      return JSON.stringify(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        const y = JSON.stringify(response.data);
+        resolve(y); // Resolve the Promise with the value of 'y'
+      })
+      .catch(function (error) {
+        console.log(error);
+        reject(error); // Reject the Promise with the error
+      });
+  });
 }

@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }) => {
 export default function MyRouter() {
     let navigate =useNavigate();
     const [order, setOrder] = useState([]);
-    const [shopper, setShopper] = useState({});
+    const [shopper, setShopper] = useState(null);
 
     return (
         <div>
@@ -37,11 +37,10 @@ export default function MyRouter() {
                             <Routes>
                                 <Route path="/" element={<App />} />
                                 <Route path="/shopper" element={<Shopper order = {order} setOrder ={setOrder}/>} />
-                                <Route path="/customer" element={<Customer setShopper={setShopper} />} />
+                                <Route path="/customer" element={<Customer setShopper={setShopper}  />} />
                                 {/* <Route path="/chat" element={<Chat />} /> */}
                                 <Route path="/settings" element={<Settings />} />
                                 <Route path="/popup" element={<PotentialCustomer />} />
-
                             </Routes>
                         </ProtectedRoute>
                     }
@@ -51,7 +50,7 @@ export default function MyRouter() {
             </Context.Provider>
 
             <PotentialCustomer order ={order} setOrder={setOrder}/>
-            <PotentialShopper shopper={shopper}/>
+            <PotentialShopper shopper={shopper} setShopper={setShopper} />
         </div>
     );
 }

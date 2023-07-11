@@ -1,4 +1,4 @@
-import { Body, Controller, Post,Get, Request,  Res,  UseGuards, Param } from '@nestjs/common';
+import { Body, Controller, Post,Get, Request,  Res,  UseGuards, Param, Put } from '@nestjs/common';
 import { ShopperService } from './shopper.service';
 import { AutenticationService } from 'src/autentication/autentication.service';
 import { ShopperDTO } from 'src/DTO/shopper';
@@ -11,26 +11,17 @@ export class ShopperController {
 
     @UseGuards(AutenticationService)
     @Post()
-    login_user(@Request() req,@Body()shopper:ShopperDTO, @Res() res: Response) {
+    async goToStore(@Request() req,@Body()shopper:ShopperDTO, @Res() res: Response) {
         shopper.userId = req['user'].id;
 
-        let status=this.srv.insertShopper(shopper)
-        res.status(status).send()
-    }
-
-    @UseGuards(AutenticationService)
-    @Get()
-    async getPotentialCustomer(@Request() req,@Body()prevTime:Date,@Res() res:Response){
-        let id = req['user'].id;        
-     let response = await this.srv.findPotentialCustomer(id , prevTime)
+        let shopId = await this.srv.insertShopper(shopper)
         
-        // console.log(prevTime,'prevTime');
-        res.send(response);
+        res.send(JSON.stringify(shopId))
     }
 
     @UseGuards(AutenticationService)
     @Get(':date')
-    async getOrder(@Request() req,@Param('date') dateTime : string,@Res() res:Response)
+    async getShopper(@Request() req,@Param('date') dateTime : string,@Res() res:Response)
     {
         let id = req['user'].id; 
         let date = new Date(dateTime)
@@ -41,12 +32,11 @@ export class ShopperController {
 
     @UseGuards(AutenticationService)
     @Post(':orderId')
-    async saveBuy(@Request() req,@Param('orderId') oId: string ,@Res() res:Response)
+    async saveBuy(@Request() req,@Param('orderId') oId: string ,@Body()body:any ,@Res() res:Response)
     {
-        let id = req['user'].id;
         let orderId = Number.parseInt(oId)
         
-        let status =await this.srv.saveBuy(id, orderId)
+        let status =await this.srv.saveBuy(Number.parseInt(body.shopId), orderId)
         res.status(status).send()
     }
 }

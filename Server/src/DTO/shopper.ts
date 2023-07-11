@@ -3,4 +3,5 @@ export class ShopperDTO{
     datetime:Date;
     store:string;
     active:boolean;
+    shopId:number;
 }
