@@ -8,33 +8,24 @@ export const Customer = ({setShopper }) => {
      const [found,setFound]=useState(false)
      const _navigate = useNavigate(Context);
      let orderId = null
-     useEffect(() => {
-          let intervalId;
-        console.log("found", found)
-          if (!found) {
-            intervalId = setInterval(() => {
-              if (orderId) {
-                 FindShopper(orderId)
-                   .then(r => JSON.parse(r))
-                   .then(r => {
-                     if (Object.keys(r).length !== 0) {
-                       setShopper(r);
-                     }
-                     setFound(true);
-                     console.log(found, "fou4");
-                   });
-              }
-              console.log(found, "fou");
-            }, 5000);
-          }
-        
-          return () => {
+    
 
-            if (intervalId) {
-              clearInterval(intervalId);
-            }
-          };
-        }, []);
+     useEffect(() => {
+          let intervalId = setInterval(() => {
+               if (orderId) {
+                    FindShopper(orderId)
+                         .then(r => JSON.parse(r))
+                         .then(r => {
+                              if (Object.keys(r).length !== 0) {
+                                   setShopper(r);
+                                   clearInterval(intervalId);
+                              }
+                         });
+               }
+          }, 5000);
+
+     }, []);
+     
 
 
 

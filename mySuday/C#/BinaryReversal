@@ -1,0 +1,29 @@
+
+
+using System;
+
+class MainClass {
+
+  public static string BinaryReversal(string str) {
+
+    // code goes here  
+    int temp=Convert.ToInt32(str);
+    string bin="";
+    while(temp>1)
+    {
+      bin+=temp%2;
+      temp=temp/2;
+    }
+    bin+="1";
+    if(bin.Length%8!=0) bin=bin.PadRight(bin.Length+8-bin.Length%8,'0');
+    bin=Convert.ToInt32(bin,2).ToString();
+    return bin;
+
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(BinaryReversal(Console.ReadLine()));
+  } 
+
+}

@@ -1,0 +1,22 @@
+
+using System;
+using System.Text;
+using System.Collections.Generic;
+
+class MainClass {
+
+  public static string NumberReverse(string str) {
+
+    var list = new List<string>(str.Split(" "));
+    list.Reverse();
+    return String.Join(" ", list);
+  }
+
+  static void Main() {  
+
+    // keep this function call here
+    Console.WriteLine(NumberReverse(Console.ReadLine()));
+    
+  } 
+
+}

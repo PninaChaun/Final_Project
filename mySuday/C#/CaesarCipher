@@ -1,0 +1,31 @@
+using System;
+using System.Linq;
+
+class MainClass {
+
+  public static string CaesarCipher(string str, int num) {
+    return String.Join("", str.Select(ch => EncodeChar(ch, num)));
+  }
+
+  static char EncodeChar(char ch, int shift)
+  {
+    if ('a' <= ch && ch <= 'z') {
+      var zeroBasedLetterNum = (ch - 'a' + shift) % 26;
+      return (char)('a' + zeroBasedLetterNum);
+    }
+    if ('A' <= ch && ch <= 'Z') {
+      var zeroBasedLetterNum = (ch - 'A' + shift) % 26;
+      return (char)('A' + zeroBasedLetterNum);
+    }
+    else
+      return ch;
+  }
+
+  static void Main() {  
+
+    // keep this function call here
+    Console.WriteLine(CaesarCipher(Console.ReadLine()));
+    
+  } 
+
+}

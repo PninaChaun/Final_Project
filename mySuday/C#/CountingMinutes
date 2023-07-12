@@ -1,0 +1,27 @@
+using System;
+
+class MainClass {
+
+  public static int CountingMinutes(string str) {
+
+    string[] times = str.Split('-'); 
+    DateTime first = new DateTime();
+    DateTime second = new DateTime();
+    DateTime.TryParse(times[0], out first);
+    DateTime.TryParse(times[1], out second);
+
+    TimeSpan time = second - first;
+    int minutes = (int)time.TotalMinutes;
+    if(minutes < 0) minutes = 1440 + minutes;
+
+    return minutes;
+  }
+
+  static void Main() {  
+
+    // keep this function call here
+    Console.WriteLine(CountingMinutes(Console.ReadLine()));
+    
+  } 
+
+}

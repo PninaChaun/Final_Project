@@ -1,0 +1,51 @@
+
+0
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class MainClass {
+
+  public static int MatchingCharacters(string str)
+  {
+      // find candidates for farthest pairs, 
+      List<(int, int)> pairs = GetPairs(str);
+      if (pairs.Any() == false) return 0;
+
+      // count unique characters between them
+      List<int> counts = GetCounts(str, pairs);
+
+      return counts.Max();
+  }
+
+  private static List<int> GetCounts(string str, List<(int, int)> pairs)
+  {
+      var counts = new List<int>();
+      foreach(var p in pairs)
+      {
+          var s = str.Substring(p.Item1 + 1, p.Item2 - (p.Item1 + 1));
+          var s_distinct = s.Distinct();
+          counts.Add(s_distinct.Count());
+          //Console.WriteLine($"({p.Item1},{p.Item2}) {s_distinct.Count()}");
+      }
+
+      return counts;
+  }
+
+  private static List<(int, int)> GetPairs(string str)
+  {
+      var pairs = new List<(int, int)>();
+      for (int i = 0; i < str.Length - 1; ++i)
+      {
+          int k = str.LastIndexOf(str[i]);
+          if (k > i) pairs.Add((i, k));
+      }
+      return pairs;
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(MatchingCharacters(Console.ReadLine()));
+  } 
+
+}

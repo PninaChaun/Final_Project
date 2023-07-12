@@ -1,0 +1,26 @@
+using System;
+
+class MainClass {
+
+  public static string BracketMatcher(string str) {
+  int open=0
+  foreach(var c in str){
+   if(c=='(')
+   oprn++;
+  if(c==')')
+  open--;
+  if(open<0)
+  return "0"
+}
+ return open==0:"1"?"0"
+
+  }
+
+  static void Main() {  
+
+    // keep this function call here
+    Console.WriteLine(BracketMatcher(Console.ReadLine()));
+    
+  } 
+
+}

@@ -1,0 +1,25 @@
+
+
+using System;
+
+class MainClass {
+
+  public static string ConsonantCount(string str) {
+    int count = 0;
+    char[] chars = str.ToLower().ToCharArray();
+
+    for (int i = 0; i < str.Length; i++) {
+      if (Char.IsLetter(chars[i]) && (chars[i] != 'a' && chars[i] != 'e' && chars[i] != 'i' && chars[i] != 'o' && chars[i] != 'u')) {
+        count++;
+      }
+    }
+      
+    return count.ToString();
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(ConsonantCount(Console.ReadLine()));
+  } 
+
+}

@@ -1,0 +1,25 @@
+public static void get_string_return_string_of_tav_number()//מקבל
+// מחרוזת ומחזיר מחרוזת מצוצצמת :  תו + מספר מופעים
+        {
+           
+            string str = &quot;aaadfrr&quot;, newstr=&quot;&quot;;
+            char prev = str[0],curr=str[1];
+            int cnt = 1;
+            for (int i = 1; i &lt; str.Length; i++)
+            {
+                curr = str[i];
+                if (curr == prev)
+                {
+                    cnt++;
+                }
+                else
+                {
+                    newstr += prev+cnt.ToString();
+                    cnt = 1;
+                    prev = curr;
+                }
+            }
+            newstr += prev + cnt.ToString();
+            Console.WriteLine(newstr);
+           
+        }

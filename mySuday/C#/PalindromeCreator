@@ -1,0 +1,74 @@
+
+WviDev received 10 points | Run code
+0
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class MainClass {
+
+  public static string PalindromeCreator(string pal){
+        List<List<int>> i = new List<List<int>>();
+
+        i.Add(new List<int>());
+
+        while (i.Count > 0)
+        {
+            var c = i[0];
+            i.RemoveAt(0);
+            int p = 0, k = pal.Length - 1;
+            while (p < k)
+            {
+                if (c.Contains(p))
+                {
+                    p++;
+                    continue;
+                }
+                if (c.Contains(k))
+                {
+                    k--;
+                    continue;
+                }
+
+                if (pal[p] != pal[k])
+                {
+                    break;
+                }
+                p++; k--;
+
+            }
+
+            if (p < k && c.Count < 2)
+            {
+                List<int> l1 = new List<int>(c), l2 = new List<int>(c);
+                l1.Add(p);
+                l2.Add(k);
+                i.Add(l1);
+                i.Add(l2);
+            }
+            else if(c.Count <=2 && p>=k)
+            {
+                if(c.Count == 0)
+                {
+                    return "palindrome";
+                }
+                if (c.Count + 3 <= pal.Length)
+                {
+                    return string.Join("", c.OrderBy(w => w).Select(w => pal[w]));
+
+                }
+            }
+
+            
+        }
+
+        return "not possible";
+
+    }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(PalindromeCreator(Console.ReadLine()));
+  } 
+
+}

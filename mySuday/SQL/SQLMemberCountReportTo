@@ -1,0 +1,6 @@
+
+SELECT ReportsTo ,count(*) as Members ,round(Avg(Age) )as AverageAge
+FROM maintable_IUZOX
+where ReportsTo is not null
+group by ReportsTo
+order by ReportsTo

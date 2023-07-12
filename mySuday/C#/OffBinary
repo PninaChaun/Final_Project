@@ -1,0 +1,39 @@
+CSHARP
+VIEW CHALLENGE
+0
+using System;
+using System.Linq;
+
+class MainClass {
+
+  public static string OffBinary(string[] strArr) {
+
+    int inFirstDecimal = Int32.Parse(strArr[0]);
+    string inSecondBinary = strArr[1];
+    string inFirstBinary = Convert.ToString(inFirstDecimal, 2);
+    int lenDiff = inSecondBinary.Length - inFirstBinary.Length;
+    if (lenDiff > 0)
+    {
+        string tmp = Enumerable.Repeat('0', lenDiff).ToString();
+        inFirstBinary = tmp + inFirstBinary;
+    }
+
+    //Console.WriteLine(inFirstBinary + " " + inSecondBinary);
+
+    int dist = 0;
+    for(int i = 0; i < inFirstBinary.Length; ++i)
+    {
+        if (inFirstBinary[i] != inSecondBinary[i]) dist += 1;
+    }
+
+    // code goes here  
+    return dist.ToString();
+
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(OffBinary(Console.ReadLine()));
+  } 
+
+}

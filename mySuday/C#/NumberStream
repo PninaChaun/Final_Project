@@ -1,0 +1,29 @@
+using System;
+using System.Linq;
+using System.Text;
+
+class MainClass {
+
+  public static string NumberStream(string str) {
+    for (int n = 2; n <= 9; n++) {
+      var targetSb = new StringBuilder();
+      var nStr = n.ToString();
+      for (int i = 0; i < n; i++)
+        targetSb.Append(nStr);
+      var target = targetSb.ToString();
+
+      if (str.Contains(target))
+        return "true";
+    }
+
+    return "false";
+  }
+
+  static void Main() {  
+
+    // keep this function call here
+    Console.WriteLine(NumberStream(Console.ReadLine()));
+    
+  } 
+
+}

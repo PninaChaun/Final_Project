@@ -1,0 +1,20 @@
+using System;
+using System.Linq;
+
+class MainClass {
+
+  public static string ExOh(string str) {
+
+      var parsed = str.ToLower();
+      var mX = parsed.Count(p => p == 'x');
+      var mO = parsed.Count(p => p == 'o');
+      return mX == mO && !string.IsNullOrEmpty(str) ? "true" : "false";
+
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(ExOh(Console.ReadLine()));
+  } 
+
+}

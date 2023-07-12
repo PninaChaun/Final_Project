@@ -1,0 +1,40 @@
+using System;
+using System.Collections;
+
+using System.Collections.Generic;
+
+class MainClass {
+
+  public static string RemoveBrackets(string str) {
+
+ var stack = new Stack<string>();
+      var counter = 0;
+      for (int i = 0; i<str.Length; i++)
+      {
+        if (str[i] == '(')
+        {
+          stack.Push("+");
+        }
+        if (str[i] == ')')
+        {
+          if (stack.Count == 0)
+          {
+            counter++;
+          }
+          else
+          {
+            stack.Pop();
+          }
+        }
+      }
+      counter += stack.Count;
+     return counter.ToString();
+
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(RemoveBrackets(Console.ReadLine()));
+  } 
+
+}

@@ -1,0 +1,26 @@
+
+2
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class MainClass {
+
+  public static string FindIntersection(string[] strArr) {
+
+      var vals1=strArr[0].Split(',').ToList().Select(x=>x.Trim()).ToList();
+      var vals2=strArr[1].Split(',').ToList().Select(x=>x.Trim()).ToList();
+
+if(vals1.Intersect(vals2).Count()==0){
+  return "false";
+}
+    return String.Join(",",vals1.Intersect(vals2));
+
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(FindIntersection(Console.ReadLine()));
+  } 
+
+}

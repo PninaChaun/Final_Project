@@ -1,0 +1,52 @@
+
+0
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class MainClass {
+
+  public static string ReversePolishNotation(string str) {
+
+    // code goes here  
+    string[] strArr = str.Split(' ');
+        Stack<int> numStck = new Stack<int>();
+
+        foreach (string s in strArr)
+        {
+            if (!"+-*/".Contains(s))
+                numStck.Push(Int32.Parse(s));
+            else
+            {
+                int num2 = numStck.Pop();
+                int num1 = numStck.Pop();
+
+                switch (s)
+                {
+                    case "+":
+                        numStck.Push(num1 + num2);
+                        break;
+                    case "-":
+                        numStck.Push(num1 - num2);
+                        break;
+                    case "*":
+                        numStck.Push(num1 * num2);
+                        break;
+                    case "/":
+                        numStck.Push(num1 / num2);
+                        break;
+                }
+            }
+        }
+        return numStck.Pop().ToString();
+
+  }
+
+  static void Main() {  
+
+    // keep this function call here
+    Console.WriteLine(ReversePolishNotation(Console.ReadLine()));
+    
+  } 
+
+}

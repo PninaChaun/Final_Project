@@ -1,0 +1,125 @@
+
+NayanPatel received 9 points | Run code
+0
+using System;
+
+class MainClass {
+  public static string CorrectPath(string str) { 
+  
+    // code goes here  
+    int xPos = 0, yPos = 0;
+    int rCount = 0, lCount = 0, uCount = 0, dCount = 0;
+    char[] ret = str.ToCharArray();
+    
+    for(int i = 0; i < str.Length; i++)
+    {
+        if(str[i] == 'r')
+            rCount++;
+        else if(str[i] == 'l')
+            lCount++;
+        else if(str[i] == 'u')
+            uCount++;
+        else if(str[i] == 'd')
+            dCount++;
+    }
+    
+    char lastMove = ' ';
+    
+    for(int i = 0; i < str.Length; i++)
+    {
+        if(str[i] == 'r')
+        {
+            xPos++;
+            rCount--;
+        }
+        else if(str[i] == 'l')
+        {
+            xPos--;
+            lCount--;
+        }
+        else if(str[i] == 'u')
+        {
+            yPos--;
+            uCount--;
+        }
+        else if(str[i] == 'd')
+        {
+            yPos++;
+            dCount--;
+        }
+        
+        else if(str[i] == '?')
+        {
+            if ((yPos + dCount) > 4 && lastMove != 'd')
+            {
+                ret[i] = 'u';
+                yPos--;
+            }
+            else if((yPos + dCount) < 4 && lastMove != 'u')
+            {
+                ret[i] = 'd';
+                yPos++;
+            }
+            else if((xPos + rCount) > 4 && lastMove != 'r')
+            {
+                ret[i] = 'l';
+                xPos--;
+            }
+            else if((xPos + rCount) < 4 && lastMove != 'l')
+            {
+                ret[i] = 'r';
+                xPos++;
+            }
+            //already made it but i have extra moves
+            else
+            {
+                //at vert edge of screen, move right
+                if(yPos == 0 || yPos == 4)
+                {
+                    ret[i] = 'r';
+                    xPos++;
+                }
+                //on side edge, move down
+                else if(xPos == 0 || xPos == 4)
+                {
+                    ret[i] = 'd';
+                    yPos++;
+                }
+                else if( lastMove == 'u')
+                {
+                    ret[i] = 'u';
+                    yPos--;
+                }
+                else if( lastMove == 'd')
+                {
+                    ret[i] = 'd';
+                    yPos++;
+                }
+                else if( lastMove == 'r')
+                {
+                    ret[i] = 'r';
+                    xPos++;
+                }
+                else if( lastMove == 'l')
+                {
+                    ret[i] = 'l';
+                    xPos--;
+                }
+                
+            }
+        }
+        
+        lastMove = ret[i];
+    }
+    
+    
+    return new string(ret);
+            
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(CorrectPath(Console.ReadLine()));
+  } 
+   
+}

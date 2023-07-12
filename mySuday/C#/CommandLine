@@ -1,0 +1,46 @@
+Input: "letters=A B Z T numbers=1 2 26 20 combine=true"
+Output: 7=7 7=9 7=4
+
+
+
+drpickle received 9 points | Run code
+0
+using System;
+
+class MainClass {
+
+  public static string CommandLine(string str) {
+    string newStr = "";
+    bool parame = false;
+    int count = 0;
+
+    for (int i = str.Length - 1; i >= 0; i--)
+    {
+        if (str[i] == '=')
+        {
+            newStr = "=" + count.ToString() + newStr;
+            count = -1;
+            parame = true;
+        }
+
+        if (str[i] == ' ' && parame)
+        {
+            newStr = " " + count.ToString() + newStr;
+            count = -1;
+            parame = false;
+        }
+
+        count++;
+    }
+
+    newStr = count.ToString() + newStr;
+
+    return newStr;
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(CommandLine(Console.ReadLine()));
+  } 
+
+}

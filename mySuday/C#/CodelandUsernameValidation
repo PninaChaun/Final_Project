@@ -1,0 +1,56 @@
+
+using System;
+using System.Text.RegularExpressions;
+
+class MainClass {
+
+    public static string CodelandUsernameValidation(string str) {
+      Regex rgx = new Regex(@"^([a-zA-Z])([a-zA-Z0-9_]{2,23})([^_])$");
+      return rgx.IsMatch(str) ? "true" : "false";
+    }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(CodelandUsernameValidation(Console.ReadLine()));
+  } 
+
+}
+////////////////////////////////////////////////////////////////////////////////////////////////
+using System;
+
+class MainClass {
+
+  public static string CodelandUsernameValidation(string str) {
+        {
+            // code goes here  
+            
+            if (str.Length < 4 || str.Length > 25)
+            {
+                return "false";
+            }
+
+            if (!char.IsLetter(str[0]))
+            {
+                return "false";
+            }
+
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (!char.IsLetterOrDigit(str, i) && str[i] != '_')
+                    return "false";
+            }
+
+            if (str[str.Length - 1] == '_')
+                return "false";
+
+            str = "true";
+            return str;
+        }
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(CodelandUsernameValidation(Console.ReadLine()));
+  } 
+
+}

@@ -1,0 +1,45 @@
+using System;
+
+class MainClass {
+
+    public static string MultipleBrackets(string str)
+    {
+        var strArr = str.ToCharArray();
+        int roundBracketLeft = 0;
+        int roundBracketRight = 0;
+
+        int squareBracketLeft = 0;
+        int squareBracketRight = 0;
+
+
+        for (int i = 0; i < strArr.Length; i++)
+        {
+            if(strArr[i] == ']' && squareBracketLeft == squareBracketRight)
+                return "0";
+            if (strArr[i] == ')' && roundBracketLeft == roundBracketRight)
+                return "0";
+
+            if(strArr[i] == ')')
+                roundBracketRight++;
+            if (strArr[i] == '(')
+                roundBracketLeft++;
+            if (strArr[i] == ']')
+                squareBracketRight++;
+            if (strArr[i] == '[')
+                squareBracketLeft++;
+        }
+
+        if (roundBracketLeft != roundBracketRight || squareBracketRight != squareBracketLeft)
+            return "0";
+
+        // code goes here  
+        return "1 " + (roundBracketLeft + squareBracketLeft).ToString();
+
+    }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(MultipleBrackets(Console.ReadLine()));
+  } 
+
+}

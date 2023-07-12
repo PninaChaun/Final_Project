@@ -1,0 +1,35 @@
+
+
+
+using System;
+using System.Text;
+
+class MainClass {
+
+ public static string StringPeriods(string str)
+{
+	for (int i = str.Length/2; i > 0; i--)
+	{
+		var str2 = str.Substring(0,i);
+				
+		
+		var teststr= new StringBuilder().Insert(0, str2, str.Length /str2.Length ).ToString();
+
+		if (teststr == str)
+		{
+			return str2;
+		}
+	
+	}
+
+	return "-1";
+
+}
+
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(StringPeriods(Console.ReadLine()));
+  } 
+
+}

@@ -1,0 +1,18 @@
+using System;
+using System.Linq;
+
+class MainClass {
+
+    public static string WordCount(string str) {
+
+      var strSplited = str.Split().Count();
+            
+            return strSplited.ToString();
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(WordCount(Console.ReadLine()));
+  } 
+
+}

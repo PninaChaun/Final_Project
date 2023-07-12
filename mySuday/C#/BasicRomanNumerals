@@ -1,0 +1,44 @@
+
+using System;
+using System.Collections.Generic;
+
+class MainClass {
+
+  public static string BasicRomanNumerals(string str) {
+
+    Dictionary<char, int> rom = new Dictionary<char, int>();
+
+    rom.Add('I', 1);
+    rom.Add('V', 5);
+    rom.Add('X', 10);
+    rom.Add('L', 50);
+    rom.Add('C', 100);
+    rom.Add('D', 500);
+    rom.Add('M', 1000);
+
+    int sum = 0;
+
+    for (int i = 0; i < str.Length-1; i++) {
+      char val1 = str[i];
+      char val2 = str[i+1];
+
+      if (rom[val1] < rom[val2]) {
+        sum -= rom[val1];
+      }
+      else {
+        sum += rom[val1];
+      }
+    }
+    
+    sum += rom[str[str.Length-1]];
+
+    return sum.ToString();
+
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(BasicRomanNumerals(Console.ReadLine()));
+  } 
+
+}

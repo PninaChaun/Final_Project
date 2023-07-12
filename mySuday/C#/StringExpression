@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+static class MainClass {
+  
+  private static List<string> Elements = new List<string>();
+  private static string _expression = "";
+  private static int _result = 0;
+    
+  private static readonly Dictionary<string, string> Numerals = new Dictionary<string, string>
+    {
+      {"zero", "0"},
+      {"one", "1"},
+      {"two", "2"},
+      {"three", "3"},
+      {"four", "4"},
+      {"five", "5"},
+      {"six", "6"},
+      {"seven", "7"},
+      {"eight", "8"},
+      {"nine", "9"},
+      {"plus", "+"},
+      {"minus", "-"}
+    };
+
+  private static Dictionary<string, string> GetSwappedNumerals()
+  {
+    // swaps the keys and values for the reverse lookup, which will help with converting result back to the string expression
+    return Numerals.ToDictionary(p => p.Value, p => p.Key == "minus" ? "negative" : p.Key);
+  }
+
+  private static void PopFirstElement()
+    {
+      foreach (var pair in Numerals)
+      {
+        // get a slice from the beginning of the string
+        // that has the same length as the iterated op ('one', 'two', 'plus')
+        if (_expression.Length >= pair.Key.Length && pair.Key == _expression.Substring(0, pair.Key.Length))
+        {
+          if (pair.Key != "plus" && pair.Key != "minus" && Elements.Count > 0)
+          {
+            // new element needs to be "added" to the previous element
+            // it's a string concat rather that arithmetical adding (e.g. "2" + "2" = "22" and not 4)
+            var tmpConcat = Elements[Elements.Count - 1] + Numerals[pair.Key];
+            Elements.RemoveAt(Elements.Count - 1);
+            Elements.Add(tmpConcat);
+          }
+          else
+          {
+            // it's either first element or an +/- operator; just add it to the collection
+            Elements.Add(Numerals[pair.Key]);
+          }
+
+          _expression = _expression.Substring(pair.Key.Length, _expression.Length - pair.Key.Length);
+        }
+      }
+    }
+
+
+  private static string ConvertNumerals(string expression)
+  {
+    _expression = expression;
+    var swappedNumerals = GetSwappedNumerals();
+
+    // convert the string expression to the collection of numbers
+    while (_expression.Length > 0)
+    {
+      PopFirstElement();
+    }
+
+    // sum the elements
+    foreach (var ex in Elements)
+    {
+      _result += int.Parse(ex);
+    }
+
+    return _result.ToString().Aggregate("", (current, c) => current + swappedNumerals[c.ToString()]);
+  }    
+
+  public static string StringExpression(string str) {
+
+    // code goes here  
+    return ConvertNumerals(str);
+
+  }
+
+  static void Main() {  
+    // keep this function call here
+    Console.WriteLine(StringExpression(Console.ReadLine()));
+  } 
+
+}
