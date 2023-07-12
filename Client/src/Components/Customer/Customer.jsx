@@ -1,35 +1,40 @@
 import { json, useNavigate } from "react-router-dom"
 import { ServerOrder } from "../../api/serverOrder";
 import Context from "../../context/context";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FindShopper } from "../../api/serverFindShopper";
 
 export const Customer = ({setShopper }) => {
+     const [found,setFound]=useState(false)
      const _navigate = useNavigate(Context);
      let orderId = null
      useEffect(() => {
-
-          let found = false
-   
-          setInterval(() => {
-               if (orderId) {
-                    FindShopper(orderId)
-                    .then(r=>JSON.parse(r))
-                    .then(
-                         r => {
-                              if (r != {})
-                                   setShopper(r)
-                               
-                              found = true
-                         }
-                    )
-               }
-               if (found)
-                    return //stop searching for shopper
+          let intervalId;
+        console.log("found", found)
+          if (!found) {
+            intervalId = setInterval(() => {
+              if (orderId) {
+                 FindShopper(orderId)
+                   .then(r => JSON.parse(r))
+                   .then(r => {
+                     if (Object.keys(r).length !== 0) {
+                       setShopper(r);
+                     }
+                     setFound(true);
+                     console.log(found, "fou4");
+                   });
+              }
+              console.log(found, "fou");
+            }, 5000);
           }
-               , 5000); // fetch updates every 5 seconds
-   
-     }, []);
+        
+          return () => {
+
+            if (intervalId) {
+              clearInterval(intervalId);
+            }
+          };
+        }, []);
 
 
 
