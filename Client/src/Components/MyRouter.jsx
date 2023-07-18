@@ -11,6 +11,7 @@ import {Context} from '../context/context'
 import { PotentialCustomer } from "./PotentialCustomer/PotentialCustomer";
 import App from "../App";
 import { PotentialShopper } from "./PotentialShopper/PotentialShopper";
+import { Admin } from "./Admin/Admin";
 
 const ProtectedRoute = ({ children }) => {
     const token = Cookies.get('token')
@@ -41,6 +42,8 @@ export default function MyRouter() {
                                 {/* <Route path="/chat" element={<Chat />} /> */}
                                 <Route path="/settings" element={<Settings />} />
                                 <Route path="/popup" element={<PotentialCustomer/>} />
+                                <Route path="/admin" element={<Admin/>} />
+
                             </Routes>
                         </ProtectedRoute>
                     }

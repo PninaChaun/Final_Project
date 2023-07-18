@@ -88,6 +88,8 @@ export const Login = () => {
 <img className="imgPlant" src="src/assets/img/imgPlant.svg" />
 <img className="imgPath" src="src/assets/img/imgPath.svg" />
 
+<span className="hi">שלום  </span>
+<span className="start"> בא נתחיל על ידי יצירת חשבון חינם</span>
 
 
 {/* <img src="a" alt="" /> */}

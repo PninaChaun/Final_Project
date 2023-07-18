@@ -21,3 +21,42 @@
     flex-shrink: 0;
     fill: #F5F5F5;
 }
+
+.hi{
+    color: var(--unnamed, #4D4D4D);
+    text-align: right;
+    font-family: Rubik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 136.8%; /* 21.888px */
+}
+
+.start{
+    color: var(--unnamed, #4D4D4D);
+font-family: Rubik;
+font-size: 14px;
+font-style: normal;
+font-weight: 300;
+line-height: 136.8%;
+}
+
+input{
+    width: 316px;
+height: 45px;
+flex-shrink: 0;
+border-radius: 9px;
+background: #FFF;
+box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
+}
+
+body{
+    width: 360px;
+    height: 592px;
+    flex-shrink: 0;
+    border-radius: 40px;
+background: #FFF;
+
+/* Drop Shadow */
+box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
+}
