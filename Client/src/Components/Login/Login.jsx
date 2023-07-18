@@ -89,7 +89,7 @@ export const Login = () => {
             <p>login</p>
 
             {login ?
-                <>
+                <>  
                     <button type="button" onClick={() => setLogin(false)}>להרשמה</button>
                     <br />
                     <input type="email" name="lemail" placeholder="username@domain.com" />
