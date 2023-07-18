@@ -6,7 +6,6 @@ import Cookies from 'js-cookie'
 import { Customer } from "./Components/Customer/Customer";
 import PotentialCustomer from "./Components/PotentialCustomer/PotentialCustomer";
 import PopupContext from "./context/context";
-import 'bootstrap/dist/css/bootstrap.css';
 // 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';

@@ -83,7 +83,7 @@ export const Login = () => {
 
 
     return <> 
-<img src="2.jpg" width="300" height="400" />
+<img src="src/assets/img/1.svg" width="300" height="400" />
 {/* <img src="a" alt="" /> */}
         <form name="loginForm" onSubmit={submit}>
             <p>login</p>
