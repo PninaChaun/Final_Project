@@ -1,3 +1,23 @@
-#body{
- 
+.imgPerson {
+    width: 92.28px;
+    height: 182.502px;
+}
+
+.imgForm {
+    width: 136.261px;
+    height: 164.956px;
+    flex-shrink: 0;
+}
+
+.imgPlant {
+    width: 32.669px;
+    height: 67.121px;
+    flex-shrink: 0;
+}
+
+.imgPath {
+    width: 273px;
+    height: 15.939px;
+    flex-shrink: 0;
+    fill: #F5F5F5;
 }

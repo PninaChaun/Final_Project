@@ -83,13 +83,19 @@ export const Login = () => {
 
 
     return <> 
-<img src="2.jpg" width="300" height="400" />
+<img className="imgPerson" src="src/assets/img/1.svg" />
+<img className="imgForm" src="src/assets/img/2.svg" />
+<img className="imgPlant" src="src/assets/img/imgPlant.svg" />
+<img className="imgPath" src="src/assets/img/imgPath.svg" />
+
+
+
 {/* <img src="a" alt="" /> */}
         <form name="loginForm" onSubmit={submit}>
             <p>login</p>
 
             {login ?
-                <>  
+                <>
                     <button type="button" onClick={() => setLogin(false)}>להרשמה</button>
                     <br />
                     <input type="email" name="lemail" placeholder="username@domain.com" />
