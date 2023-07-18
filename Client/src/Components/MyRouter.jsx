@@ -40,7 +40,7 @@ export default function MyRouter() {
                                 <Route path="/customer" element={<Customer setShopper={setShopper}  />} />
                                 {/* <Route path="/chat" element={<Chat />} /> */}
                                 <Route path="/settings" element={<Settings />} />
-                                <Route path="/popup" element={<PotentialCustomer />} />
+                                <Route path="/popup" element={<PotentialCustomer/>} />
                             </Routes>
                         </ProtectedRoute>
                     }

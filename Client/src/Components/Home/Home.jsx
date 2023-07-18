@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import { Link, Outlet } from 'react-router-dom'
-
+import Button from '@mui/material/Button';
 export const Home =()=>{
 
     const token = Cookies.get('token')
@@ -12,6 +12,7 @@ export const Home =()=>{
         <button><Link to='shopper' >אני הולך לחנות ומוכן לקנות מצרכים לאנשים</Link></button>
         <button><Link to ='customer'> אני צריך משהו מהחנות, ורוצה שמשהו יקנה לי</Link></button>
         <button><Link to ='settings'> הגדרות</Link></button>
-        {/* <Outlet></Outlet> */}
+        {/* <Outlet></Outlet>  */}
+   
     </>
 }

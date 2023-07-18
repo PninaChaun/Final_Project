@@ -3,6 +3,9 @@ import Cookies from 'js-cookie';
 import { Serverlogin } from "../../api/serverLogin";
 import { useNavigate } from "react-router";
 import { Context } from "../../context/context";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+
 
 export const Login = () => {
     const [login, setLogin] = useState(true);
@@ -79,9 +82,12 @@ export const Login = () => {
     }
 
 
-    return <>
+    return <> 
+<img src="2.jpg" width="300" height="400" />
+{/* <img src="a" alt="" /> */}
         <form name="loginForm" onSubmit={submit}>
             <p>login</p>
+
             {login ?
                 <>
                     <button type="button" onClick={() => setLogin(false)}>להרשמה</button>
@@ -92,7 +98,7 @@ export const Login = () => {
                 </>
                 :
                 <>
-                    <button type="button" onClick={() => setLogin(true)}>להתחברות</button>
+                    <button type="button"  variant="contained"  onClick={() => setLogin(true)}>להתחברות</button>
                     <input type="email" name="semail" placeholder="username@domain.com" />
                     <input type="password" name="spassword" id="spassword" placeholder="הכנס סיסמא" />
                     <input type="password" name="spassword2" id="spassword2" placeholder="אימות סיסמא" />
@@ -100,7 +106,6 @@ export const Login = () => {
                     <input type="number" name="saveOrder" id="saveOrder" placeholder="משך זמן שמירת הזמנה" />
                     <input type="number" name="saveStore" id="saveStore" placeholder="משך זמן שמירת הליכה לחנות" />
                     <input type="text" name="address" id="address" placeholder="כתובת " />
-
                     {/* //TODO בחירת קבוצה ע"י dropdown */}
                 </>
             }
