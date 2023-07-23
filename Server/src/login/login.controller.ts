@@ -35,6 +35,8 @@ export class LoginController {
     @Put()
     async updateUser(@Request() req,@Body() user: UserDTO, @Res() res:Response){
         let id = req['user'].id
+     
+        
         if(id != user.id)
             res.status(401).send()
         

@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import { FindCustomer } from "../../api/serverFindCustomer";
 import Cookies from "js-cookie";
 import Context from "../../context/context";
-
+import '../Shopper/Shopper.css';
 export const Shopper = ({ order, setOrder }) => {
 
   useEffect(() => {
@@ -39,25 +39,29 @@ export const Shopper = ({ order, setOrder }) => {
     // .then(shopId=>Cookies.set('shopId',shopId))
     //
     const x = ServerShopper(data)
-               .then((result) => JSON.parse(result))
-               .then((result) => {
-                console.log('result:', result);
-                  Cookies.set('shopId',result)
-               })
-               .catch((error) => {
-                    console.log(error);
-               })
-               .finally(() => _navigate('/'));
+      .then((result) => JSON.parse(result))
+      .then((result) => {
+        console.log('result:', result);
+        Cookies.set('shopId', result)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => _navigate('/'));
     //
-    
+
     // _navigate('/')
 
   }
 
   return <div>
+    <img className="logo" src="src/assets/img/logo.png" width="150px" />
+
     <form onSubmit={saveShopper}>
-      <input type="text" name="store" id="store" placeholder="שם חנות" />
-      <button type="submit">שמירה </button>
+      <label className="labelShopper" htmlFor="">הכנס שם חנות:</label><br />
+      <input type="text" className="store" name="store" id="store" placeholder="יש " />
+      <br />
+      <button className="submitShopper" type="submit">שמירה </button>
     </form>
   </div>
 }

@@ -43,6 +43,7 @@ export default function MyRouter() {
                                 <Route path="/settings" element={<Settings />} />
                                 <Route path="/popup" element={<PotentialCustomer/>} />
                                 <Route path="/admin" element={<Admin/>} />
+                                <Route path="/PotentialShopper" element={<PotentialShopper/>} />
 
                             </Routes>
                         </ProtectedRoute>

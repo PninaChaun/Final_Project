@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ServerGetUser, ServerUpdateUser } from "../../api/serverSettings";
 import { useNavigate } from "react-router-dom";
 import Context from "../../context/context";
+import '../Settings/Settings.css'
 
 
 
@@ -36,9 +37,11 @@ export const Settings =  () => {
         return  <div>Loading...</div>;
       }
     return <div>
-         <h1>{user.name}</h1>
-        <form  onSubmit={saveChanges}>
-            <label htmlFor="saveOrder">שמירת הזמנה</label>
+                        <img className="logo" src="src/assets/img/logo.png" width="150px" />
+
+         <h1 className="name">{user.name}</h1>
+        <form  className="form" onSubmit={saveChanges}>
+            <label  htmlFor="saveOrder">שמירת הזמנה</label>
             <br />
             <input type="number" name="saveOrder" id="saveOrder" placeholder="משך זמן שמירת ההזמנה" value={user.saveOrder} onChange={(e)=>setUser({...user, 'saveOrder':e.target.value})}/>
             <br />
@@ -55,7 +58,7 @@ export const Settings =  () => {
             <input type="email" name="email" id="email" placeholder="אימייל"  value={user.email} onChange={(e)=>setUser({...user, 'email':e.target.value})}/>
            {/* //TODO שינוי קבוצה*/ }
            <br />
-           <button type="submit">אישור</button>
+           <button className="submit" type="submit">אישור</button>
         </form>
     </div>
 

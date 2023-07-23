@@ -1,0 +1,36 @@
+.link {
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    margin-left: 20px;
+}
+
+.labelhome {
+
+    color: var(--unnamed, #4D4D4D);
+    text-align: center;
+    font-family: Rubik;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 126.421%;
+    /* 20.227px */
+    letter-spacing: 0.08px;
+}
+
+.li {
+    display: inline-block;
+    margin-top: 30px;
+    width: 110px;
+    height: 35px;
+    margin-right: 15px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 9px;
+    background: var(--d-9-d-9-d-9, #FF8F45);
+    color: white;
+    margin-left: 20px;
+    border: #FF8F45;
+    /* margin-left:5px; */
+
+}

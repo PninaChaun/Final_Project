@@ -1,62 +1,86 @@
-.imgPerson {
-    width: 92.28px;
-    height: 182.502px;
-}
-
-.imgForm {
-    width: 136.261px;
-    height: 164.956px;
+ #login2{
+    width: 56.567px;
+    height: 111.871px;
     flex-shrink: 0;
-}
 
-.imgPlant {
-    width: 32.669px;
-    height: 67.121px;
-    flex-shrink: 0;
-}
+    width: 83.526px;
+height: 101.116px;
+flex-shrink: 0;
 
-.imgPath {
-    width: 273px;
-    height: 15.939px;
-    flex-shrink: 0;
-    fill: #F5F5F5;
-}
+width: 20.026px;
+height: 41.145px;
+flex-shrink: 0;
 
-.hi{
+width: 167.345px;
+height: 9.77px;
+flex-shrink: 0;
+
+ }
+ .loginForm{
+    margin-top: 20px;
+direction: rtl;
+    margin-right: 20px;
+    padding: auto;
+
+ }
+ .start{
     color: var(--unnamed, #4D4D4D);
-    text-align: right;
     font-family: Rubik;
     font-size: 16px;
     font-style: normal;
+    font-weight: 300;
+    line-height: 136.8%;
+ margin-left: 70px;
+ }
+ .hi{
+    /* margin-left: 50px; */
+    color: var(--unnamed, #4D4D4D);
+    margin-left:215px;
+    text-align: right;
+    font-family: Rubik;
+    font-size: 20px;
+    font-style: normal;
     font-weight: 600;
     line-height: 136.8%; /* 21.888px */
-}
-
-.start{
-    color: var(--unnamed, #4D4D4D);
-font-family: Rubik;
-font-size: 14px;
-font-style: normal;
-font-weight: 300;
-line-height: 136.8%;
-}
-
-input{
-    width: 316px;
+ }
+ .inputLogin{
+   width: 316px;
 height: 45px;
 flex-shrink: 0;
+margin-top: 5px;
 border-radius: 9px;
 background: #FFF;
-box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
-}
+box-shadow: 1px 1px 1px 0px rgba(191, 191, 191, 0.19);
 
-body{
-    width: 360px;
-    height: 592px;
-    flex-shrink: 0;
-    border-radius: 40px;
-background: #FFF;
 
-/* Drop Shadow */
-box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
-}
+
+/* color: #DEDEDE; */
+text-align: right;
+font-family: Rubik;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: 126.421%; /* 15.17px */
+letter-spacing: 0.06px;
+ }
+ .submitLogin{
+   width: 106px;
+   height:38px;
+   flex-shrink: 0;
+   border-radius: 9px;
+   background: #FF8F45;
+   color: white;
+   text-align: center;
+   font-size:small;
+   border: #FF8F45;
+   margin-right: 80px;
+   margin-top: 15px;
+   text-align: center;
+   margin-right: 30%;
+   font-size: large;
+ }
+ .logo{
+direction: ltr !important;
+margin-top:25px;
+margin-right:200px;
+ }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { Context } from "../../context/context";
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
+import '../Login/Login.css'
 
 export const Login = () => {
     const [login, setLogin] = useState(true);
@@ -65,7 +65,7 @@ export const Login = () => {
                 event.target.semail.value = '';
             }
 
-            user = { email: email, password: password, name: name , saveOrder:saveOrder, saveStore:saveStore, address: address}
+            user = { email: email, password: password, name: name, saveOrder: saveOrder, saveStore: saveStore, address: address }
         }
         Serverlogin(user)
             .then(response => {
@@ -82,43 +82,43 @@ export const Login = () => {
     }
 
 
-    return <> 
-<img className="imgPerson" src="src/assets/img/1.svg" />
-<img className="imgForm" src="src/assets/img/2.svg" />
-<img className="imgPlant" src="src/assets/img/imgPlant.svg" />
-<img className="imgPath" src="src/assets/img/imgPath.svg" />
+    return <>
+                <img className="logo" src="src/assets/img/logo.png" width="150px" />
 
-<span className="hi">שלום  </span>
-<span className="start"> בא נתחיל על ידי יצירת חשבון חינם</span>
+        <div className="login2">
+            <img className="login" src="src/assets/img/login.gif" width="300px" /></div>
 
 
-{/* <img src="a" alt="" /> */}
-        <form name="loginForm" onSubmit={submit}>
-            <p>login</p>
+
+        <span className="hi">!שלום  </span>
+        <br />
+        <span className="start"> בא נתחיל על ידי יצירת חשבון חינם</span>
+        {/* <img src="a" alt="" /> */}
+        <form className="loginForm" name="loginForm" onSubmit={submit}>
 
             {login ?
                 <>
                     <button type="button" onClick={() => setLogin(false)}>להרשמה</button>
                     <br />
-                    <input type="email" name="lemail" placeholder="username@domain.com" />
+                    <input className="inputLogin"type="email" name="lemail" placeholder="username@domain.com" />
                     <br />
-                    <input type="password" name="lpassword" id="lpassword" placeholder="הכנס סיסמא" />
+                    <input className="inputLogin"type="password" name="lpassword" id="lpassword" placeholder="הכנס סיסמא" />
                 </>
                 :
                 <>
-                    <button type="button"  variant="contained"  onClick={() => setLogin(true)}>להתחברות</button>
-                    <input type="email" name="semail" placeholder="username@domain.com" />
-                    <input type="password" name="spassword" id="spassword" placeholder="הכנס סיסמא" />
-                    <input type="password" name="spassword2" id="spassword2" placeholder="אימות סיסמא" />
-                    <input type="text" name="sname" id="sname" placeholder="הכנס שם" />
-                    <input type="number" name="saveOrder" id="saveOrder" placeholder="משך זמן שמירת הזמנה" />
-                    <input type="number" name="saveStore" id="saveStore" placeholder="משך זמן שמירת הליכה לחנות" />
-                    <input type="text" name="address" id="address" placeholder="כתובת " />
+                    <button type="button" variant="contained" onClick={() => setLogin(true)}>להתחברות</button>
+                    <input className="inputLogin" type="email" name="semail" placeholder="username@domain.com" />
+                    <input className="inputLogin" type="password" name="spassword" id="spassword" placeholder="הכנס סיסמא" />
+                    <input className="inputLogin" type="password" name="spassword2" id="spassword2" placeholder="אימות סיסמא" />
+                    <input className="inputLogin" type="text" name="sname" id="sname" placeholder="הכנס שם" />
+                    <input className="inputLogin" type="number" name="saveOrder" id="saveOrder" placeholder="משך זמן שמירת הזמנה" />
+                    <input className="inputLogin" type="number" name="saveStore" id="saveStore" placeholder="משך זמן שמירת הליכה לחנות" />
+                    <input className="inputLogin" type="text" name="address" id="address" placeholder="כתובת " />
                     {/* //TODO בחירת קבוצה ע"י dropdown */}
                 </>
             }
             <br />
-            <button type="submit">אישור</button>
+            <button className="submitLogin" type="submit">אישור</button>
         </form>
 
     </>

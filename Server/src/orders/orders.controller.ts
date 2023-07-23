@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Request, Res, Param, Get,UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Request, Res, Param, Get,UseGuards, Put } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { orderDTO } from 'src/DTO/order.dto';
 import { Response } from 'express';
 import { AutenticationService } from 'src/autentication/autentication.service';
 import { get } from 'http';
+import { UserDTO } from 'src/DTO/user.dto';
 
 
 @Controller('orders')
@@ -30,4 +31,14 @@ export class OrdersController {
         res.status(response.stat).send(response.shopper)
 
     }
-}
+
+
+    
+    // @UseGuards(AutenticationService)
+    // @Put()
+    // async getUser(@Request() req,@Body() user: UserDTO, @Res() res:Response){
+    //     let id = req['user'].id
+    //         let status =await this.srv.getUserClient(user);
+    //         res.status(status).send();
+    //     }
+    }

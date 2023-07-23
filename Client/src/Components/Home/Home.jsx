@@ -1,18 +1,22 @@
 import Cookies from 'js-cookie'
 import { Link, Outlet } from 'react-router-dom'
 import Button from '@mui/material/Button';
-export const Home =()=>{
+import './Home.css'
+
+export const Home = () => {
 
     const token = Cookies.get('token')
-    if (token == undefined){
+    if (token == undefined) {
         //TODO להעביר ל URL של לוגין
     }
-    
+
     return <>
-        <button><Link to='shopper' >אני הולך לחנות ומוכן לקנות מצרכים לאנשים</Link></button>
-        <button><Link to ='customer'> אני צריך משהו מהחנות, ורוצה שמשהו יקנה לי</Link></button>
-        <button><Link to ='settings'> הגדרות</Link></button>
-        {/* <Outlet></Outlet>  */}
-   
+        <img className="logo" src="src/assets/img/logo.png" width="150px" />
+        <li className='li'>  <Link to='shopper' className='link'>אני יקונה </Link></li>
+        <li className='li'>  <Link to='customer' className='link'>להוסיף קניה</Link></li>
+        {/* <Link to ='settings' className='link'> הגדרות</Link> */}
+        <h4 className='labelhome'>נשמח לראותך שוב</h4>
+        {/* <Outlet></Outlet> / */}
+
     </>
 }
