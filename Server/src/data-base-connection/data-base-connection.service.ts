@@ -61,10 +61,15 @@ export class DataBaseConnectionService {
 
     updateUser = (user: UserDTO) => {
         let u = this.getUser(user.id)[0]
+        
 
-        db.collection('users').deleteOne({ id: user.id }).then(
-            db.collection('users').insertOne({ ...u, ...user })
-        )
+        // db.collection('users').deleteOne({ id: user.id }).then(
+        //     db.collection('users').insertOne({ ...u, ...user })
+        // )
+        u = {...u, ...user}
+
+        db.collection('users').replaceOne({ id: user.id }, { u })
+
         return 200;
     };
 
@@ -101,7 +106,7 @@ export class DataBaseConnectionService {
 
     insertOrder = async (order: orderDTO) => {
         try {
-            let newId = await this.getNextSequenceValue('orders')
+            let newId = await this.getNextSequenceValue('orders')         
 
             order.orderId = newId
 
@@ -124,12 +129,15 @@ export class DataBaseConnectionService {
     }
     //TODO לשמור את השעה של saveOrder saveStore int not string
     deactivateOrder = async (orderId: Number) => {
-        let o = await this.getOrder(orderId)
+        // let o = await this.getOrder(orderId)
 
-        o = o[0]
-        db.collection('orders').deleteOne({ orderId: orderId }).then(
-            db.collection('orders').insertOne({ ...o, active: false })
-        )
+        // o = o[0]
+        // db.collection('orders').deleteOne({ orderId: orderId }).then(
+        //     db.collection('orders').insertOne({ ...o, active: false })
+        // )
+
+        db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false } })
+        
 
         return 200;
     }
