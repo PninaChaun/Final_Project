@@ -61,7 +61,6 @@ export const Customer = ({ setShopper }) => {
         fetchData();
      }, []);
      return <>
-       {/* console.log({user.email},"name"); */}
           <img className="logo" src="src/assets/img/logo.png" width="150px" />
           <img className="bag" src="src/assets/img/bag.gif" width="300px" />
      {/* ///TODO הוא שולף לי את האדם אך נופל אחכ בעקבות התרענון */}
