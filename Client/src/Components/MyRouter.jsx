@@ -12,10 +12,13 @@ import { PotentialCustomer } from "./PotentialCustomer/PotentialCustomer";
 import App from "../App";
 import { PotentialShopper } from "./PotentialShopper/PotentialShopper";
 import { Admin } from "./Admin/Admin";
+import { Groups } from "./Groups/Groups";
 
 const ProtectedRoute = ({ children }) => {
     const token = Cookies.get('token')
     if (!token) {
+        // let path = location.href
+        // Cookies.set('initial_path', path)
         return <Navigate to="/login" replace />;
     }
     return children;
@@ -44,7 +47,9 @@ export default function MyRouter() {
                                     <Route path="/popup" element={<PotentialCustomer />} />
                                     <Route path="/admin" element={<Admin />} />
                                     <Route path="/PotentialShopper" element={<PotentialShopper />} />
-
+                                    <Route path="/PotentialShopper" element={<PotentialShopper />} />
+                                    <Route path="/groups" element={<Groups />} />
+        
                                 </Routes>
                             </ProtectedRoute>
                         }

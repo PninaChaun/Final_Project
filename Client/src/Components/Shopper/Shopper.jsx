@@ -55,7 +55,6 @@ export const Shopper = ({ order, setOrder }) => {
   }
 
   return <div>
-    <img className="logo" src="src/assets/img/logo.png" width="150px" />
 
     <form onSubmit={saveShopper}>
       <label className="labelShopper" htmlFor="">הכנס שם חנות:</label><br />

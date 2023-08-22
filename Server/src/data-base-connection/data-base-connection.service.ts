@@ -4,7 +4,7 @@ import { ShopperDTO } from 'src/DTO/shopper';
 import { UserDTO } from 'src/DTO/user.dto';
 const { MongoClient } = require('mongodb');
 import * as bcrypt from 'bcrypt';
-import { log } from 'console';
+import { group, log } from 'console';
 
 const client = new MongoClient('mongodb://127.0.0.1:27017');
 let userId = 1;
@@ -49,8 +49,7 @@ export class DataBaseConnectionService {
     }
 
     getUser = (id: Number) => {
-        let col = db.collection('users').find({ id: id }).toArray();
-        //HELP כל מקום צריך להוסיף ]0 לדוגמא לוגין
+        let col = db.collection('users').findOne({ id: id })
         return col;
     }
 
@@ -60,9 +59,8 @@ export class DataBaseConnectionService {
     }
 
     updateUser = (user: UserDTO) => {
-        let u = this.getUser(user.id)[0]
+        let u = this.getUser(user.id)
         
-
         // db.collection('users').deleteOne({ id: user.id }).then(
         //     db.collection('users').insertOne({ ...u, ...user })
         // )
@@ -79,7 +77,7 @@ export class DataBaseConnectionService {
 
         user.saveOrder = user.saveOrder
 
-        db.collection('users').insertMany([{ ...user, id: newId }])
+        db.collection('users').insertMany([{ ...user, id: newId , groups: {} }])
         return newId
     }
 
@@ -111,7 +109,6 @@ export class DataBaseConnectionService {
             order.orderId = newId
 
             let u = await this.getUser(order.userId)
-            u = u[0]
             let ms = u.saveOrder * 60 * 1000 //TODO add* 60 to get hours 
 
             db.collection('orders').insertMany([{ ...order }])
@@ -185,7 +182,6 @@ export class DataBaseConnectionService {
             db.collection('shoppers').insertMany([{ ...shopper, shopId: newId }])
 
             let u = await this.getUser(shopper.userId)
-            u = u[0]
             let ms = u.saveStore * 60 * 1000 //TODO add* 60 to get hours 
 
             setTimeout(() => {
@@ -220,28 +216,55 @@ export class DataBaseConnectionService {
         return col;
     }
 
+    getGroupName  =async (groupId) =>{
+        let group = await db.collection('groups').findOne({id:groupId})
+        console.log(group);
+        
+        return group['name']
+    }
+
+    getMyGroups=async (userId)=>{
+        let user = await db.collection('users').findOne({id:userId})
+        if (user){
+            let groups_id = user['groups']
+            
+            let groups = []
+            for (let i = 0; i< groups_id.length; i++){
+                let g_id = parseInt(groups_id[i])
+                let groupName = await this.getGroupName(g_id)
+                let groupIdName = {id:g_id, name: groupName}
+                
+                groups.push(groupIdName)
+                
+            }
+            return groups
+        }
+    }
+
+    getMembers = async (group_id)=>{
+        let group = await db.collection('groups').findOne({id:group_id}) 
+        if (group){
+            let members = [] 
+            
+        for (let i = 0; i< group['members'].length; i++){
+            let member_id = parseInt(group['members'][i])
+            
+            let member = await this.getUser(member_id)
+            members.push({id:member_id, name: member['name'], email:member['email'], member:true })
+        }
+
+        for (let i = 0; i< group['invites'].length; i++){
+            let member_id = parseInt(group['invites'][i])
+            
+            let member = await this.getUser(member_id)
+            if(member)
+            members.push({id:member_id, name: member['name'], email:member['email'], member:false })
+        }
+        return members
+        }
+        
+    }
+
 }
 
-// db.createView( "sales", "orders", [
-//     {
-//        $lookup:
-//           {
-//              from: "users",
-//              localField: "userId",
-//              foreignField: "userId",
-//              as: "inventoryDocs"
-//           }
-//     },
-//     {
-//        $project:
-//           {
-//             userId: 1,
-//             orderId: 1,
-//             saveOrder:"$inventoryDocs.saveOrder"
-//           }
-//     },
-//     //    { $unwind: "$price" }
-//  ] )
-//TODO //HELP update to change active in order to false and add shopId 
 //TODO small documents in database? 
-//HELP stop setInterval client - customer - useEffect

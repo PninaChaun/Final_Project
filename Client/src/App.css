@@ -18,3 +18,11 @@ body {
     /* 15.17px */
     letter-spacing: 0.06px;
 }
+
+.menu-link {
+    text-decoration: none;
+    text-align: center;
+    color: #FF8F45;
+    margin-left: 20px;
+    display: inline-block;
+}

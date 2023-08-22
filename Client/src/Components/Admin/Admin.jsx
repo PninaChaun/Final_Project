@@ -48,51 +48,10 @@ export const Admin = () => {
 
                 </div>
 
-
-
-                {/* <table> */}
-                {/* {users.map(u => { */}
-                {/* // { console.log(u, 'u'); } */}
-
-
-                {/* < div key={u['id']}>
-                        <h1>ddddddddddd</h1>
-                        <p>{u.email}</p>
-                        {u.map(u => <Message {...u} />)} */}
-                {/* <tbody>
-                                <tr>
-                                    <th >{u.name}</th>
-                                    <th >{u.address}</th>
-                                    <th >{u.email}</th>
-                                </tr>
-                            </tbody> */}
-                {/* </div> */}
-
-                {/* })} */}
-                {/* </table> */}
             </>
         }
 
 
     </>
-    // {
-    //     users.map((u) => {
-    //         return (
-    //             <>
-    //                 <h1>ddddddddddd</h1>
-    //                 <table>
-    //                     <tbody>
-    //                         <tr>
-    //                             <th >{u.name}</th>
-    //                             <th >{u.address}</th>
-    //                             <th >{u.email}</th>
-    //                         </tr>
-    //                     </tbody>
-    //                 </table>
-    //             </>
-    //         )
-    //     })
-    // }
-
 
 }

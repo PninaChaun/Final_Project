@@ -37,7 +37,6 @@ export const Settings =  () => {
         return  <div>Loading...</div>;
       }
     return <div>
-                        <img className="logo" src="src/assets/img/logo.png" width="150px" />
 
          <h1 className="name">{user.name}</h1>
         <form  className="form" onSubmit={saveChanges}>

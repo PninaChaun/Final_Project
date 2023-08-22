@@ -11,10 +11,8 @@ export const Home = () => {
     }
 
     return <>
-        <img className="logo" src="src/assets/img/logo.png" width="150px" />
-        <li className='li'>  <Link to='shopper' className='link'>אני יקונה </Link></li>
+        <li className='li'>  <Link to='shopper' className='link'>אני יקנה </Link></li>
         <li className='li'>  <Link to='customer' className='link'>להוסיף קניה</Link></li>
-        {/* <Link to ='settings' className='link'> הגדרות</Link> */}
         <h4 className='labelhome'>נשמח לראותך שוב</h4>
         {/* <Outlet></Outlet> / */}
 

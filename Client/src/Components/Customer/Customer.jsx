@@ -42,13 +42,17 @@ export const Customer = ({ setShopper }) => {
           ServerOrder(order)
                .then((result) => JSON.parse(result))
                .then((result) => {
-                    setOrderId(result.orderId)
-                    
+                    console.log(result.orderId, 'orderID');
+                    setOrderId(result.orderId)  
+                    // TODO הorderId לא מתעדכן ולכן לא נשלחת קריאת שרת לחפש קונה
                })
+               .then(()=>
+                    console.log(orderId,'id')  
+               )
                .catch((error) => {
                     console.log(error);
                })
-     //    .finally(() => _navigate('/'));
+      .finally(() => _navigate('/'));
      }
 
      useEffect(() => {
@@ -65,7 +69,7 @@ export const Customer = ({ setShopper }) => {
           return <>loading...</>
      }
      return <>
-          <img className="logo" src="src/assets/img/logo.png" width="150px" />
+     
           <img className="bag" src="src/assets/img/bag.gif" width="300px" />
           <h2 className="hello">היי{user.name},</h2>
           <h4 className="startCustomer">ספר לנו מה ברצונך לקנות</h4>

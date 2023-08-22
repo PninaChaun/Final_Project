@@ -1,3 +1,5 @@
+import { group } from "./group.dto";
+
 export class UserDTO{
     id:number;
     email:string;
@@ -5,4 +7,5 @@ export class UserDTO{
     password:string;
     saveOrder:Number;
     saveStore:Number;
+    groups:Array<Number>;
 }
