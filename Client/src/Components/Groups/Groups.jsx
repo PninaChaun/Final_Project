@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
 import './Groups.css';
-import { ServerGroups } from "../../api/serverGroups";
+import { ServerCreateGroup, ServerGroups, ServerInvite } from "../../api/serverGroups";
 import { GroupMembers } from "./GroupMembers";
 export const Groups = () => {
 
   const [groups, setGroups] = useState(null)
-  const [show, setShow] = useState(33)
+  const [show, setShow] = useState(-1)
+  const [reload , setReload] = useState(true) //forcing reload GroupMembers to show new invite
 
   useEffect(() => {
     ServerGroups()
@@ -14,7 +15,7 @@ export const Groups = () => {
       .then(g =>
         setGroups(g)
       )
-  }, [])
+  }, [reload])
 
   const showMembers = (group_id) => {
     console.log(group_id);
@@ -25,13 +26,27 @@ export const Groups = () => {
     }
   }
 
+ const addGroup=($event)=>{
+  event.preventDefault()
+  let name=event.target.name.value
+  ServerCreateGroup(name)
+  .then(()=>{
+    setReload(!reload) 
+    })
+ }
+
   let inviteFriend = ($event) => {
     event.preventDefault()
     let email = event.target.email.value
     let name = event.target.name.value
-    console.log(email, name);
+    let currentGroup =show
 
-    // TODO NOW קריאת שרת - ליצור שרת - לשמור את הנתונים בקולקשן של אינבייט 
+    ServerInvite(currentGroup, email, name)
+    .then(()=>{
+    setReload(!reload)    
+    }
+    )
+    
   }
 
   if (groups == null) {
@@ -46,7 +61,7 @@ export const Groups = () => {
           <button onClick={() => showMembers(group.id)}> {group.name} </button>
           {show == group.id ?
             <>
-              <GroupMembers group_id={group.id} />
+              <GroupMembers group_id={group.id} reload={reload} />
               <form onSubmit={inviteFriend}>
                 <label htmlFor="">הוסף חבר לקבוצה</label>
                 <br />
@@ -60,14 +75,16 @@ export const Groups = () => {
             : <>
             </>
           }
-          {/* id={"members"+group.id} style="hidden:True" */}
         </li>
       ))}
     </ul>
 
 
     <label htmlFor="">בחירת שם לקבוצה: </label>
-    <input type="text" placeholder="שכונת נוף ציון" />
+    <form action="" onSubmit={addGroup}>
+    <input type="text" placeholder="שכונת נוף ציון" name="name" />
+    <button type="submit">אישור</button>
+    </form>
 
     {/* <select name="" id="">
     <option value="1">tן9</option>

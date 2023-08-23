@@ -1,4 +1,3 @@
-import { group } from "./group.dto";
 
 export class UserDTO{
     id:number;

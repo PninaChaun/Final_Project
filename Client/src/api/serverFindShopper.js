@@ -17,7 +17,6 @@ export const FindShopper = async (orderId) => {
             if(response.status == 404){
                 return {}
             }
-            console.log(response.data);
             return JSON.stringify(response.data);
         })     
 }

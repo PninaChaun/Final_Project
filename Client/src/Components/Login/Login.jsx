@@ -101,10 +101,6 @@ export const Login = () => {
                 :
                 <>
                     <button type="button" variant="contained" onClick={() => setLogin(true)}>להתחברות</button>
-                    <br />
-                    <label htmlFor="">הכנס קוד אימות בן 6 ספרות:  </label>
-                   <br />
-                    <input type="text"placeholder=" 753841" />
                     <input className="inputLogin " type="email" name="semail" placeholder="username@domain.com" />
                     <input className="inputLogin " type="password" name="spassword" id="spassword" placeholder="הכנס סיסמא" />
                     <input className="inputLogin " type="password" name="spassword2" id="spassword2" placeholder="אימות סיסמא" />

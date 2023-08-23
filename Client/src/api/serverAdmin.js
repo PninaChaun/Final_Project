@@ -19,7 +19,6 @@ export const ServerAdmin = () => {
         resolve(y); // Resolve the Promise with the value of 'y'
       })
       .catch(function (error) {
-        console.log(error);
         reject(error); // Reject the Promise with the error
       });
   });

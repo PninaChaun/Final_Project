@@ -15,12 +15,10 @@ export const ServerGroups = async () => {
 
     fetchAxios(configuration)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
             const y = JSON.stringify(response.data);
             resolve(y); // Resolve the Promise with the value of 'y'
           })
           .catch(function (error) {
-            console.log(error);
             reject(error); // Reject the Promise with the error
           });
   });
@@ -40,14 +38,73 @@ return new Promise((resolve, reject) => {
 
     fetchAxios(configuration)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
             const y = JSON.stringify(response.data);
             resolve(y); // Resolve the Promise with the value of 'y'
           })
           .catch(function (error) {
-            console.log(error);
             reject(error); // Reject the Promise with the error
           });
   });
 
 }
+
+export const ServerInvite = async (group_id, email, name) => {
+
+  return new Promise((resolve, reject) => {
+    var data = JSON.stringify(
+      {
+        "name":name,
+        "email":email
+      }
+      );
+     
+      var configuration = {
+        method: 'post',
+        url: `${config.api}/groups/${group_id}`,
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data:data
+      };
+  
+      fetchAxios(configuration)
+            .then(function (response) {
+              const y = JSON.stringify(response.data);
+              resolve(y); // Resolve the Promise with the value of 'y'
+            })
+            .catch(function (error) {
+              reject(error); // Reject the Promise with the error
+            });
+    });
+  
+  }
+
+  export const ServerCreateGroup = async (name) => {
+
+    return new Promise((resolve, reject) => {
+      var data = JSON.stringify(
+        {
+          "name":name
+        }
+        );
+       
+        var configuration = {
+          method: 'post',
+          url: `${config.api}/groups`,
+          headers: { 
+            'Content-Type': 'application/json'
+          },
+          data:data
+        };
+    
+        fetchAxios(configuration)
+              .then(function (response) {
+                const y = JSON.stringify(response.data);
+                resolve(y); // Resolve the Promise with the value of 'y'
+              })
+              .catch(function (error) {
+                reject(error); // Reject the Promise with the error
+              });
+      });
+    
+    }

@@ -1,5 +1,5 @@
 
-export class group{
+export class groupDTO{
     id:Number;
     name:String;
     members:Array<Number>;

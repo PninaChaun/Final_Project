@@ -20,12 +20,10 @@ export const serverSaveBuy = async (orderId) => {
      
         fetchAxios(configuration)
           .then(function (response) {
-            console.log(JSON.stringify(response.data));
             const y = JSON.stringify(response.data);
             resolve(y); // Resolve the Promise with the value of 'y'
           })
           .catch(function (error) {
-            console.log(error);
             reject(error); // Reject the Promise with the error
           });
       });
