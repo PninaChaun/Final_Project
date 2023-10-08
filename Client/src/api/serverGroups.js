@@ -108,3 +108,35 @@ export const ServerInvite = async (group_id, email, name) => {
       });
     
     }
+
+
+  
+    export const ServerRemoveMember = async (group_id) => {
+
+      return new Promise((resolve, reject) => {
+        var data = JSON.stringify(
+          {
+            "group_id":group_id
+          }
+          );
+         
+          var configuration = {
+            method: 'put',
+            url: `${config.api}/groups`,
+            headers: { 
+              'Content-Type': 'application/json'
+            },
+            data:data
+          };
+      
+          fetchAxios(configuration)
+                .then(function (response) {
+                  const y = JSON.stringify(response.data);
+                  resolve(y); // Resolve the Promise with the value of 'y'
+                })
+                .catch(function (error) {
+                  reject(error); // Reject the Promise with the error
+                });
+        });
+      
+      }  

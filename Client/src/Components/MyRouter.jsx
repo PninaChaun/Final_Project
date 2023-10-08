@@ -28,6 +28,8 @@ export default function MyRouter() {
     let navigate = useNavigate();
     const [order, setOrder] = useState([]);
     const [shopper, setShopper] = useState(null);
+    const [shopId, setshopId] = useState(null);
+
 
     return (
         <div>
@@ -40,14 +42,14 @@ export default function MyRouter() {
                             <ProtectedRoute>
                                 <Routes>
                                     <Route path="/" element={<App />} />
-                                    <Route path="/shopper" element={<Shopper order={order} setOrder={setOrder} />} />
+                                    <Route path="/shopper" element={<Shopper order={order} setOrder={setOrder} shopId={shopId} setshopId={setshopId} />} />
                                     <Route path="/customer" element={<Customer setShopper={setShopper} />} />
                                     {/* <Route path="/chat" element={<Chat />} /> */}
                                     <Route path="/settings" element={<Settings />} />
                                     <Route path="/popup" element={<PotentialCustomer />} />
                                     <Route path="/admin" element={<Admin />} />
-                                    <Route path="/PotentialShopper" element={<PotentialShopper />} />
-                                    <Route path="/PotentialShopper" element={<PotentialShopper />} />
+                                    {/* <Route path="/PotentialShopper" element={<PotentialShopper />} />
+                                    <Route path="/PotentialShopper" element={<PotentialShopper />} /> */}
                                     <Route path="/groups" element={<Groups />} />
         
                                 </Routes>
@@ -58,7 +60,7 @@ export default function MyRouter() {
                 </Routes>
             </Context.Provider>
 
-            <PotentialCustomer order={order} setOrder={setOrder} />
+            <PotentialCustomer order={order} setOrder={setOrder} shopId={shopId} />
             <PotentialShopper shopper={shopper} setShopper={setShopper} />
         </div>
     );

@@ -15,14 +15,13 @@ export const PotentialShopper = ({ shopper, setShopper }) => {
 
     }
     //     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך 
-    console.log(shopper, 'shopper!');
     if (shopper != null) {
-        console.log('open popup', shopper);
         return <Popup open={true} position="right center">
 
             <img className="logo" src="src/assets/img/logo.png" width="100px" />
             <div className="UserShopper">
                 {/* <h1>{shopper['user'].email}</h1> */}
+                { console.log(shopper) }
                 <p className="shopperUser">שם: {shopper['user'].name}  <br />
                     חנות: {shopper['shopper'].store}
                 </p>

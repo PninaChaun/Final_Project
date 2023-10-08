@@ -25,9 +25,7 @@ export class LoginController {
     @Get()
     async getById( @Request() req, @Res() res:Response) {
         let id = req['user'].id        
-        
         let user =  await this.srv.getUserById(id)
-        
         res.send(user);
     }
 

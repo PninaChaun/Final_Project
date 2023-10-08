@@ -72,7 +72,7 @@ export const Login = () => {
                 response = JSON.parse(response)
                 Cookies.set('token', response.access_token, { expires: new Date(new Date().getTime() + (expireIn)) })
 
-                _navigate(-1);
+                _navigate('/');
 
             })
             .catch(r => {
@@ -81,8 +81,7 @@ export const Login = () => {
             )
     }
     return <>
-       
-  {/* ////TODOסרגל אופציות  */}                 
+                       
         <div className="login2">
             <img className="login" src="src/assets/img/login.gif" width="300px" /></div>
 
@@ -105,10 +104,9 @@ export const Login = () => {
                     <input className="inputLogin " type="password" name="spassword" id="spassword" placeholder="הכנס סיסמא" />
                     <input className="inputLogin " type="password" name="spassword2" id="spassword2" placeholder="אימות סיסמא" />
                     <input className="inputLogin " type="text" name="sname" id="sname" placeholder="הכנס שם" />
-                    <input className="inputLogin " type="number" name="saveOrder" id="saveOrder" placeholder="משך זמן שמירת הזמנה" />
-                    <input className="inputLogin " type="number" name="saveStore" id="saveStore" placeholder="משך זמן שמירת הליכה לחנות" />
+                    <input className="inputLogin " type="number" name="saveOrder" id="saveOrder" min={1} placeholder="משך זמן בשעות שמירת הזמנה" />
+                    <input className="inputLogin " type="number" name="saveStore" id="saveStore" min={1} placeholder="משך זמן בשעות שמירת הליכה לחנות" />
                     <input className="inputLogin " type="text" name="address" id="address" placeholder="כתובת " />
-                    {/* //TODO בחירת קבוצה ע"י dropdown */}
                 </>
             }
             <br />

@@ -39,7 +39,6 @@ export class GroupsService {
 
     async isInvite(group_id,email){
         let invites =await this.srv.getInvites(group_id)
-        console.log(invites,'inv');
         
         if(invites){
             for(let i =0; i< invites.length; i++){
@@ -64,5 +63,9 @@ export class GroupsService {
         let group_Id = await this.srv.CreateGroup(group, member_id)
         return await this.srv.addMember(group_Id, member_id)
         
+    }
+    
+    async DeleteMember(group_Id, member_id){
+        return await this.srv.DeleteMember(group_Id, member_id)
     }
 }

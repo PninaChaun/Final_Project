@@ -24,10 +24,10 @@ export class OrdersService {
         let shopper = await this.srv.getShop(col.shopId)
         shopper = shopper[0]
         let user = await this.srv.getUser(shopper.userId)
-        user= user[0]
-          return {stat:200, shopper:{ shopper, user}};
+        
+          return {stat:201, shopper:{ shopper, user}};
         }
-        return {stat:404, shopper: null};
+        return {stat:200, shopper: null};
     }
 //   async  getUserClient()
 }

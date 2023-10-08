@@ -15,7 +15,7 @@ export const FindCustomer = async () => {
 
     return await fetchAxios(configuration)
         .then(function (response) {
-            Cookies.set('prevRequest',new Date(response.data.newPrevDate))
+           Cookies.set('prevRequest',new Date(response.data.newPrevDate))
             return JSON.stringify(response.data);
         })
         

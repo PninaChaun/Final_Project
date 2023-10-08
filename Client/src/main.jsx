@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <>
-        <img className="logo" src="src/assets/img/logo.png" width="150px" />
+      <Link to='/' ><img className="logo" src="src/assets/img/logo.png" width="150px" /></Link>
         <Link to='groups' className='menu-link'> קבוצות</Link>
         <Link to='settings' className='menu-link'> הגדרות</Link>
       

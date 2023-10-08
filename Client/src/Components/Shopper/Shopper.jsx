@@ -1,57 +1,59 @@
 import { useNavigate } from "react-router-dom";
 import { ServerShopper } from "../../api/serverShopper";
 import PotentialCustomer from "../PotentialCustomer/PotentialCustomer";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FindCustomer } from "../../api/serverFindCustomer";
 import Cookies from "js-cookie";
 import Context from "../../context/context";
 import '../Shopper/Shopper.css';
-export const Shopper = ({ order, setOrder }) => {
+export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
+
+  // const [shopId, setshopId] = useState(null)
+
 
   useEffect(() => {
-
     setInterval(() => {
-
-      FindCustomer().then(r => JSON.parse(r)).then(
-        r => {
-          let col = r['col'];
-          let newOrderList = order.map(x => x)
-          newOrderList.push(...col)
-          setOrder(newOrderList);
-          console.log(order, 'order');
+      if (shopId != null) {
+        console.log(order.length);
+        if (order.length == 0) {
+          FindCustomer()
+          .then(r => JSON.parse(r))
+          .then(
+            r => {
+              console.log(r, 'r');
+              let col = r['col'];
+              let newOrderList = order.map(x => x)
+              newOrderList.push(...col)
+              setOrder(newOrderList);
+            }
+          );
         }
-      );
+      }
     }
       , 5000); // fetch updates every 5 seconds
 
-  }, []);
+  }, [shopId]);
 
   const _navigate = useNavigate(Context);
 
   const saveShopper = ($event) => {
     event.preventDefault();
     Cookies.set('prevRequest', new Date(1970, 1))
-    setOrder([])
+    // setOrder([])
 
     const store = event.target.store.value;
     let data = { 'store': store }
-    // ServerShopper(data).then(r=>{JSON.parse(r); console.log(r,'r');})
-    // .then(shopId=>Cookies.set('shopId',shopId))
-    //
+
     const x = ServerShopper(data)
       .then((result) => JSON.parse(result))
       .then((result) => {
-        console.log('result:', result);
-        Cookies.set('shopId', result)
+        setshopId(result)
+        // Cookies.set('shopId', result)
       })
       .catch((error) => {
         console.log(error);
       })
-      .finally(() => _navigate('/'));
-    //
-
-    // _navigate('/')
-
+      // .finally(() => _navigate('/'));
   }
 
   return <div>

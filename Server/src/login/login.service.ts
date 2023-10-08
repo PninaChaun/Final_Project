@@ -18,9 +18,13 @@ export class LoginService {
     }
 
     async getUserById(id:Number) {
-        let user = await this.ser.getUser(id);
-        
-        return user[0];
+        let user = await this.ser.getUser(id);    
+        // for(let i =0; i< user['groups'].length; i++) {
+        //     let group = user['groups'][i]
+        //     let groupName = await this.ser.getGroupName(group)
+
+        // }
+        return user;
     }
 
     async updateUser(user:UserDTO){

@@ -2,11 +2,9 @@ import Cookies from 'js-cookie';
 import config from '../config.js';
 import fetchAxios from './interceptor.js'
 
-export const serverSaveBuy = async (orderId) => {
+export const serverSaveBuy = async (orderId,shopId) => {
 
     return new Promise((resolve, reject) => {
-        let shopId = Cookies.get('shopId')
-        console.log('shopId cookie', shopId);
         var data = JSON.stringify({'shopId':shopId});
     
         var configuration = {

@@ -21,15 +21,18 @@ export class ShopperService {
 
     }
 
-    findPotentialCustomer(id: Number, prevTime: Date) {
+    async findPotentialCustomer(userId: Number, prevTime: Date) {
+        let myGroups = await this.srv.getMyGroups(userId)
         let ordersUsers = []
-        return this.srv.getAllOrders(prevTime).then(
-            async o => {
+        return this.srv.getAllOrders(myGroups, prevTime).then(
+            async(o) => {                
                 let orders: orderDTO[] = o['col']
+                console.log(orders,'orders');
+                
                 for (let i = 0; i < orders.length; i++) {
                     let order = orders[i]
                     let user = await this.srv.getUser(order.userId)
-                    user = user[0]
+                    
                     ordersUsers.push({ order, user })
                 }
 
@@ -39,7 +42,6 @@ export class ShopperService {
     }
 
     saveBuy(shopId:number, orderId:number){
-        console.log('shopId:', shopId, 'orderId:', orderId);
         
         const status =  this.srv.updateOrder_addShopperId(shopId, orderId)
         return status

@@ -50,18 +50,20 @@ export class DataBaseConnectionService {
         return col;
     }
 
-    getUser = (id: Number) => {
-        let col = db.collection('users').findOne({ id: id })
+    getUser = async (id: Number) => {
+        let col = await db.collection('users').findOne({ id: id })
+
         return col;
     }
 
-    getGroup = (id: Number) => {
-        let col = db.collection('groups').findOne({ id: id })
+    getGroup = async (id: Number) => {
+        let col = await db.collection('groups').findOne({ id: id })
         return col;
     }
 
-    getInvite = (id: Number) => {
-        let col = db.collection('invites').findOne({ id: id })
+    getInvite = async (id: Number) => {
+        let col = await db.collection('invites').findOne({ id: id })
+
         return col;
     }
 
@@ -70,15 +72,15 @@ export class DataBaseConnectionService {
         return col;
     }
 
-    updateUser = (user: UserDTO) => {
-        let u = this.getUser(user.id)
+    updateUser = async (user: UserDTO) => {
+        let u = await this.getUser(user.id)
 
-        // db.collection('users').deleteOne({ id: user.id }).then(
-        //     db.collection('users').insertOne({ ...u, ...user })
-        // )
-        u = { ...u, ...user }
-
-        db.collection('users').replaceOne({ id: user.id }, { u })
+        db.collection('users').deleteOne({ id: user.id }).then(
+            db.collection('users').insertOne({ ...u, ...user })
+        )
+        //TODO AFTER change delete-insert to replace
+        // u = { ...u, ...user}
+        //db.collection('users').replaceOne({ id: user.id },{...u})
 
         return 200;
     };
@@ -89,7 +91,7 @@ export class DataBaseConnectionService {
 
         user.saveOrder = user.saveOrder
 
-        db.collection('users').insertMany([{ ...user, id: newId, groups: {} }])
+        db.collection('users').insertMany([{ ...user, id: newId, groups: [] }])
         return newId
     }
 
@@ -103,15 +105,20 @@ export class DataBaseConnectionService {
         return col;
     }
 
-    getAllOrders = async (prevTime: Date) => {
-
-        // let new_prevTime = Date.parse(prevTime)        
-
-        let col = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray();//
+    getAllOrders = async (user_groups: any, prevTime: Date) => {
+        //TODO קריטי- שליפה של ההזמנות - רק אם הקבוצות תואמות!   groups:user_groups[i]
+        let orders = []
+        // for(let i =0; i < user_groups.length; i++){
+        let allOrders = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray()
+        orders.push(...allOrders)
 
         return {
-            col: await col, newPrevDate: new Date()
+            col: orders, newPrevDate: new Date()
         }
+
+
+        // }
+
     }
 
     insertOrder = async (order: orderDTO) => {
@@ -121,7 +128,7 @@ export class DataBaseConnectionService {
             order.orderId = newId
 
             let u = await this.getUser(order.userId)
-            let ms = u.saveOrder * 60 * 1000 //TODO add* 60 to get hours 
+            let ms = u.saveOrder * 60 * 1000 * 60//TODO AFTER add* 60 to get hours 
 
             db.collection('orders').insertMany([{ ...order }])
 
@@ -147,7 +154,6 @@ export class DataBaseConnectionService {
 
         db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false } })
 
-
         return 200;
     }
 
@@ -166,7 +172,6 @@ export class DataBaseConnectionService {
         //TODO_AFTER change all await to then
         //TODO_AFTER why .toArray() and then [0]  in getUser, getOrder...
         //TODO_AFTER try to change updates to update and not to delete and insert
-        console.log('orderId to get', orderId);
 
         let o = await this.getOrder(orderId)
 
@@ -175,15 +180,12 @@ export class DataBaseConnectionService {
         //TODO make sure this order is still available
         if (!o.active)
             return 404;
-        console.log(o, 'o');
 
-        console.log('before update');
         db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false, shopId: shopId } })
 
         // db.collection('orders').deleteOne({ orderId: orderId }).then(
         //     db.collection('orders').insertOne({ ...o, active: false, shopId: shopId })
         // )
-        console.log('after update');
 
         return 200;
     }
@@ -236,7 +238,7 @@ export class DataBaseConnectionService {
 
     getMyGroups = async (userId) => {
         let user = await db.collection('users').findOne({ id: userId })
-        
+
         if (user) {
             let groups_id = user['groups']
 
@@ -256,8 +258,7 @@ export class DataBaseConnectionService {
     getMembers = async (group_id) => {
         let group = await db.collection('groups').findOne({ id: group_id })
         if (group) {
-            console.log(group);
-            
+
             let members = []
 
             for (let i = 0; i < group['members'].length; i++) {
@@ -297,37 +298,53 @@ export class DataBaseConnectionService {
         await db.collection('invites').insertMany([{ ...invite, id: newId }])
         return newId;
     }
-    
-    async addToGroupInvite(group_id, invite_id){
+
+    async addToGroupInvite(group_id, invite_id) {
         let group = await this.getGroup(group_id)
-        
+
         await db.collection('groups').updateOne({ id: group_id }, { $set: { invites: [...group['invites'], invite_id] } })
         return 201;
     }
-    
-    async CreateGroup(group:groupDTO, member_id){
+
+    async CreateGroup(group: groupDTO, member_id) {
         let newId = await this.getNextSequenceValue('groups')
 
-        await db.collection('groups').insertMany([{ ...group, id: newId, members:[], invites:[] }])
+        await db.collection('groups').insertMany([{ ...group, id: newId, members: [], invites: [] }])
 
         return newId;
     }
 
-    async addMember(group_id, user_id){
-        console.log(group_id, user_id);
+    async addMember(group_id, user_id) {
+        // console.log(group_id, user_id,"group");
+        
         let group = await this.getGroup(group_id)
         let user = await this.getUser(user_id)
-        console.log(group, user);
-        if(group && user){            
-            await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'], group_id] } }) 
+        if (group && user) {
+            await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'], group_id] } })
             await db.collection('groups').updateOne({ id: group_id }, { $set: { members: [...group['members'], user_id] } })
 
-        return 200
+            return 200
         }
-
-        
-
     }
+
+    
+
+    
+    async DeleteMember(group_id, user_id) {
+        let group = await this.getGroup(group_id)        
+        let user = await this.getUser(user_id)
+        if(group&&user){
+        await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'].filter((g)=>g!=group_id)] } })
+
+        await db.collection('groups').updateOne({ id: group_id }, { $set: { members: [...group['members'].filter((m)=>m!=user_id)] } })
+
+        return 200
+    }
+    else{
+        return 400
+    }
+}
 }
 
 //TODO small documents in database? 
+//TODO maybe save once user in group

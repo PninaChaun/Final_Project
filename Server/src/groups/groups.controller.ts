@@ -64,7 +64,6 @@ export class GroupsController {
 
             response= 'member'
         }
-        console.log(response,'resp');
         
 
         res.status(400).send(response)
@@ -74,9 +73,19 @@ export class GroupsController {
     async insertGroup(@Request() req, @Body() group: groupDTO, @Res() res: Response){
         let userId = req['user'].id;
         
-        await this.srv.CreateGroup(group, userId)
-        // .then(()=>
-            res.status(201).send()
-        // )
+        await this.srv.CreateGroup(group, userId)  
+         res.status(201).send()
+       
+       
+    }
+    @UseGuards(AutenticationService)
+    @Put()
+    async removeMemmber(@Request() req,@Body() body: any, @Res() res: Response){
+        let userId = req['user'].id;
+        let stat = await this.srv.DeleteMember(body.group_id, userId)  
+        res.status(stat).send()
+
+
+      ///TODO NOW להמשיך ב client יש בעיה בפעם הראשונה לקבוצה הראשונה כי זה לא מוגדר בתוא מערך 
     }
 }

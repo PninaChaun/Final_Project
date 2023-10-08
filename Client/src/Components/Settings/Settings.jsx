@@ -16,7 +16,6 @@ export const Settings =  () => {
         async function fetchData() {
         ServerGetUser().then(
             user=>{
-                console.log(user);
                 setUser(JSON.parse(user))
             }
         )
@@ -29,7 +28,7 @@ export const Settings =  () => {
     const saveChanges=($event)=>{
         event.preventDefault();
         
-        ServerUpdateUser(user).then(console.log('update user'))
+        ServerUpdateUser(user)
         _navigate('/');
     }
 
@@ -55,7 +54,6 @@ export const Settings =  () => {
             <label htmlFor="email">אימייל</label>
             <br />
             <input type="email" name="email" id="email" placeholder="אימייל"  value={user.email} onChange={(e)=>setUser({...user, 'email':e.target.value})}/>
-           {/* //TODO שינוי קבוצה*/ }
            <br />
            <button className="submit" type="submit">אישור</button>
         </form>
