@@ -14,7 +14,7 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
   useEffect(() => {
     setInterval(() => {
       if (shopId != null) {
-        console.log(order.length);
+        // console.log(order.length);
         if (order.length == 0) {
           FindCustomer()
           .then(r => JSON.parse(r))
@@ -22,15 +22,13 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
             r => {
               console.log(r, 'r');
               let col = r['col'];
-              let newOrderList = order.map(x => x)
-              newOrderList.push(...col)
-              setOrder(newOrderList);
+              setOrder(col)
             }
           );
         }
       }
     }
-      , 5000); // fetch updates every 5 seconds
+      , 10000); // fetch updates every 5 seconds
 
   }, [shopId]);
 
@@ -48,12 +46,13 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
       .then((result) => JSON.parse(result))
       .then((result) => {
         setshopId(result)
+      //  _navigate('/');
         // Cookies.set('shopId', result)
       })
       .catch((error) => {
         console.log(error);
       })
-      // .finally(() => _navigate('/'));
+    // 
   }
 
   return <div>

@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { MailerModule } from '@nestjs-modules/mailer';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoginController } from './login/login.controller';
@@ -16,10 +18,18 @@ import { AdminController } from './admin/admin.controller';
 import { AdminService } from './admin/admin.service';
 import { GroupsController } from './groups/groups.controller';
 import { GroupsService } from './groups/groups.service';
+import { EmailService } from './email/email.service';
 
 @Module({
-  imports: [LoginModule],
+  imports: [
+    LoginModule,
+    MailerModule.forRoot({
+      transport: 'smtps://shop4community@gmail.com:pnina&hm@smtp.gmail.com',
+      defaults: {
+        from: '"nest-modules" <modules@nestjs.com>',
+      },
+    }),],
   controllers: [AppController, LoginController, OrdersController, ShopperController, AdminController, GroupsController],
-  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService, AdminAuthorizationService, AdminService, GroupsService],
+  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService, AdminAuthorizationService, AdminService, GroupsService, EmailService],
 })
 export class AppModule {}

@@ -9,7 +9,10 @@ export const PotentialCustomer = ({ order, setOrder, shopId }) => {
     const _navigate = useNavigate(Context);
 
     const removeOrder = () => {
-        setOrder(order.splice(1))
+        console.log(' b4 removed from array', order);
+        const updatedOrders = [...order.slice(1)];
+        setOrder(updatedOrders);
+        console.log('removed from array', order);
     }
 
     const saveBuy = (orderId) => {

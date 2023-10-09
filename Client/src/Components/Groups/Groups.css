@@ -1,5 +1,72 @@
+.group_name {
+   text-decoration: solid;
+   /* display: inline-block; */
+}
 
- .group_name{
-    text-decoration:solid;
-    /* display: inline-block; */
- }
+.nameGroup {
+   margin-bottom: 3px
+}
+
+.buttonUseState {
+   width: 120px;
+   height: 29px;
+   border-radius: 9px;
+   background: #FF8F45;
+   color: white;
+   text-align: center;
+   font-size: small;
+   border: #FF8F45;
+}
+
+.submitGroups {
+   width: 60px;
+   height: 29px;
+   border-radius: 9px;
+   background: #19acb7;
+   color: white;
+   font-size: small;
+   border: #19acb7;
+   margin-top: 5px;
+   margin-right: 50px;
+}
+
+.submitGroups2 {
+   width: 120;
+   height: 29px;
+   border-radius: 9px;
+   background: #19acb7;
+   color: white;
+   font-size: x-small;
+   border: #19acb7;
+   margin-top: 7px;
+   margin-right: 63px;
+}
+
+.inputGroup {
+   width: 160px;
+   height: 25px;
+   flex-shrink: 0;
+   margin-top: 5px;
+   border-radius: 9px;
+   background: #FFF;
+   box-shadow: 1px 1px 1px 0px rgba(191, 191, 191, 0.19);
+}
+
+.lil {
+   display: inline-block;
+   margin-top: 10px;
+   width: 95px;
+   height: 25px;
+   /* margin-right: 2px;   */
+   border-radius: 9px;
+   margin-left: 65px ;
+   margin-bottom: 6px;
+}
+.border{
+   border-color: #FF8F45;
+   border-style: ridge;
+    border-width: 2px;
+   border-radius: 15px;
+   width: 250px;
+   height: 130px;
+}

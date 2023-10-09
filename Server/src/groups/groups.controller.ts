@@ -7,12 +7,13 @@ import { GroupsService } from './groups.service';
 import { log } from 'handlebars/runtime';
 import { inviteDTO } from 'src/DTO/invite.dto';
 import { groupDTO } from 'src/DTO/group.dto';
+import {EmailService} from 'src/email/email.service'
 // TODO_AFTER remove all unnecessary imports
 
 @Controller('groups')
 export class GroupsController {
 
-    constructor(private srv: GroupsService) { }
+    constructor(private srv: GroupsService, private email:EmailService) { }
 
     @UseGuards(AutenticationService)
     @Get()
@@ -51,11 +52,13 @@ export class GroupsController {
             if (!is_invite) {
                 let response = await this.srv.insertinvite(invite, groupId)
                 // TODO send email to invite
+                this.email.sendEmail('p0583202191@gmail.com', 'Test', 'mm')
 
                 res.status(response).send()
                 return
             }
             else{
+
                 response = 'invite'
 
             }

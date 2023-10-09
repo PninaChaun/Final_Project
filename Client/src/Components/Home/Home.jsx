@@ -11,7 +11,7 @@ export const Home = () => {
     }
 
     return <>
-        <li className='li'>  <Link to='shopper' className='link'>אני יקנה </Link></li>
+        <li className='li'> <Link to='shopper' className='link'>אני יקנה </Link></li>
         <li className='li'>  <Link to='customer' className='link'>להוסיף קניה</Link></li>
         <h4 className='labelhome'>נשמח לראותך שוב</h4>
         {/* <Outlet></Outlet> / */}

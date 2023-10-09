@@ -75,15 +75,14 @@ export const Customer = ({ setShopper }) => {
                .then((result) => JSON.parse(result))
                .then((result) => {
                     setOrderId(result.orderId)
+                    // _navigate('/');
                     // Cookies.set('orderId', result.orderId)
 
                })
                .catch((error) => {
                     console.log(error);
                })
-          // .finally(() =>{
-          //       _navigate('/')
-          //      });
+         
      }
 
 
@@ -93,7 +92,7 @@ export const Customer = ({ setShopper }) => {
      return <>
 
           <img className="bag" src="src/assets/img/bag.gif" width="300px" />
-          <h2 className="hello">היי{user.name},</h2>
+          <h2 className="hello"> היי{user.name},</h2>
           <h4 className="startCustomer">ספר לנו מה ברצונך לקנות</h4>
           <form className="fo" onSubmit={saveOrder}>
                <label htmlFor="">באיזה קבוצה אתה מעונין:</label>
