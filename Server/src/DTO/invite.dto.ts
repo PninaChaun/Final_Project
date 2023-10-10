@@ -2,6 +2,7 @@
 export class inviteDTO {
     id:Number;
     inviterId:Number;
+    groupId:Number;
     email:String;
-    Name:String;
+    name:String;
 }

@@ -232,8 +232,7 @@ export class DataBaseConnectionService {
 
     getGroupName = async (groupId) => {
         let group = await this.getGroup(groupId)
-
-        return group['name']
+        return group.name
     }
 
     getMyGroups = async (userId) => {
@@ -291,7 +290,6 @@ export class DataBaseConnectionService {
 
     }
 
-
     async insertinvite(invite: inviteDTO) {
         let newId = await this.getNextSequenceValue('invites')
 
@@ -328,8 +326,6 @@ export class DataBaseConnectionService {
     }
 
     
-
-    
     async DeleteMember(group_id, user_id) {
         let group = await this.getGroup(group_id)        
         let user = await this.getUser(user_id)
@@ -344,7 +340,18 @@ export class DataBaseConnectionService {
         return 400
     }
 }
+
+getMyInvites= async (userId)=> {
+    let user = await this.getUser(userId)
+    let invites = await db.collection('invites').find({email:user.email}).toArray()
+    return invites
 }
 
-//TODO small documents in database? 
+getUserName = async (userId) =>{
+    let user = await this.getUser(userId);
+    return user.name
+}
+
+}
+
 //TODO maybe save once user in group

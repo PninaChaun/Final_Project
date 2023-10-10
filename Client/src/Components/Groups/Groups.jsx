@@ -35,6 +35,11 @@ export const Groups = () => {
       })
   }
 
+  const addFriend =()=>{
+    event.preventDefault()
+    setaddMemberreload(!addMemberreload);
+  }
+
   let inviteFriend = ($event) => {
     event.preventDefault()
     let email = event.target.email.value
@@ -71,7 +76,7 @@ export const Groups = () => {
               <GroupMembers group_id={group.id} reload={reload} />
               <form onSubmit={inviteFriend}>
                 
-               <li className="lil"> <button className="buttonUseState" onClick={() => (setaddMemberreload(!addMemberreload))} >להוספת חבר לקבוצה</button></li>
+               <li className="lil"> <button className="buttonUseState" onClick={()=>addFriend()} >להוספת חבר לקבוצה</button></li>
                 {addMemberreload ?
 
                   <><div className="border">

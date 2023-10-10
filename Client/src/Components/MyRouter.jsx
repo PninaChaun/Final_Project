@@ -13,6 +13,8 @@ import App from "../App";
 import { PotentialShopper } from "./PotentialShopper/PotentialShopper";
 import { Admin } from "./Admin/Admin";
 import { Groups } from "./Groups/Groups";
+import { Home } from "./Home/Home";
+import { JoinGroup } from "../JoinGroup/JoinGroup";
 
 const ProtectedRoute = ({ children }) => {
     const token = Cookies.get('token')
@@ -29,6 +31,8 @@ export default function MyRouter() {
     const [order, setOrder] = useState([]);
     const [shopper, setShopper] = useState(null);
     const [shopId, setshopId] = useState(null);
+    const [group, setGroup] = useState([]);
+
 
 
     return (
@@ -41,7 +45,7 @@ export default function MyRouter() {
                         element={
                             <ProtectedRoute>
                                 <Routes>
-                                    <Route path="/" element={<App />} />
+                                    <Route path="/" element={<Home  group={group} setGroup={setGroup} />} />
                                     <Route path="/shopper" element={<Shopper order={order} setOrder={setOrder} shopId={shopId} setshopId={setshopId} />} />
                                     <Route path="/customer" element={<Customer setShopper={setShopper} />} />
                                     {/* <Route path="/chat" element={<Chat />} /> */}
@@ -62,6 +66,7 @@ export default function MyRouter() {
 
             <PotentialCustomer order={order} setOrder={setOrder} shopId={shopId} />
             <PotentialShopper shopper={shopper} setShopper={setShopper} />
+            <JoinGroup group={group} setGroup={setGroup} />
         </div>
     );
 }

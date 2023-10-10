@@ -108,8 +108,6 @@ export const ServerInvite = async (group_id, email, name) => {
       });
     
     }
-
-
   
     export const ServerRemoveMember = async (group_id) => {
 

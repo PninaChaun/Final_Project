@@ -13,7 +13,7 @@ import {EmailService} from 'src/email/email.service'
 @Controller('groups')
 export class GroupsController {
 
-    constructor(private srv: GroupsService, private email:EmailService) { }
+    constructor(private srv: GroupsService) { }
 
     @UseGuards(AutenticationService)
     @Get()
@@ -42,18 +42,18 @@ export class GroupsController {
     async insertinvite(@Request() req, @Param('group_id') group_id: string, @Body() invite: inviteDTO, @Res() res: Response) {
 
         invite.inviterId = req['user'].id;
-        let groupId =parseInt(group_id)
+        invite.groupId =parseInt(group_id)
 
-        let is_member = await this.srv.isMember(groupId, invite.email)
+        let is_member = await this.srv.isMember(invite.groupId, invite.email)
         let response = ''
 
         if (!is_member) {
-            let is_invite = await this.srv.isInvite(groupId, invite.email)
+            let is_invite = await this.srv.isInvite(invite.groupId, invite.email)
             if (!is_invite) {
-                let response = await this.srv.insertinvite(invite, groupId)
-                // TODO send email to invite
-                this.email.sendEmail('p0583202191@gmail.com', 'Test', 'mm')
-
+                console.log('insert invite',invite );
+                
+                let response = await this.srv.insertinvite(invite)
+                ///email
                 res.status(response).send()
                 return
             }
@@ -71,6 +71,7 @@ export class GroupsController {
 
         res.status(400).send(response)
     }
+    
     @UseGuards(AutenticationService)
     @Post()
     async insertGroup(@Request() req, @Body() group: groupDTO, @Res() res: Response){
@@ -81,14 +82,14 @@ export class GroupsController {
        
        
     }
+    
     @UseGuards(AutenticationService)
     @Put()
     async removeMemmber(@Request() req,@Body() body: any, @Res() res: Response){
         let userId = req['user'].id;
         let stat = await this.srv.DeleteMember(body.group_id, userId)  
         res.status(stat).send()
-
-
-      ///TODO NOW להמשיך ב client יש בעיה בפעם הראשונה לקבוצה הראשונה כי זה לא מוגדר בתוא מערך 
     }
+    
+
 }

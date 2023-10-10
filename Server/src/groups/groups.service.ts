@@ -2,11 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { groupDTO } from 'src/DTO/group.dto';
 import { inviteDTO } from 'src/DTO/invite.dto';
 import { DataBaseConnectionService } from 'src/data-base-connection/data-base-connection.service';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class GroupsService {
 
-    constructor(private srv:DataBaseConnectionService){}
+    constructor(private srv:DataBaseConnectionService, private email:EmailService){}
 
     async getMyGroups(userId){
         let groups = await this.srv.getMyGroups(userId)
@@ -53,9 +54,16 @@ export class GroupsService {
         return false
     }
 
-    async insertinvite(invite:inviteDTO, group_id:number){
+    async insertinvite(invite:inviteDTO){
+
         let invite_id = await this.srv.insertinvite(invite);
-        let response = this.srv.addToGroupInvite(group_id, invite_id)
+        let response = this.srv.addToGroupInvite(invite.groupId, invite_id)
+
+        
+        let inviterName = await this.srv.getUserName(invite.inviterId)
+        let groupName =await this.srv.getGroupName(invite.groupId)
+        this.email.sendEmail(invite.email,'shop4you', 'היי' + invite.name+","+'\n הוזמנת ע"י '+inviterName +'\n להצטרף לקבוצת: '+ groupName)
+
         return response;
     }
 

@@ -19,17 +19,20 @@ import { AdminService } from './admin/admin.service';
 import { GroupsController } from './groups/groups.controller';
 import { GroupsService } from './groups/groups.service';
 import { EmailService } from './email/email.service';
+import { InvitesController } from './invites/invites.controller';
+import { InvitesService } from './invites/invites.service';
 
 @Module({
   imports: [
     LoginModule,
     MailerModule.forRoot({
-      transport: 'smtps://shop4community@gmail.com:pnina&hm@smtp.gmail.com',
+      transport: 'smtps://p0583202191@gmail.com:ghpjvsxlpffcbaar@smtp.gmail.com',
       defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
+        from: '"shop4you" <p0583202191@gmail.com>',
       },
+      preview: true,
     }),],
-  controllers: [AppController, LoginController, OrdersController, ShopperController, AdminController, GroupsController],
-  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService, AdminAuthorizationService, AdminService, GroupsService, EmailService],
+  controllers: [AppController, LoginController, OrdersController, ShopperController, AdminController, GroupsController, InvitesController],
+  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService, AdminAuthorizationService, AdminService, GroupsService, EmailService, InvitesService],
 })
 export class AppModule {}

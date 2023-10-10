@@ -27,7 +27,6 @@ export class ShopperService {
         return this.srv.getAllOrders(myGroups, prevTime).then(
             async(o) => {                
                 let orders: orderDTO[] = o['col']
-                console.log(orders,'orders');
                 
                 for (let i = 0; i < orders.length; i++) {
                     let order = orders[i]

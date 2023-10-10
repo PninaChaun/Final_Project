@@ -9,14 +9,16 @@ export class EmailService {
         this.mailerService
           .sendMail({
             to: to, // list of receivers
-            from: 'noreply@nestjs.com', // sender address
+            from: '"shop4you" <p0583202191@gmail.com>', // sender address
             subject: subject, // Subject line
-            text: text, // plaintext body
-            html: '<b>welcome</b>', // HTML body content
+            // text: text, // plaintext body
+            html: '<img className="logo" src="src/assets/img/logo.png" width="150px" />\
+            <b>'+text+'</b> \
+            <button>להצטרפות לקבוצה</botton>'
           })
           .then(() => {console.log('sent email');
           })
-          .catch(() => {console.log('did not send email');
+          .catch((e) => {console.log(e,'did not send email');
           });
       }
 }
