@@ -63,7 +63,6 @@ export class DataBaseConnectionService {
 
     getInvite = async (id: Number) => {
         let col = await db.collection('invites').findOne({ id: id })
-
         return col;
     }
 
@@ -312,15 +311,12 @@ export class DataBaseConnectionService {
         return newId;
     }
 
-    async addMember(group_id, user_id) {
-        // console.log(group_id, user_id,"group");
-        
-        let group = await this.getGroup(group_id)
+    async addMember(group_id, user_id) {        
+        let group:groupDTO = await this.getGroup(group_id)
         let user = await this.getUser(user_id)
         if (group && user) {
             await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'], group_id] } })
             await db.collection('groups').updateOne({ id: group_id }, { $set: { members: [...group['members'], user_id] } })
-
             return 200
         }
     }
@@ -329,9 +325,8 @@ export class DataBaseConnectionService {
     async DeleteMember(group_id, user_id) {
         let group = await this.getGroup(group_id)        
         let user = await this.getUser(user_id)
-        if(group&&user){
+        if(group && user){
         await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'].filter((g)=>g!=group_id)] } })
-
         await db.collection('groups').updateOne({ id: group_id }, { $set: { members: [...group['members'].filter((m)=>m!=user_id)] } })
 
         return 200
@@ -350,6 +345,13 @@ getMyInvites= async (userId)=> {
 getUserName = async (userId) =>{
     let user = await this.getUser(userId);
     return user.name
+}
+
+removeInvite = async (groupId, inviteId) =>{
+    let group:groupDTO =await this.getGroup(groupId)
+    await db.collection('groups').updateOne({id: groupId}, {$set:{invites:  [...group['invites'].filter((g)=>g!=inviteId)]}})
+    await db.collection('invites').deleteOne({id:inviteId})
+    return 201
 }
 
 }

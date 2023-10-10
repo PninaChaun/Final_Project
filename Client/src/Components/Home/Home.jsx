@@ -7,15 +7,13 @@ import { ServerGroups } from '../../api/serverInvites';
 
 export const Home = ({ group,  setGroup }) => {
 
-    const checkNewInvites =()=>{
+    useEffect(()=>{
         ServerGroups()
         .then(r => JSON.parse(r))
         .then((r)=>{
             setGroup([...group, ...r])
         })
-    }
-
-    checkNewInvites()
+    }, [])
 
     const token = Cookies.get('token')
     if (token == undefined) {

@@ -1,11 +1,21 @@
 import Popup from 'reactjs-popup';
+import { ServerJoinGroup, ServerLeaveInvite } from '../api/serverInvites';
 
 export const JoinGroup = ({ group, setGroup }) => {
 
-    const saveJoin = () => {
+    const removegroup = () => {
         const updatedGroup = [...group.slice(1)];
         setGroup(updatedGroup);
-        //TODO קריאת שרת לצרף את הבנאדם לקבוצה
+    }
+
+    const saveJoin = (inviteId) =>{
+        removegroup()
+        ServerJoinGroup(inviteId)
+    }
+
+    const leaveGroup =(inviteId)=>{
+        removegroup()
+        ServerLeaveInvite(inviteId)
     }
     //     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך 
   
@@ -17,12 +27,12 @@ export const JoinGroup = ({ group, setGroup }) => {
     
                 <img className="logo" src="src/assets/img/logo.png" width="100px" />
                     <p >היי : {currrent_group.name}  <br />
-                    <p>{group.length}</p>
                         קבוצה : {currrent_group.groupName}  <br />
                         המזמין: {currrent_group.inviterName}  <br />
                     </p>
-                    <button className="submitCustomer" type="submit" onClick={() => saveBuy(currrent_group['group'].groupId)}>אישור הצטרפות</button>
-                    <button type="submit" className="submitCustomer" onClick={() => removegroup()} >לא מאשר הצטרפות </button>
+                    <button className="submitCustomer" type="submit" onClick={() => saveJoin(currrent_group.id)}>אישור הצטרפות</button>
+                    <button className="submitCustomer" type="submit" onClick={() => removegroup()}>שאל אותי מאוחר יותר</button>
+                    <button type="submit" className="submitCustomer" onClick={() => leaveGroup(currrent_group.id)} >לא מאשר הצטרפות </button>
                      <br />     <br />   
                     
                 </div>
