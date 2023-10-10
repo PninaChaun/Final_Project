@@ -105,11 +105,20 @@ export class DataBaseConnectionService {
     }
 
     getAllOrders = async (user_groups: any, prevTime: Date) => {
-        //TODO קריטי- שליפה של ההזמנות - רק אם הקבוצות תואמות!   groups:user_groups[i]
         let orders = []
-        // for(let i =0; i < user_groups.length; i++){
         let allOrders = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray()
-        orders.push(...allOrders)
+        for(let i =0; i < allOrders.length; i++){
+            console.log(allOrders[i]);
+            console.log('groups-user',user_groups);
+            
+            for(let j = 0; j<user_groups.length; j++){
+                if (user_groups[j].id == allOrders[i].groups){
+                    orders.push(allOrders[i])
+                    break
+                }
+            }
+            
+        }
 
         return {
             col: orders, newPrevDate: new Date()

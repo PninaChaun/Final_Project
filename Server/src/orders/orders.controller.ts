@@ -33,13 +33,4 @@ export class OrdersController {
 
     }
 
-
-    
-    // @UseGuards(AutenticationService)
-    // @Put()
-    // async getUser(@Request() req,@Body() user: UserDTO, @Res() res:Response){
-    //     let id = req['user'].id
-    //         let status =await this.srv.getUserClient(user);
-    //         res.status(status).send();
-    //     }
     }
