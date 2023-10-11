@@ -50,7 +50,6 @@ export class GroupsController {
         if (!is_member) {
             let is_invite = await this.srv.isInvite(invite.groupId, invite.email)
             if (!is_invite) {
-                console.log('insert invite',invite );
                 
                 let response = await this.srv.insertinvite(invite)
                 ///email

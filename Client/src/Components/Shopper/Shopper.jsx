@@ -10,26 +10,6 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
 
   // const [shopId, setshopId] = useState(null)
 
-
-  
-useEffect(() => {
-  const interval = setInterval(() => {
-    if (shopId != null) {
-      // console.log(order.length);
-      if (order.length == 0) {
-        FindCustomer()
-          .then((r) => JSON.parse(r))
-          .then((r) => {
-            console.log(r, "r");
-            let col = r["col"];
-            setOrder(col);
-          });
-      }
-    }
-  }, 5000); // fetch updates every 5 seconds
-
-  return () => clearInterval(interval);
-}, [shopId, order]);
   const _navigate = useNavigate(Context);
 
   const saveShopper = ($event) => {
@@ -44,8 +24,7 @@ useEffect(() => {
       .then((result) => JSON.parse(result))
       .then((result) => {
         setshopId(result)
-      //  _navigate('/');
-        // Cookies.set('shopId', result)
+       _navigate('/');
       })
       .catch((error) => {
         console.log(error);

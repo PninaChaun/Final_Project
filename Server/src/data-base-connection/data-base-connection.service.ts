@@ -67,7 +67,7 @@ export class DataBaseConnectionService {
     }
 
     getShop = (id: Number) => {
-        let col = db.collection('shoppers').find({ shopId: id }).toArray();
+        let col = db.collection('shoppers').findOne({ shopId: id });
         return col;
     }
 
@@ -90,7 +90,7 @@ export class DataBaseConnectionService {
 
         user.saveOrder = user.saveOrder
 
-        db.collection('users').insertMany([{ ...user, id: newId, groups: [] }])
+        db.collection('users').insertMany([{ ...user, id: newId, groups: [] , chat: []}])
         return newId
     }
 
@@ -100,24 +100,22 @@ export class DataBaseConnectionService {
     }
 
     getOrder = (orderId) => {
-        let col = db.collection('orders').find({ orderId: orderId }).toArray();
+        let col = db.collection('orders').findOne({ orderId: orderId });
         return col;
     }
 
     getAllOrders = async (user_groups: any, prevTime: Date) => {
         let orders = []
         let allOrders = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray()
-        for(let i =0; i < allOrders.length; i++){
-            console.log(allOrders[i]);
-            console.log('groups-user',user_groups);
-            
-            for(let j = 0; j<user_groups.length; j++){
-                if (user_groups[j].id == allOrders[i].groups){
+        for (let i = 0; i < allOrders.length; i++) {
+
+            for (let j = 0; j < user_groups.length; j++) {
+                if (user_groups[j].id == allOrders[i].groups) {
                     orders.push(allOrders[i])
                     break
                 }
             }
-            
+
         }
 
         return {
@@ -183,13 +181,11 @@ export class DataBaseConnectionService {
 
         let o = await this.getOrder(orderId)
 
-        o = o[0]
-
         //TODO make sure this order is still available
         if (!o.active)
             return 404;
 
-        db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false, shopId: shopId } })
+        await db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false, shopId: shopId } })
 
         // db.collection('orders').deleteOne({ orderId: orderId }).then(
         //     db.collection('orders').insertOne({ ...o, active: false, shopId: shopId })
@@ -320,8 +316,8 @@ export class DataBaseConnectionService {
         return newId;
     }
 
-    async addMember(group_id, user_id) {        
-        let group:groupDTO = await this.getGroup(group_id)
+    async addMember(group_id, user_id) {
+        let group: groupDTO = await this.getGroup(group_id)
         let user = await this.getUser(user_id)
         if (group && user) {
             await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'], group_id] } })
@@ -330,39 +326,77 @@ export class DataBaseConnectionService {
         }
     }
 
-    
     async DeleteMember(group_id, user_id) {
-        let group = await this.getGroup(group_id)        
+        let group = await this.getGroup(group_id)
         let user = await this.getUser(user_id)
-        if(group && user){
-        await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'].filter((g)=>g!=group_id)] } })
-        await db.collection('groups').updateOne({ id: group_id }, { $set: { members: [...group['members'].filter((m)=>m!=user_id)] } })
+        if (group && user) {
+            await db.collection('users').updateOne({ id: user_id }, { $set: { groups: [...user['groups'].filter((g) => g != group_id)] } })
+            await db.collection('groups').updateOne({ id: group_id }, { $set: { members: [...group['members'].filter((m) => m != user_id)] } })
 
-        return 200
+            return 200
+        }
+        else {
+            return 400
+        }
     }
-    else{
-        return 400
+
+    getMyInvites = async (userId) => {
+        let user = await this.getUser(userId)
+        let invites = await db.collection('invites').find({ email: user.email }).toArray()
+        return invites
     }
-}
 
-getMyInvites= async (userId)=> {
-    let user = await this.getUser(userId)
-    let invites = await db.collection('invites').find({email:user.email}).toArray()
-    return invites
-}
+    getUserName = async (userId) => {
+        let user = await this.getUser(userId);
+        return user.name
+    }
 
-getUserName = async (userId) =>{
-    let user = await this.getUser(userId);
-    return user.name
-}
+    removeInvite = async (groupId, inviteId) => {
+        let group: groupDTO = await this.getGroup(groupId)
+        await db.collection('groups').updateOne({ id: groupId }, { $set: { invites: [...group['invites'].filter((g) => g != inviteId)] } })
+        await db.collection('invites').deleteOne({ id: inviteId })
+        return 201
+    }
 
-removeInvite = async (groupId, inviteId) =>{
-    let group:groupDTO =await this.getGroup(groupId)
-    await db.collection('groups').updateOne({id: groupId}, {$set:{invites:  [...group['invites'].filter((g)=>g!=inviteId)]}})
-    await db.collection('invites').deleteOne({id:inviteId})
-    return 201
-}
+    addChat = async (userId1, userId2) => {
+        let user1: UserDTO = await this.getUser(userId1)
+        let user2: UserDTO = await this.getUser(userId2)
+        if (user1 && user2) {
+            if(!user1.chat.includes(userId2))
+                await db.collection('users').updateOne({ id: userId1 }, { $set: { chat: [...user1.chat, userId2] } })
+            if(!user2.chat.includes(userId1))
+            await db.collection('users').updateOne({ id: userId2 }, { $set: { chat: [...user2.chat, userId1] } })
 
+        }
+
+    }
+
+    getMyChats = async (userId) => {
+        let user:UserDTO = await db.collection('users').findOne({ id: userId })
+
+        if (user) {
+            let chat_ids = user['chat']
+            console.log(chat_ids);
+            let chat = []
+            for (let i = 0; i < chat_ids.length; i++) {
+                let c_id = chat_ids[i]
+             
+                
+                let userName = await this.getUserName(c_id)
+                let chatIdName = { id: c_id, name: userName }
+
+                chat.push(chatIdName)
+
+            }
+            return chat
+        }
+    }
+
+    deleteChat =async (userId, otherId) => {
+        let user = await this.getUser(userId)
+        db.collection('users').updateOne({id:userId}, {$set:{chat: [...user.chat.filter(c=>c!=otherId)]}})
+        return 201
+    }
 }
 
 //TODO maybe save once user in group

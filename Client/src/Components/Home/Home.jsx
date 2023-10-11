@@ -5,7 +5,7 @@ import './Home.css'
 import { useEffect } from 'react';
 import { ServerGroups } from '../../api/serverInvites';
 
-export const Home = ({ group,  setGroup }) => {
+export const Home = ({ group,  setGroup}) => {
 
     useEffect(()=>{
         ServerGroups()
@@ -14,6 +14,7 @@ export const Home = ({ group,  setGroup }) => {
             setGroup([...group, ...r])
         })
     }, [])
+
 
     const token = Cookies.get('token')
     if (token == undefined) {

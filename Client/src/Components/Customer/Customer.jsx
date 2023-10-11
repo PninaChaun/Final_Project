@@ -1,4 +1,4 @@
-import { json, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { ServerOrder } from "../../api/serverOrder";
 import Context from "../../context/context";
 import { useEffect, useState } from "react";
@@ -8,15 +8,12 @@ import { ServerGetUser } from "../../api/serverSettings";
 import { ServerGroups } from "../../api/serverGroups";
 import Cookies from "js-cookie";
 
-export const Customer = ({ setShopper }) => {
-     const [found, setFound] = useState(false)
+export const Customer = ({ setOrderId }) => {
      const [user, setUser] = useState(null);
      const [groups, setGroups] = useState(null);
-     const [showGroups, setShowGroups] = useState(false);
+     const [showGroups, setShowGroups] = useState(true);
 
      const _navigate = useNavigate(Context);
-     // let orderId = null
-     const [orderId, setOrderId] = useState(null)
 
      useEffect(() => {
           async function fetchData() {
@@ -36,27 +33,6 @@ export const Customer = ({ setShopper }) => {
           fetchData();
      }, []);
 
-
-     useEffect(() => {
-          console.log('useeffect', orderId);
-          let intervalId = setInterval(() => {
-               // let orderId = Cookies.get('orderId')
-               console.log(orderId,'orderId');
-               if (orderId != null) {
-                    console.log(orderId,'if');
-
-                    FindShopper(orderId)
-                         .then(r => JSON.parse(r))
-                         .then(r => {
-                              if (Object.keys(r).length > 0) {
-                                   setShopper(r);
-                                   clearInterval(intervalId);
-                              }
-                         });
-               }
-          }, 5000);
-     }, [orderId]);
-
      const saveOrder = ($event) => {
           event.preventDefault()
           let productName = event.target['productName'].value;
@@ -75,14 +51,12 @@ export const Customer = ({ setShopper }) => {
                .then((result) => JSON.parse(result))
                .then((result) => {
                     setOrderId(result.orderId)
-                    // _navigate('/');
-                    // Cookies.set('orderId', result.orderId)
-
+                    _navigate('/');
                })
                .catch((error) => {
                     console.log(error);
                })
-         
+
      }
 
 
@@ -105,7 +79,7 @@ export const Customer = ({ setShopper }) => {
                          <>
                               {groups.map((g) => (
                                    <div key={g.id}>
-                                        <input type="checkbox" id={g.id} name={'group' + g.id} />
+                                        <input type="checkbox" checked="true" id={g.id} name={'group' + g.id} />
                                         <label htmlFor={g.id}>{g.name} </label>
                                         <br />
                                    </div>
@@ -130,10 +104,3 @@ export const Customer = ({ setShopper }) => {
      </>
 
 }
-
-
-//TODO NOW
-// 1 סנכרון shopper - customer - potential - popup
-// 2 שליפה לפי קבוצות
-// 3 מייל
-//4 צאט

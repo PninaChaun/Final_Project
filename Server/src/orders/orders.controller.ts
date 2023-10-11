@@ -32,5 +32,17 @@ export class OrdersController {
         res.status(response.stat).send(response.shopper)
 
     }
+    
+    @UseGuards(AutenticationService)
+    @Post(':otherId')
+    async getOrderDetails(@Request() req,@Param('otherId') order_Id : string, @Res() res:Response)
+    {
+        let userId = req['user'].id;
+        let otherId = Number.parseInt(order_Id)
+        
+        let response =await this.srv.getOrderDetails(otherId, userId)
+        
+        res.status(response.status).send({current: response.current, other: response.other})
+    }
 
     }

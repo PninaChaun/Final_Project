@@ -7,4 +7,5 @@ export class UserDTO{
     saveOrder:Number;
     saveStore:Number;
     groups:Array<Number>;
+    chat:Array<Number>;
 }

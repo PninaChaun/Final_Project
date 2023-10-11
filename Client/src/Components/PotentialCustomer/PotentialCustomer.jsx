@@ -4,8 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import { serverSaveBuy } from "../../api/serverSaveBuy";
 import Context from "../../context/context";
 import '../PotentialCustomer/PotentialCustomer.css'
+import { serverAddChat } from "../../api/serverChat";
 
-export const PotentialCustomer = ({ order, setOrder, shopId }) => {
+export const PotentialCustomer = ({ order, setOrder, shopId, setChatId, setShowChat}) => {
     const _navigate = useNavigate(Context);
 
     const removeOrder = () => {
@@ -14,8 +15,22 @@ export const PotentialCustomer = ({ order, setOrder, shopId }) => {
     }
 
     const saveBuy = (orderId) => {
+        console.log(orderId,'orderid');
+        
         serverSaveBuy(orderId, shopId)
-        removeOrder()
+        .then(()=>{
+            setChatId(orderId)
+            console.log(order[0]['user'].id,'order.userId');
+            serverAddChat(order[0]['user'].id)
+            setShowChat(order[0]['user'].id)
+        }
+        ).then(
+            ()=>{
+            removeOrder()
+            }
+        )
+        
+        _navigate('/chat')
 
         //TODO open chat 
     }

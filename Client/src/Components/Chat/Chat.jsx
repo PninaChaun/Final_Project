@@ -1,8 +1,10 @@
 import Talk from 'talkjs';
 import { useEffect, useState, useRef } from 'react';
 import './chat.css'
+import Cookies from 'js-cookie';
+import { ServerOrderDetails } from '../../api/serverOrder';
 
-export  function Chat() {
+export  function Chat({ userId }) {
   const chatboxEl = useRef();
 
   // wait for TalkJS to load
@@ -11,42 +13,53 @@ export  function Chat() {
   useEffect(() => {
     Talk.ready.then(() => markTalkLoaded(true));
 
-    if (talkLoaded) {
-      const currentUser = new Talk.User({
-        id: '1',
-        name: 'Henry Mill',
-        email: 'henrymill@example.com',
-        photoUrl: 'henry.jpeg',
-        welcomeMessage: 'Hello!',
-        role: 'default',
-      });
+    if (talkLoaded && userId!=-1) { 
 
-      const otherUser = new Talk.User({
-        id: '2',
-        name: 'Jessica Wells',
-        email: 'jessicawells@example.com',
-        photoUrl: 'jessica.jpeg',
-        welcomeMessage: 'Hello!',
-        role: 'default',
-      });
+      ServerOrderDetails(userId)
+      .then(r => JSON.parse(r))
+      .then(r=>{
+        let current = r.current
+        const currentUser = new Talk.User({
+          id: current.id,
+          name: current.name,
+          // email: current.email,
+          photoUrl: 'src/assets/img/logo.png',
+          welcomeMessage: 'Hello!',
+          role: 'default',
+        });
 
-      const session = new Talk.Session({
-        appId: 'tFyIJvSX',
-        me: currentUser,
-      });
+        let other =r.other
+        const otherUser = new Talk.User({
+          id: other.id,
+          name: other.name,
+          // email: other.email,
+          photoUrl: 'src/assets/img/logo.png',
+          welcomeMessage: 'Hello!',
+          role: 'default',
+        });
 
-      const conversationId = Talk.oneOnOneId(currentUser, otherUser);
-      const conversation = session.getOrCreateConversation(conversationId);
-      conversation.setParticipant(currentUser);
-      conversation.setParticipant(otherUser);
+        console.log(other,current);
 
-      const chatbox = session.createChatbox();
-      chatbox.select(conversation);
-      chatbox.mount(chatboxEl.current);
-
-      return () => session.destroy();
+        const session = new Talk.Session({
+          appId: 'tFyIJvSX',
+          me: currentUser,
+        });
+  
+        const conversationId = Talk.oneOnOneId(currentUser, otherUser);
+        const conversation = session.getOrCreateConversation(conversationId);
+        conversation.setParticipant(currentUser);
+        conversation.setParticipant(otherUser);
+  
+        const chatbox = session.createChatbox();
+        chatbox.select(conversation);
+        chatbox.mount(chatboxEl.current);
+  
+        
+        return () => session.destroy();
+      })
+    
     }
-  }, [talkLoaded]);
+  }, [talkLoaded , userId]);
 
   return <div  ref={chatboxEl} id="talkjs-container" >
   <i>Loading chat... have patience</i>

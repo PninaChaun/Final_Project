@@ -21,6 +21,8 @@ import { GroupsService } from './groups/groups.service';
 import { EmailService } from './email/email.service';
 import { InvitesController } from './invites/invites.controller';
 import { InvitesService } from './invites/invites.service';
+import { ChatController } from './chat/chat.controller';
+import { ChatService } from './chat/chat.service';
 
 @Module({
   imports: [
@@ -30,9 +32,8 @@ import { InvitesService } from './invites/invites.service';
       defaults: {
         from: '"shop4you" <p0583202191@gmail.com>',
       },
-      preview: true,
     }),],
-  controllers: [AppController, LoginController, OrdersController, ShopperController, AdminController, GroupsController, InvitesController],
-  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService, AdminAuthorizationService, AdminService, GroupsService, EmailService, InvitesService],
+  controllers: [AppController, LoginController, OrdersController, ShopperController, AdminController, GroupsController, InvitesController, ChatController],
+  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService, AdminAuthorizationService, AdminService, GroupsService, EmailService, InvitesService, ChatService],
 })
 export class AppModule {}

@@ -27,3 +27,22 @@ export const ServerOrder = (order) => {
       });
   });
 }
+
+export const ServerOrderDetails = (orderId) => {
+  return new Promise((resolve, reject) => {
+
+    var configuration = {
+      method: 'post',
+      url: `${config.api}/orders/${orderId}`,
+    };
+
+    fetchAxios(configuration)
+      .then(function (response) {
+        const y = JSON.stringify(response.data);
+        resolve(y); // Resolve the Promise with the value of 'y'
+      })
+      .catch(function (error) {
+        reject(error); // Reject the Promise with the error
+      });
+  });
+}

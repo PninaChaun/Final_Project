@@ -40,9 +40,9 @@ export class ShopperService {
             })
     }
 
-    saveBuy(shopId:number, orderId:number){
+    async saveBuy(shopId:number, orderId:number){
         
-        const status =  this.srv.updateOrder_addShopperId(shopId, orderId)
+        const status = await this.srv.updateOrder_addShopperId(shopId, orderId)
         return status
     }
 }

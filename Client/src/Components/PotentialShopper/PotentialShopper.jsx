@@ -4,14 +4,17 @@ import { useContext, useState } from "react";
 import { serverSaveBuy } from "../../api/serverSaveBuy";
 import Context from "../../context/context";
 import '../PotentialShopper/PotentialShopper.css'
+import { serverAddChat } from "../../api/serverChat";
 
-export const PotentialShopper = ({ shopper, setShopper }) => {
+export const PotentialShopper = ({ shopper, setShopper,setChatId, orderId, setShowChat }) => {
     const _navigate = useNavigate(Context);
 
     const openChat = () => {
+        setChatId(orderId)
+        serverAddChat(shopper['user'].id)
+        setShowChat(shopper['user'].id)
         setShopper(null)
-        //TODO open chat shopper.chatId
-        // Chat(chatId)
+        _navigate('/chat')
 
     }
     //     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך 
@@ -20,7 +23,6 @@ export const PotentialShopper = ({ shopper, setShopper }) => {
 
             <img className="logo" src="src/assets/img/logo.png" width="100px" />
             <div className="UserShopper">
-                {/* <h1>{shopper['user'].email}</h1> */}
                 { console.log(shopper) }
                 <p className="shopperUser">שם: {shopper['user'].name}  <br />
                     חנות: {shopper['shopper'].store}

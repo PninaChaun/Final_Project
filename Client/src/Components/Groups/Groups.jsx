@@ -64,7 +64,7 @@ export const Groups = () => {
   if (groups == null) {
     return <p>loading...</p>
   }
-  //TODO now אופציה לצאת מקבוצה
+
   return <>
     <label >הקבוצות להם אתה שייך:</label>
     <ul>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Customer } from "./Customer/Customer";
 import { Shopper } from './Shopper/Shopper'
@@ -15,6 +15,9 @@ import { Admin } from "./Admin/Admin";
 import { Groups } from "./Groups/Groups";
 import { Home } from "./Home/Home";
 import { JoinGroup } from "../JoinGroup/JoinGroup";
+import { FindCustomer } from "../api/serverFindCustomer";
+import { FindShopper } from "../api/serverFindShopper";
+import { Chats } from "./Chats/Chats";
 
 const ProtectedRoute = ({ children }) => {
     const token = Cookies.get('token')
@@ -32,8 +35,47 @@ export default function MyRouter() {
     const [shopper, setShopper] = useState(null);
     const [shopId, setshopId] = useState(null);
     const [group, setGroup] = useState([]);
+    const [orderId, setOrderId] = useState(null)
+    const [showChat, setShowChat] = useState(-1)
+    const [chatId, setChatId] = useState(null)
 
 
+    //shopper looking for orders
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (shopId != null) {
+                if (order.length == 0) {
+                    FindCustomer()
+                        .then((r) => JSON.parse(r))
+                        .then((r) => {
+                            console.log(r, "r");
+                            let col = r["col"];
+                            setOrder(col);
+                        });
+                }
+            }
+        }, 5000); 
+
+        return () => clearInterval(interval);
+    }, [shopId, order]);
+
+    //customer looking for shopper
+    useEffect(() => {
+        let intervalId = setInterval(() => {
+             if (orderId != null) {
+                  console.log(orderId,'if');
+
+                  FindShopper(orderId)
+                       .then(r => JSON.parse(r))
+                       .then(r => {
+                            if (Object.keys(r).length > 0) {
+                                 setShopper(r);
+                                 clearInterval(intervalId);
+                            }
+                       });
+             }
+        }, 5000);
+   }, [orderId]);
 
     return (
         <div>
@@ -45,17 +87,17 @@ export default function MyRouter() {
                         element={
                             <ProtectedRoute>
                                 <Routes>
-                                    <Route path="/" element={<Home  group={group} setGroup={setGroup} />} />
+                                    <Route path="/" element={<Home group={group} setGroup={setGroup} />} />
                                     <Route path="/shopper" element={<Shopper order={order} setOrder={setOrder} shopId={shopId} setshopId={setshopId} />} />
-                                    <Route path="/customer" element={<Customer setShopper={setShopper} />} />
-                                    {/* <Route path="/chat" element={<Chat />} /> */}
+                                    <Route path="/customer" element={<Customer setOrderId={setOrderId} />} />
+                                    <Route path="/chat" element={<Chats showChat={showChat} setShowChat={setShowChat} />} />
                                     <Route path="/settings" element={<Settings />} />
-                                    <Route path="/popup" element={<PotentialCustomer />} />
+                                    {/* <Route path="/popup" element={<PotentialCustomer />} /> */}
                                     <Route path="/admin" element={<Admin />} />
                                     {/* <Route path="/PotentialShopper" element={<PotentialShopper />} />
                                     <Route path="/PotentialShopper" element={<PotentialShopper />} /> */}
                                     <Route path="/groups" element={<Groups />} />
-        
+
                                 </Routes>
                             </ProtectedRoute>
                         }
@@ -64,8 +106,8 @@ export default function MyRouter() {
                 </Routes>
             </Context.Provider>
 
-            <PotentialCustomer order={order} setOrder={setOrder} shopId={shopId} />
-            <PotentialShopper shopper={shopper} setShopper={setShopper} />
+            <PotentialCustomer order={order} setOrder={setOrder} shopId={shopId} setChatId={setChatId}  setShowChat={setShowChat}  />
+            <PotentialShopper shopper={shopper} setShopper={setShopper} setChatId={setChatId} orderId={orderId} setShowChat={setShowChat} />
             <JoinGroup group={group} setGroup={setGroup} />
         </div>
     );
