@@ -18,6 +18,7 @@ import { JoinGroup } from "../JoinGroup/JoinGroup";
 import { FindCustomer } from "../api/serverFindCustomer";
 import { FindShopper } from "../api/serverFindShopper";
 import { Chats } from "./Chats/Chats";
+import { MyOrders } from "./MyOrders/MyOrders";
 
 const ProtectedRoute = ({ children }) => {
     const token = Cookies.get('token')
@@ -93,10 +94,8 @@ export default function MyRouter() {
                                     <Route path="/customer" element={<Customer setOrderId={setOrderId} />} />
                                     <Route path="/chat" element={<Chats showChat={showChat} setShowChat={setShowChat} />} />
                                     <Route path="/settings" element={<Settings />} />
-                                    {/* <Route path="/popup" element={<PotentialCustomer />} /> */}
+                                    <Route path="/orders" element={<MyOrders />} />
                                     <Route path="/admin" element={<Admin />} />
-                                    {/* <Route path="/PotentialShopper" element={<PotentialShopper />} />
-                                    <Route path="/PotentialShopper" element={<PotentialShopper />} /> */}
                                     <Route path="/groups" element={<Groups />} />
 
                                 </Routes>

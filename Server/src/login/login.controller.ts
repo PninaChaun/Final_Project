@@ -1,12 +1,13 @@
-import { Body, Controller, Post, Get, Res, Param, UseGuards, Request, Put } from '@nestjs/common';
+import { Body, Controller, Post, Delete, Get, Res, Param, UseGuards, Request, Put } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { Response } from 'express';
 import { UserDTO } from 'src/DTO/user.dto';
 import { AutenticationService } from 'src/autentication/autentication.service';
+import { DataBaseConnectionService } from 'src/data-base-connection/data-base-connection.service';
 
 @Controller('login')
 export class LoginController {
-    constructor(private srv: LoginService) { }
+    constructor(private srv: LoginService, private db:DataBaseConnectionService) { }
     // @Get()
     // getAll() {
     //     return this.srv.getAll();
@@ -42,5 +43,11 @@ export class LoginController {
             let status =await this.srv.updateUser(user);
             res.status(status).send();
         }
+    }
+
+    @Delete()
+    async dropAllCollections(@Request() req, @Res() res:Response){
+        //TODO AFTER delete this function and the database sevice constructor
+        this.db.dropCollections()
     }
 }

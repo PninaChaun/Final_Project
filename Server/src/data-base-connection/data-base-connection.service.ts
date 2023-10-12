@@ -22,28 +22,6 @@ const db = client.db('project');
 
 @Injectable()
 export class DataBaseConnectionService {
-    // constructor(){
-    //     db.createView( "sales", "orders", [
-    //         {
-    //            $lookup:
-    //               {
-    //                  from: "users",
-    //                  localField: "userId",
-    //                  foreignField: "userId",
-    //                  as: "inventoryDocs"
-    //               }
-    //         },
-    //         {
-    //            $project:
-    //               {
-    //                 userId: 1,
-    //                 orderId: 1,
-    //                 saveOrder:"$inventoryDocs.saveOrder"
-    //               }
-    //         },
-    //         //    { $unwind: "$price" }
-    //      ] )
-    // }
 
     getUsers = () => {
         let col = db.collection('users').find({}).toArray();
@@ -90,7 +68,7 @@ export class DataBaseConnectionService {
 
         user.saveOrder = user.saveOrder
 
-        db.collection('users').insertMany([{ ...user, id: newId, groups: [] , chat: []}])
+        db.collection('users').insertMany([{ ...user, id: newId, groups: [], chat: [], orders: [] }])
         return newId
     }
 
@@ -109,9 +87,9 @@ export class DataBaseConnectionService {
         let allOrders = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray()
         for (let i = 0; i < allOrders.length; i++) {
             for (let j = 0; j < user_groups.length; j++) {
-                console.log(allOrders[i].groups,'allOrders[i].groups');
+                console.log(allOrders[i].groups, 'allOrders[i].groups');
                 console.log(user_groups, 'user_groups');
-                
+
                 if (user_groups[j] == allOrders[i].groups) {
                     orders.push(allOrders[i])
                     break
@@ -129,7 +107,7 @@ export class DataBaseConnectionService {
 
     }
 
-    insertOrder = async (order: orderDTO) => {
+    insertOrder = async (order: orderDTO, userId) => {
         try {
             let newId = await this.getNextSequenceValue('orders')
 
@@ -139,9 +117,10 @@ export class DataBaseConnectionService {
             let ms = u.saveOrder * 60 * 1000 * 60//TODO AFTER add* 60 to get hours 
 
             db.collection('orders').insertMany([{ ...order }])
+            db.collection('users').updateOne({ id: u.id }, { $set: { orders: [...u.orders, order.orderId] } })
 
             setTimeout(() => {
-                this.deactivateOrder(order.orderId)
+                this.deactivateOrder(order.orderId, userId)
             }, ms);
 
             return { stat: 201, orderId: newId };
@@ -152,15 +131,10 @@ export class DataBaseConnectionService {
         }
     }
     //TODO לשמור את השעה של saveOrder saveStore int not string
-    deactivateOrder = async (orderId: Number) => {
-        // let o = await this.getOrder(orderId)
-
-        // o = o[0]
-        // db.collection('orders').deleteOne({ orderId: orderId }).then(
-        //     db.collection('orders').insertOne({ ...o, active: false })
-        // )
-
+    deactivateOrder = async (orderId: Number, userId) => {
         db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false } })
+        let user = await this.getUser(userId)
+        db.collection('users').updateOne({id:userId},{$set:{orders: [...user.orders.filter(o=>o!=orderId)]}})
 
         return 200;
     }
@@ -364,25 +338,25 @@ export class DataBaseConnectionService {
         let user1: UserDTO = await this.getUser(userId1)
         let user2: UserDTO = await this.getUser(userId2)
         if (user1 && user2) {
-            if(!user1.chat.includes(userId2))
+            if (!user1.chat.includes(userId2))
                 await db.collection('users').updateOne({ id: userId1 }, { $set: { chat: [...user1.chat, userId2] } })
-            if(!user2.chat.includes(userId1))
-            await db.collection('users').updateOne({ id: userId2 }, { $set: { chat: [...user2.chat, userId1] } })
+            if (!user2.chat.includes(userId1))
+                await db.collection('users').updateOne({ id: userId2 }, { $set: { chat: [...user2.chat, userId1] } })
 
         }
 
     }
 
     getMyChats = async (userId) => {
-        let user:UserDTO = await db.collection('users').findOne({ id: userId })
+        let user: UserDTO = await db.collection('users').findOne({ id: userId })
 
         if (user) {
             let chat_ids = user['chat']
             let chat = []
             for (let i = 0; i < chat_ids.length; i++) {
                 let c_id = chat_ids[i]
-             
-                
+
+
                 let userName = await this.getUserName(c_id)
                 let chatIdName = { id: c_id, name: userName }
 
@@ -393,10 +367,37 @@ export class DataBaseConnectionService {
         }
     }
 
-    deleteChat =async (userId, otherId) => {
+    deleteChat = async (userId, otherId) => {
         let user = await this.getUser(userId)
-        db.collection('users').updateOne({id:userId}, {$set:{chat: [...user.chat.filter(c=>c!=otherId)]}})
+        db.collection('users').updateOne({ id: userId }, { $set: { chat: [...user.chat.filter(c => c != otherId)] } })
         return 201
+    }
+
+    getMyOrders = async (userId) => {
+        let user = await db.collection('users').findOne({ id: userId })
+
+        if (user) {
+            let orderIds = user['orders']
+
+            let orders = []
+            for (let i = 0; i < orderIds.length; i++) {
+                let orderId = parseInt(orderIds[i])
+                let order: orderDTO = await this.getOrder(orderId)
+                if (order.active) {
+                    orders.push(order)
+                }
+            }
+            return orders
+        }
+    }
+
+    dropCollections=async ()=>{
+        db.collection('users').drop()
+        db.collection('orders').drop()
+        db.collection('invites').drop()
+        db.collection('groups').drop()
+        db.collection('shoppers').drop()
+
     }
 }
 

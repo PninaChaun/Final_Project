@@ -85,7 +85,7 @@ else{
                          <>
                               {groups.map((g) => (
                                    <div key={g.id}>
-                                        <input type="checkbox" checked="true" id={g.id} name={'group' + g.id} />
+                                        <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
                                         <label htmlFor={g.id}>{g.name} </label>
                                         <br />
                                    </div>

@@ -10,11 +10,11 @@ export class OrdersService {
     constructor(private srv:DataBaseConnectionService){}
 
     
-    insertOrder(order:orderDTO){
+    insertOrder(order:orderDTO, userId:Number){
         order.shopId=null;
         order.active=true;
         order.beginDate = new Date()
-        let response = this.srv.insertOrder(order);
+        let response = this.srv.insertOrder(order,userId);
         return response;
     }
 
@@ -48,5 +48,14 @@ export class OrdersService {
         return {current: null, other:null, status:400}
 
     }
+    }
+
+    async getMyOrders(userId){
+        return await this.srv.getMyOrders(userId)
+    }
+
+    async deleteOrder(orderId, userId){
+        await this.srv.deactivateOrder(orderId, userId)
+
     }
 }

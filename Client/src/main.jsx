@@ -17,6 +17,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Link to='groups' className='menu-link'> קבוצות</Link>
         <Link to='settings' className='menu-link'> הגדרות</Link>
         <Link to='chat' className='menu-link'> chat</Link>
+        <Link to='orders' className='menu-link'> הזמנות </Link>
+
 
       
 

@@ -1,11 +1,10 @@
-import { Body, Controller, Post, Request, Res, Param, Get,UseGuards, Put } from '@nestjs/common';
+import { Body, Controller, Post,Delete, Request, Res, Param, Get,UseGuards, Put } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { orderDTO } from 'src/DTO/order.dto';
 import { Response } from 'express';
 import { AutenticationService } from 'src/autentication/autentication.service';
 import { get } from 'http';
 import { UserDTO } from 'src/DTO/user.dto';
-
 
 @Controller('orders')
 export class OrdersController {
@@ -16,7 +15,7 @@ export class OrdersController {
     @Post()
     async create_order(@Request() req,@Body() order: orderDTO, @Res() res: Response) {  
         order.userId = req['user'].id;
-        let response =await this.srv.insertOrder(order)
+        let response =await this.srv.insertOrder(order, order.userId)
         res.status(response.stat).send({orderId:response.orderId})
     }
 
@@ -43,6 +42,27 @@ export class OrdersController {
         let response =await this.srv.getOrderDetails(otherId, userId)
         
         res.status(response.status).send({current: response.current, other: response.other})
+    }
+
+    @UseGuards(AutenticationService)
+    @Get()
+    async getMyOrders(@Request() req, @Res() res:Response)
+    {
+        let userId = req['user'].id;        
+        let response =await this.srv.getMyOrders(userId)
+        
+        res.send(response)
+    }
+
+    @UseGuards(AutenticationService)
+    @Delete(':orderId')
+    async deleteOrder(@Request() req,@Param('orderId') orderId : string,  @Res() res:Response)
+    {
+        let userId = req['user'].id;
+
+        let response =await this.srv.deleteOrder(parseInt(orderId), userId)
+        
+        res.send(response)
     }
 
     }

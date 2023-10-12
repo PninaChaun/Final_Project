@@ -46,3 +46,41 @@ export const ServerOrderDetails = (orderId) => {
       });
   });
 }
+
+export const ServerMyOrders = () => {
+  return new Promise((resolve, reject) => {
+
+    var configuration = {
+      method: 'get',
+      url: `${config.api}/orders`,
+    };
+
+    fetchAxios(configuration)
+      .then(function (response) {
+        const y = JSON.stringify(response.data);
+        resolve(y); // Resolve the Promise with the value of 'y'
+      })
+      .catch(function (error) {
+        reject(error); // Reject the Promise with the error
+      });
+  });
+}
+
+export const ServerDeleteOrder = (orderId) => {
+  return new Promise((resolve, reject) => {
+
+    var configuration = {
+      method: 'delete',
+      url: `${config.api}/orders/${orderId}`,
+    };
+
+    fetchAxios(configuration)
+      .then(function (response) {
+        const y = JSON.stringify(response.data);
+        resolve(y); // Resolve the Promise with the value of 'y'
+      })
+      .catch(function (error) {
+        reject(error); // Reject the Promise with the error
+      });
+  });
+}
