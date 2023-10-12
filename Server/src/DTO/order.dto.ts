@@ -6,4 +6,5 @@ export class orderDTO{
     shopId:Number;
     beginDate:Date;
     active:boolean;
+    groups:Array<Number>;
 }

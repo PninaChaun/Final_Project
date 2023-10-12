@@ -4,4 +4,5 @@ export class ShopperDTO{
     store:string;
     active:boolean;
     shopId:number;
+    groups:Array<Number>;
 }

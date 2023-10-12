@@ -45,6 +45,9 @@ export const Groups = () => {
     let email = event.target.email.value
     let name = event.target.name.value
     let currentGroup = show
+    setaddMemberreload(!addMemberreload);
+
+
 
     ServerInvite(currentGroup, email, name)
       .then(() => {

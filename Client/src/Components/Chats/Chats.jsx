@@ -19,6 +19,7 @@ export function Chats({ showChat, setShowChat}) {
             .then(
                 r => {
                     setChats(r)
+                    // setChats(r.reverse()) // show current chat first
                 }
             )
     }, [reload])

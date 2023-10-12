@@ -39,13 +39,14 @@ export default function MyRouter() {
     const [showChat, setShowChat] = useState(-1)
     const [chatId, setChatId] = useState(null)
 
-
+//TODO now - send orderID to server so can select orders - groups relevant
     //shopper looking for orders
     useEffect(() => {
         const interval = setInterval(() => {
+            console.log(shopId, 'shopid');
             if (shopId != null) {
                 if (order.length == 0) {
-                    FindCustomer()
+                    FindCustomer(shopId)
                         .then((r) => JSON.parse(r))
                         .then((r) => {
                             console.log(r, "r");

@@ -8,12 +8,13 @@ export class ShopperService {
 
     constructor(private srv: DataBaseConnectionService) { }
 
-    insertShopper(shopper: ShopperDTO) {
+    async insertShopper(shopper: ShopperDTO) {
         shopper.active = true;
         shopper.datetime = new Date();
 
         // return new Promise((resolve,reject)=>{
-        const status = this.srv.insertShopper(shopper);
+            
+        const status =await this.srv.insertShopper(shopper);
         return status;
         // resolve(status);
         // })
@@ -21,20 +22,23 @@ export class ShopperService {
 
     }
 
-    async findPotentialCustomer(userId: Number, prevTime: Date) {
-        let myGroups = await this.srv.getMyGroups(userId)
+    async findPotentialCustomer(userId: Number, prevTime: Date, shopId:Number) {
+        // let myGroups = await this.srv.getMyGroups(userId)
+        let shop:ShopperDTO = await this.srv.getShop(shopId)
+        let myGroups = shop.groups
+        console.log(myGroups);
+        
+
         let ordersUsers = []
         return this.srv.getAllOrders(myGroups, prevTime).then(
             async(o) => {                
                 let orders: orderDTO[] = o['col']
-                
                 for (let i = 0; i < orders.length; i++) {
                     let order = orders[i]
                     let user = await this.srv.getUser(order.userId)
                     
                     ordersUsers.push({ order, user })
                 }
-
             }).then(r => {
                 return { col: ordersUsers, newPrevDate: new Date() }
             })

@@ -4,9 +4,7 @@ import fetchAxios from './interceptor.js'
 
 export const ServerShopper = async (shopper) => {
   return new Promise((resolve, reject) => {
-    var data = JSON.stringify({
-      "store": shopper.store
-    });
+    var data = JSON.stringify(shopper);
     
     var configuration = {
       method: 'post',

@@ -108,9 +108,11 @@ export class DataBaseConnectionService {
         let orders = []
         let allOrders = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray()
         for (let i = 0; i < allOrders.length; i++) {
-
             for (let j = 0; j < user_groups.length; j++) {
-                if (user_groups[j].id == allOrders[i].groups) {
+                console.log(allOrders[i].groups,'allOrders[i].groups');
+                console.log(user_groups, 'user_groups');
+                
+                if (user_groups[j] == allOrders[i].groups) {
                     orders.push(allOrders[i])
                     break
                 }
@@ -376,7 +378,6 @@ export class DataBaseConnectionService {
 
         if (user) {
             let chat_ids = user['chat']
-            console.log(chat_ids);
             let chat = []
             for (let i = 0; i < chat_ids.length; i++) {
                 let c_id = chat_ids[i]

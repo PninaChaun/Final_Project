@@ -20,12 +20,15 @@ export class ShopperController {
     }
 
     @UseGuards(AutenticationService)
-    @Get(':date')
-    async getShopper(@Request() req,@Param('date') dateTime : string,@Res() res:Response)
+    @Put(':date')
+    async getShopper(@Request() req,@Param('date') dateTime : string ,@Body()body:any,  @Res() res:Response)
     {
         let id = req['user'].id; 
+        
+        let shopId = parseInt(body.shopId)
+        
         let date = new Date(dateTime)
-        let response = await this.srv.findPotentialCustomer(id ,date);
+        let response = await this.srv.findPotentialCustomer(id ,date, shopId);
         res.send(response);
 
     }

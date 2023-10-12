@@ -14,25 +14,20 @@ export const PotentialCustomer = ({ order, setOrder, shopId, setChatId, setShowC
         setOrder(updatedOrders);
     }
 
-    const saveBuy = (orderId) => {
-        console.log(orderId,'orderid');
-        
+    const saveBuy = (orderId) => {        
         serverSaveBuy(orderId, shopId)
         .then(()=>{
             setChatId(orderId)
-            console.log(order[0]['user'].id,'order.userId');
             serverAddChat(order[0]['user'].id)
             setShowChat(order[0]['user'].id)
         }
         ).then(
             ()=>{
             removeOrder()
+            _navigate('/chat')
             }
         )
-        
-        _navigate('/chat')
 
-        //TODO open chat 
     }
 
     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך
