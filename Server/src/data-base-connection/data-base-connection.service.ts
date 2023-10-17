@@ -23,7 +23,7 @@ const db = client.db('project');
 
 @Injectable()
 export class DataBaseConnectionService {
-    constructor (){}
+    constructor() { }
 
     getUsers = () => {
         let col = db.collection('users').find({}).toArray();
@@ -36,8 +36,8 @@ export class DataBaseConnectionService {
         return col;
     }
 
-    getUserByEmail =async (email:string) => {
-        return await db.collection('users').findOne({email:email})
+    getUserByEmail = async (email: string) => {
+        return await db.collection('users').findOne({ email: email })
     }
 
     getGroup = async (id: Number) => {
@@ -120,7 +120,7 @@ export class DataBaseConnectionService {
             order.orderId = newId
 
             let u = await this.getUser(order.userId)
-            let ms = u.saveOrder * 60 * 1000 * 60 *60
+            let ms = u.saveOrder * 60 * 1000 * 60 * 60
 
             db.collection('orders').insertMany([{ ...order }])
             db.collection('users').updateOne({ id: u.id }, { $set: { orders: [...u.orders, order.orderId] } })
@@ -140,7 +140,7 @@ export class DataBaseConnectionService {
     deactivateOrder = async (orderId: Number, userId) => {
         db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false } })
         let user = await this.getUser(userId)
-        db.collection('users').updateOne({id:userId},{$set:{orders: [...user.orders.filter(o=>o!=orderId)]}})
+        db.collection('users').updateOne({ id: userId }, { $set: { orders: [...user.orders.filter(o => o != orderId)] } })
 
         return 200;
     }
@@ -181,7 +181,7 @@ export class DataBaseConnectionService {
             let newId = await this.getNextSequenceValue('shoppers')
             db.collection('shoppers').insertMany([{ ...shopper, shopId: newId }])
 
-            db.collection('users').updateOne({id:shopper.userId}, {$set:{shopId: newId}})
+            db.collection('users').updateOne({ id: shopper.userId }, { $set: { shopId: newId } })
 
             let u = await this.getUser(shopper.userId)
             let ms = u.saveStore * 60 * 1000 //TODO add* 60 to get hours 
@@ -399,7 +399,7 @@ export class DataBaseConnectionService {
         }
     }
 
-    dropCollections=async ()=>{
+    dropCollections = async () => {
         db.collection('users').drop()
         db.collection('orders').drop()
         db.collection('invites').drop()
@@ -408,21 +408,19 @@ export class DataBaseConnectionService {
 
     }
 
-    IfInShop= async (userId:Number) => {
+    IfInShop = async (userId: Number) => {
         let user = await this.getUser(userId)
-        
+
         let shop = await this.getShop(user.shopId)
-        
-        return shop ?? {active:false}
+
+        return shop ?? { active: false }
     }
 
-    changePassword = async (email, newPassword)=>{
-        console.log(email, newPassword);
-        
-        let user:UserDTO = await this.getUserByEmail(email)
-       await db.collection('users').updateOne({id:user.id }, {$set: {password: newPassword}})
+    changePassword = async (email, newPassword) => {
+        let user: UserDTO = await this.getUserByEmail(email)
+        await db.collection('users').updateOne({ id: user.id }, { $set: { password: newPassword } })
 
-        return {id: user.id, username: user.name}
+        return { id: user.id, username: user.name }
     }
 }
 

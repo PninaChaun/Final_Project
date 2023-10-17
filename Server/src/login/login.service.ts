@@ -93,13 +93,10 @@ export class LoginService {
     }
 
     async newPassword(email, newPassword){
-        console.log(email, newPassword);
         
         let payload = await this.ser.changePassword(email,await this.hashPassword(newPassword))
-        console.log(payload);
         
         let token = this.createToken(payload)
-        console.log(token);
         
         return token
     }

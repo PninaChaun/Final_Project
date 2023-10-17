@@ -43,17 +43,21 @@ export const Home = ({ group, setGroup }) => {
     return <>
         <li className='li'> <Link to='shopper' className='link'>אני יקנה </Link></li>
         <li className='li'>  <Link to='customer' className='link'>להוסיף קניה</Link></li>
-        {/* <p> HEllo {inShop.active} </p> */}
-        {console.log(inShop, 'Home')}
-        {console.log(inShop.active, 'active')}
 
-        <div className='toggle-wrapper'>
-            <div className='toggle.normal'>
-                <input type="checkbox" name="" id="" />
-            </div>
+<br />
+        <div class="checkbox-wrapper-34" >
+        <p >אני נמצא בחנות</p>
+            <input class='tgl tgl-ios' id='toggle-34' type='checkbox' name="inStore"  na checked={inShop.active} onChange={LeaveShop} />
+      <label class='tgl-btn' for='toggle-34'></label>
         </div>
-
-        <input type="checkbox" name="inStore" id="inStore" checked={inShop.active} onChange={LeaveShop} />
         <h4 className='labelhome'>נשמח לראותך שוב</h4>
+
+
+       
+
+
+
+
+
     </>
 }

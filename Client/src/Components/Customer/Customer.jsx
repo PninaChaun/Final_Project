@@ -73,7 +73,7 @@ export const Customer = ({ setOrderId }) => {
                <button onClick={() => {
                     event.preventDefault()
                     setShowGroups(!showGroups)
-               }}>^</button>
+               }}><img src="src/assets/img/down-arrow.png" height="10px"/></button>
                <div hidden={!showGroups}>
                     {groups ?
                          <>
