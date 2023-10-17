@@ -45,10 +45,10 @@ export const Home = ({ group, setGroup }) => {
         <li className='li'>  <Link to='customer' className='link'>להוסיף קניה</Link></li>
 
 <br />
-        <div class="checkbox-wrapper-34" >
+        <div className="checkbox-wrapper-34" >
         <p >אני נמצא בחנות</p>
-            <input class='tgl tgl-ios' id='toggle-34' type='checkbox' name="inStore"  na checked={inShop.active} onChange={LeaveShop} />
-      <label class='tgl-btn' for='toggle-34'></label>
+            <input className='tgl tgl-ios' id='toggle-34' type='checkbox' name="inStore" checked={inShop.active} onChange={LeaveShop} />
+      <label className='tgl-btn' htmlFor='toggle-34'></label>
         </div>
         <h4 className='labelhome'>נשמח לראותך שוב</h4>
 
