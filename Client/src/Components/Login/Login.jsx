@@ -1,6 +1,6 @@
 import { React, Component, useState } from "react";
 import Cookies from 'js-cookie';
-import { Serverlogin } from "../../api/serverLogin";
+import { ServerForgotPassword, ServerIfCodeTrue, ServerResetPassword, Serverlogin } from "../../api/serverLogin";
 import { useNavigate } from "react-router";
 import { Context } from "../../context/context";
 import Stack from '@mui/material/Stack';
@@ -10,9 +10,56 @@ import { Link } from 'react-router-dom'
 
 export const Login = () => {
     const [login, setLogin] = useState(true);
-
     const _navigate = useNavigate(Context);
-    const expireIn = 5 * 60 * 60 * 1000;
+    const expireIn = 5 * 60 * 60 * 1000; //5 hours
+    const [forgot, setForgot] = useState(false);
+    const [codes, setCodes] = useState('email');
+    const [email, setEmail] = useState('');
+
+
+    const forgotPassword = () => {
+        setForgot(!forgot)
+    }
+
+    const codeInEmail = ($event) => {
+        event.preventDefault()
+        setEmail(event.target.email.value)
+        setCodes('code')
+
+        ServerForgotPassword(event.target.email.value)
+
+    }
+    
+
+    const newPassword = ()=>{
+        event.preventDefault()
+        let pass = event.target.pass.value
+        ServerResetPassword(email, pass)
+        .then(r=>JSON.parse(r))
+        .then(r=>{
+            Cookies.set('token', r.access_token, { expires: new Date(new Date().getTime() + (expireIn)) })
+
+            _navigate('/');
+        })
+    }
+
+    const ifCodesTrue = () => {
+        event.preventDefault()
+        let code = event.target.code.value
+        ServerIfCodeTrue(email, code)
+            // .then(r => JSON.parse(r))
+            .then(r => {
+                if (r) {
+                    setCodes('password')
+                }
+                else {
+                    //TODO הודעת שגיאה
+                    console.log('wrong code');
+                }
+            })
+
+    }
+
     const submit = async ($event) => {
         event.preventDefault();
         let user = {};
@@ -44,7 +91,7 @@ export const Login = () => {
             let saveStore = event.target.saveStore.value;
 
             if (password != password2) {
-             alert("אימות סיסמא לא נכון")
+                alert("אימות סיסמא לא נכון")
                 event.target.spassword2.value = ""
             }
             console.log(email, password, password2, name)
@@ -80,8 +127,9 @@ export const Login = () => {
             }
             )
     }
+
     return <>
-                       
+
         <div className="login2">
             <img className="login" src="src/assets/img/login.gif" width="300px" /></div>
 
@@ -96,6 +144,7 @@ export const Login = () => {
                     <input className="inputLogin " type="email" name="lemail" placeholder="username@domain.com" />
                     <br />
                     <input className="inputLogin " type="password" name="lpassword" id="lpassword" placeholder="הכנס סיסמא" />
+
                 </>
                 :
                 <>
@@ -112,6 +161,49 @@ export const Login = () => {
             <br />
             <button className="submitLogin" type="submit">אישור</button>
         </form>
+
+        {login ?
+
+            <>
+                <h4 onClick={forgotPassword}>שכחתי ססימא</h4>
+
+                {forgot ?
+                    <>
+                        {codes == 'email' ?
+                            <form onSubmit={codeInEmail}>
+                                <label htmlFor="">הכנס מייל </label>
+                                <input className="inputLogin " type="email" name="email" placeholder="username@domain.com" /><br />
+                                <button >send code</button>
+                            </form>
+                            : 
+                            <>
+                            { codes == 'code' ?
+                                <form onSubmit={ifCodesTrue}>
+                                    <p>שלחנו למייל שלך קוד אימות  בן 6 ספרות נא הזן אותו </p>
+                                    <input type="text" className="inputLogin" name="code" id="code" defaultValue={''} />
+                                <button >verify code</button>
+                                </form>
+                                :
+                                <form onSubmit={newPassword}>
+                                   <p>בחר סיסמא חדשה: </p>
+                                    <input type="password" className="inputLogin" name="pass" id="pass" defaultValue={''} />
+                                    {/* //TODO אימות סיסמא */}
+                                <button >verify code</button>
+                                </form>
+                        }
+                        </>
+                          
+                        }
+                    </>
+                    :
+                    <></>
+                }
+            </>
+            :
+
+            <></>
+        }
+
 
     </>
 

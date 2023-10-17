@@ -42,4 +42,26 @@ export class ShopperController {
         let status =await this.srv.saveBuy(Number.parseInt(body.shopId), orderId)
         res.status(status).send()
     }
+
+    @UseGuards(AutenticationService)
+    @Get()
+    async IfInShop(@Request() req, @Res() res: Response) {
+        let userId = req['user'].id;
+
+        let shop = await this.srv.IfInShop(userId)
+        
+        
+        res.send(shop)
+    }
+
+    @UseGuards(AutenticationService)
+    @Put()
+    async leaveShop(@Request() req, @Res() res:Response)
+    {
+        let userId = req['user'].id; 
+        
+        let response = await this.srv.leaveShop(userId);
+        res.send(response);
+
+    }
 }

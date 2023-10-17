@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { group, log } from 'console';
 import { inviteDTO } from 'src/DTO/invite.dto';
 import { groupDTO } from 'src/DTO/group.dto';
+import { EmailService } from 'src/email/email.service';
 
 const client = new MongoClient('mongodb://127.0.0.1:27017');
 let userId = 1;
@@ -22,6 +23,7 @@ const db = client.db('project');
 
 @Injectable()
 export class DataBaseConnectionService {
+    constructor (){}
 
     getUsers = () => {
         let col = db.collection('users').find({}).toArray();
@@ -32,6 +34,10 @@ export class DataBaseConnectionService {
         let col = await db.collection('users').findOne({ id: id })
 
         return col;
+    }
+
+    getUserByEmail =async (email:string) => {
+        return await db.collection('users').findOne({email:email})
     }
 
     getGroup = async (id: Number) => {
@@ -68,7 +74,7 @@ export class DataBaseConnectionService {
 
         user.saveOrder = user.saveOrder
 
-        db.collection('users').insertMany([{ ...user, id: newId, groups: [], chat: [], orders: [] }])
+        db.collection('users').insertMany([{ ...user, id: newId, groups: [], chat: [], orders: [], shopId: -1 }])
         return newId
     }
 
@@ -114,7 +120,7 @@ export class DataBaseConnectionService {
             order.orderId = newId
 
             let u = await this.getUser(order.userId)
-            let ms = u.saveOrder * 60 * 1000 * 60//TODO AFTER add* 60 to get hours 
+            let ms = u.saveOrder * 60 * 1000 * 60 *60
 
             db.collection('orders').insertMany([{ ...order }])
             db.collection('users').updateOne({ id: u.id }, { $set: { orders: [...u.orders, order.orderId] } })
@@ -174,6 +180,8 @@ export class DataBaseConnectionService {
         try {
             let newId = await this.getNextSequenceValue('shoppers')
             db.collection('shoppers').insertMany([{ ...shopper, shopId: newId }])
+
+            db.collection('users').updateOne({id:shopper.userId}, {$set:{shopId: newId}})
 
             let u = await this.getUser(shopper.userId)
             let ms = u.saveStore * 60 * 1000 //TODO add* 60 to get hours 
@@ -398,6 +406,23 @@ export class DataBaseConnectionService {
         db.collection('groups').drop()
         db.collection('shoppers').drop()
 
+    }
+
+    IfInShop= async (userId:Number) => {
+        let user = await this.getUser(userId)
+        
+        let shop = await this.getShop(user.shopId)
+        
+        return shop ?? {active:false}
+    }
+
+    changePassword = async (email, newPassword)=>{
+        console.log(email, newPassword);
+        
+        let user:UserDTO = await this.getUserByEmail(email)
+       await db.collection('users').updateOne({id:user.id }, {$set: {password: newPassword}})
+
+        return {id: user.id, username: user.name}
     }
 }
 

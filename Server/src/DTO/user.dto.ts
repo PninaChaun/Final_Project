@@ -9,4 +9,5 @@ export class UserDTO{
     groups:Array<Number>;
     chat:Array<Number>;
     orders:Array<Number>;
+    shopId:Number;
 }

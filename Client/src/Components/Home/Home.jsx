@@ -1,11 +1,16 @@
 import Cookies from 'js-cookie'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button';
 import './Home.css'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ServerGroups } from '../../api/serverInvites';
+import { serverInShop, serverLeaveShop } from '../../api/serverShopper';
+import Context from '../../context/context';
 
 export const Home = ({ group, setGroup }) => {
+    const _navigate = useNavigate(Context);
+
+    const [inShop, setInShop] = useState({ active: false })
 
     useEffect(() => {
         ServerGroups()
@@ -13,17 +18,20 @@ export const Home = ({ group, setGroup }) => {
             .then((r) => {
                 setGroup([...group, ...r])
             })
+
+        serverInShop()
+            .then(r => JSON.parse(r))
+            .then((r) => setInShop(r))
     }, [])
 
-    // const toggleButton = document.getElementById("toggle-button");
+    const LeaveShop = () => {
+        if (inShop.active) {
+            serverLeaveShop()
+            setInShop({ active: false })
+        }
 
-    // toggleButton.addEventListener("click", function () {
-    //     toggleButton.classList.toggle("on"); toggleButton.classList.toggle("off");
-
-    //     if (toggleButton.classList.contains("on")) { toggleButton.textContent = "דלוק"; } else { toggleButton.textContent = "כיבוי"; }
-    // });
-    const changeStore = () => {
-
+        else
+            _navigate('/shopper')
     }
 
 
@@ -35,12 +43,17 @@ export const Home = ({ group, setGroup }) => {
     return <>
         <li className='li'> <Link to='shopper' className='link'>אני יקנה </Link></li>
         <li className='li'>  <Link to='customer' className='link'>להוסיף קניה</Link></li>
-        {/* <li><input type="checkbox" name="1" id="" onClickCapture={changeStore} /> אני בחנות</li> */}
-        <div class=".mt-android">
-            <input id="1" type="checkbox" />
-            <label for="1"></label>
+        {/* <p> HEllo {inShop.active} </p> */}
+        {console.log(inShop, 'Home')}
+        {console.log(inShop.active, 'active')}
+
+        <div className='toggle-wrapper'>
+            <div className='toggle.normal'>
+                <input type="checkbox" name="" id="" />
+            </div>
         </div>
 
+        <input type="checkbox" name="inStore" id="inStore" checked={inShop.active} onChange={LeaveShop} />
         <h4 className='labelhome'>נשמח לראותך שוב</h4>
     </>
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post,Delete, Request, Res, Param, Get,UseGuards, Put } from '@nestjs/common';
+import { Controller, Post,Delete,Body, Request, Res, Param, Get,UseGuards, Put } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { orderDTO } from 'src/DTO/order.dto';
 import { Response } from 'express';
@@ -64,5 +64,6 @@ export class OrdersController {
         
         res.send(response)
     }
+
 
     }

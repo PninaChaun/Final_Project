@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { orderDTO } from 'src/DTO/order.dto';
 import { ShopperDTO } from 'src/DTO/shopper';
+import { UserDTO } from 'src/DTO/user.dto';
 import { DataBaseConnectionService } from 'src/data-base-connection/data-base-connection.service';
 
 @Injectable()
@@ -49,4 +50,16 @@ export class ShopperService {
         const status = await this.srv.updateOrder_addShopperId(shopId, orderId)
         return status
     }
+
+    async IfInShop(userId: Number){
+        return await this.srv.IfInShop(userId)
+    }
+
+    async leaveShop (userId: Number)  {
+        let user:UserDTO =await this.srv.getUser(userId)
+        console.log(user, 'ser - user');
+        
+        await this.srv.deactivateShopper(user.shopId)
+    }
+    
 }

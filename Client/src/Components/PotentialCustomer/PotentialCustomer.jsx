@@ -33,8 +33,8 @@ export const PotentialCustomer = ({ order, setOrder, shopId, setChatId, setShowC
     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך
     if (order.length > 0) {
         let currrent_order = order[0]
-
         return <Popup open={true} position="right center">
+            <audio src='/src/assets/mp3/mp3.mp3' autoPlay=""></audio>
             <div className="PotentialCustomer">
 
             <img className="logo" src="src/assets/img/logo.png" width="100px" />

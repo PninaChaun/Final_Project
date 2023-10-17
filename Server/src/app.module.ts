@@ -26,11 +26,11 @@ import { ChatService } from './chat/chat.service';
 
 @Module({
   imports: [
-    LoginModule,
-    MailerModule.forRoot({
-      transport: 'smtps://p0583202191@gmail.com:ghpjvsxlpffcbaar@smtp.gmail.com',
-      defaults: {
-        from: '"shop4you" <p0583202191@gmail.com>',
+    // LoginModule,
+    MailerModule.forRoot({//ghpjvsxlpffcbaar pnina
+      transport: 'smtps://shop.for.community@gmail.com:lskkdgcgetmqzppz@smtp.gmail.com',
+      defaults: {///lskk dgcg etmq zppz shop
+        from: '"shop4you" <shop.for.community@gmail.com>',
       },
     }),],
   controllers: [AppController, LoginController, OrdersController, ShopperController, AdminController, GroupsController, InvitesController, ChatController],
