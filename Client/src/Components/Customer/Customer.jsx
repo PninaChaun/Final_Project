@@ -7,6 +7,7 @@ import './Customer.css'
 import { ServerGetUser } from "../../api/serverSettings";
 import { ServerGroups } from "../../api/serverGroups";
 import Cookies from "js-cookie";
+import { Loading } from "../Loading/Loading";
 
 export const Customer = ({ setOrderId }) => {
      const [user, setUser] = useState(null);
@@ -87,7 +88,7 @@ export const Customer = ({ setOrderId }) => {
                          </>
                          :
                          <>
-                              <p>Loading groups...</p>
+                              <Loading />
                          </>
 
                     }

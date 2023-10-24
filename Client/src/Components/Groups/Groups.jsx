@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './Groups.css';
 import { ServerCreateGroup, ServerGroups, ServerInvite, ServerRemoveMember } from "../../api/serverGroups";
 import { GroupMembers } from "./GroupMembers";
+import { Loading } from "../Loading/Loading";
 export const Groups = () => {
 
   const [groups, setGroups] = useState(null)
@@ -65,7 +66,7 @@ export const Groups = () => {
   }
 
   if (groups == null) {
-    return <p>loading...</p>
+    return  <Loading />
   }
 
   return <>

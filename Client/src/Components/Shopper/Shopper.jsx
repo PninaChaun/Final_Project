@@ -8,6 +8,7 @@ import Context from "../../context/context";
 import '../Shopper/Shopper.css';
 import { ServerGroups } from "../../api/serverGroups";
 import { ServerGetUser } from "../../api/serverSettings";
+import { Loading } from "../Loading/Loading";
 export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
   const [user, setUser] = useState(null);
 
@@ -65,7 +66,7 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
   }
 if(user==null)
 return <>
-Loading...
+ <Loading />
 </>
 else{
   return <div>
@@ -93,7 +94,7 @@ else{
                          </>
                          :
                          <>
-                              <p>Loading groups...</p>
+                               <Loading />
                          </>
 
                     }
