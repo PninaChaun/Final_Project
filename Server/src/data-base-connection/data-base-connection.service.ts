@@ -3,7 +3,6 @@ import { orderDTO } from 'src/DTO/order.dto';
 import { ShopperDTO } from 'src/DTO/shopper';
 import { UserDTO } from 'src/DTO/user.dto';
 const { MongoClient } = require('mongodb');
-import * as bcrypt from 'bcrypt';
 import { group, log } from 'console';
 import { inviteDTO } from 'src/DTO/invite.dto';
 import { groupDTO } from 'src/DTO/group.dto';
