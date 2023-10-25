@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { ServerDeleteOrder, ServerMyOrders } from "../../api/serverOrder"
 import { Confirm } from "../confirm/confirm"
+import { Loading } from "../Loading/Loading"
 
 
 export const MyOrders = () => {
-    const [orders, setOrders] = useState([])
+    const [orders, setOrders] = useState(null)
     const [confirm, setConfirm] = useState(null)
     const [reload, setReload] = useState(true)
  
@@ -17,9 +18,11 @@ export const MyOrders = () => {
 
 const removeOrder=(orderId)=>{
     setConfirm(orderId)
-    
 }
 
+if (orders == null)
+    return  <Loading />
+else
     return <>                
                 <div className="div">
                 <table className="user-table" >
