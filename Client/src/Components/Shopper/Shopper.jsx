@@ -9,41 +9,42 @@ import '../Shopper/Shopper.css';
 import { ServerGroups } from "../../api/serverGroups";
 import { ServerGetUser } from "../../api/serverSettings";
 import { Loading } from "../Loading/Loading";
+import { useAlert } from "react-hook-popup";
 export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
-  const [user, setUser] = useState(null);
+     const [user, setUser] = useState(null);
+     const [showGroups, setShowGroups] = useState(true);
+     const [groups, setGroups] = useState(null);
+     const _navigate = useNavigate(Context);
+     const[alert] = useAlert()
 
-  const [showGroups, setShowGroups] = useState(true);
-  const [groups, setGroups] = useState(null);
 
+     useEffect(() => {
 
+          async function fetchData() {
+               ServerGetUser()
+                    .then(r => JSON.parse(r))
+                    .then(r => {
+                         setUser(r)
+                    });
 
-  const _navigate = useNavigate(Context);
+               ServerGroups()
+                    .then(r => JSON.parse(r))
+                    .then(r => {
+                         if (r.length == 0)
+                         alert('לא תוכל לקנות לחברים - כי אינך חבר בקבוצה')
+                         setGroups(r)
+                    });
+          }
 
-  useEffect(() => {
+          fetchData();
+     }, []);
 
-    async function fetchData() {
-        ServerGetUser()
-             .then(r => JSON.parse(r))
-             .then(r => {
-                  setUser(r)
-             });
+     const saveShopper = ($event) => {
+          event.preventDefault();
+          Cookies.set('prevRequest', new Date(1970, 1))
 
-        ServerGroups()
-             .then(r => JSON.parse(r))
-             .then(r => {
-                  setGroups(r)
-             });
-   }
-
-   fetchData();
-}, []);
-
-  const saveShopper = ($event) => {
-    event.preventDefault();
-    Cookies.set('prevRequest', new Date(1970, 1))
-
-    const store = event.target.store.value;
-    let group_ids = []
+          const store = event.target.store.value;
+          let group_ids = []
           for (let i = 0; i < groups.length; i++) {
                let group_id = groups[i].id
                let is_checked = event.target['group' + String(group_id)].checked
@@ -51,57 +52,66 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
                     group_ids.push(group_id)
                }
           }
-    let shopInfo = { 'store': store, "groups":group_ids }
+          let shopInfo = { 'store': store, "groups": group_ids }
 
-    const x = ServerShopper(shopInfo)
-      .then((result) => JSON.parse(result))
-      .then((result) => {
-        setshopId(result)
-       _navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-    // 
-  }
-if(user==null)
-return <>
- <Loading />
-</>
-else{
-  return <div>
+          const x = ServerShopper(shopInfo)
+               .then((result) => JSON.parse(result))
+               .then((result) => {
+                    setshopId(result)
+                    _navigate('/');
+               })
+               .catch((error) => {
+                    console.log(error);
+               })
+          // 
+     }
 
-          <h2 className="hello"> היי {user.name??''},</h2>
-    <form onSubmit={saveShopper}>
-      <label className="labelShopper" htmlFor="">הכנס שם חנות:</label><br />
-      <input type="text" className="store" name="store" id="store" placeholder="יש " />
-      <br />
-      <label htmlFor="">באיזה קבוצה אתה מעונין:</label>
-               <button onClick={() => {
-                    event.preventDefault()
-                    setShowGroups(!showGroups)
-               }}><img src="src/assets/img/down-arrow.png" height="10px"/> </button>
-               <div hidden={!showGroups}>
-                    {groups ?
-                         <>
-                              {groups.map((g) => (
-                                   <div key={g.id}>
-                                        <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
-                                        <label htmlFor={g.id}>{g.name} </label>
-                                        <br />
-                                   </div>
-                              ))}
-                         </>
-                         :
-                         <>
-                               <Loading />
-                         </>
+     const shouldDisableSave = () => {
+          if (groups == null)
+               return true
+          if (groups.length == 0)
+               return true
+          return false
+     }
 
-                    }
-               </div>
+     if (user == null)
+          return <>
+               <Loading />
+          </>
+     else {
+          return <div>
 
-      <button className="submitShopper" type="submit">שמירה </button>
-    </form>
-  </div>
-}
+               <h2 className="hello"> היי {user.name ?? ''},</h2>
+               <form onSubmit={saveShopper}>
+                    <label className="labelShopper" htmlFor="">הכנס שם חנות:</label><br />
+                    <input type="text" className="store" name="store" id="store" placeholder="יש " />
+                    <br />
+                    <label htmlFor="">לאיזה קבוצה אתה מעונין לקנות:</label>
+                    <button onClick={() => {
+                         event.preventDefault()
+                         setShowGroups(!showGroups)
+                    }}><img src="src/assets/img/down-arrow.png" height="10px" /> </button>
+                    <div hidden={!showGroups}>
+                         {groups ?
+                              <>
+                                   {groups.map((g) => (
+                                        <div key={g.id}>
+                                             <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
+                                             <label htmlFor={g.id}>{g.name} </label>
+                                             <br />
+                                        </div>
+                                   ))}
+                              </>
+                              :
+                              <>
+                                   <Loading />
+                              </>
+
+                         }
+                    </div>
+
+                    <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>שמירה </button>
+               </form>
+          </div>
+     }
 }

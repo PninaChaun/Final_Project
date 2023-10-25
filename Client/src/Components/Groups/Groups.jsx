@@ -4,12 +4,14 @@ import './Groups.css';
 import { ServerCreateGroup, ServerGroups, ServerInvite, ServerRemoveMember } from "../../api/serverGroups";
 import { GroupMembers } from "./GroupMembers";
 import { Loading } from "../Loading/Loading";
+import {useConfirm}  from 'react-hook-popup'
 export const Groups = () => {
 
   const [groups, setGroups] = useState(null)
   const [show, setShow] = useState(-1)
   const [reload, setReload] = useState(false) //forcing reload GroupMembers to show new invite
   const [addMemberreload, setaddMemberreload] = useState(false) //forcing reload GroupMembers to show new invite
+  const[confirm] = useConfirm()
 
   useEffect(() => {
     ServerGroups()
@@ -57,12 +59,18 @@ export const Groups = () => {
       )
 
   }
-  const removeMember = (id) => {
+  const removeMember = async (id) => {
     event.preventDefault()
-    ServerRemoveMember(id)
+
+    const confirmed = await confirm('?אתה בטוח שברצונך לצאת מהקבוצה?')
+    if (confirmed){
+        ServerRemoveMember(id)
       .then(() => {
         setReload(!reload)
       })
+    }
+
+  
   }
 
   if (groups == null) {
@@ -85,14 +93,12 @@ export const Groups = () => {
 
                   <><div className="border">
                     <br /> <label htmlFor="">הכנס מייל:</label>
-                    <input type="text" className="inputGroup" placeholder="friend-email@gmail.com" name="email" /><br />
+                    <input type="text" className="inputGroup" placeholder="friend-email@gmail.com" name="email" required/><br />
                     <label htmlFor=""> הכנס שם:</label>
                     <input type="text" className="inputGroup" placeholder="דויד (אופציונלי)" name="name" />
                     <button type="submit" className="submitGroups2" > להוספה ושליחת הזמנה לקבוצה </button><br />
                     </div>
                    </>
-                   
-    
                   :
                   <></>}
                <li className="lil"> <button type="button"  className="buttonUseState" onClick={() => removeMember(group.id)}>ליצאיה מהקבוצה</button></li>
@@ -109,7 +115,7 @@ export const Groups = () => {
     {reload ? <>
       <br /><label htmlFor="">בחירת שם לקבוצה: </label>
       <form action="" onSubmit={addGroup}>
-        <input type="text" className="inputGroup" placeholder="שכונת נוף ציון" name="name" /><br />
+        <input type="text" className="inputGroup" placeholder="שכונת נוף ציון" name="name" required /><br />
         <button className="submitGroups" type="submit" >אישור</button>
       </form>
     </>

@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import '../Login/Login.css'
 import { Link } from 'react-router-dom'
+import { useAlert } from 'react-hook-popup';
 
 export const Login = () => {
     const [login, setLogin] = useState(true);
@@ -15,6 +16,7 @@ export const Login = () => {
     const [forgot, setForgot] = useState(false);
     const [codes, setCodes] = useState('email');
     const [email, setEmail] = useState('');
+    const[alert] = useAlert()
 
 
     const forgotPassword = () => {
@@ -47,7 +49,6 @@ export const Login = () => {
         event.preventDefault()
         let code = event.target.code.value
         ServerIfCodeTrue(email, code)
-            // .then(r => JSON.parse(r))
             .then(r => {
                 if (r) {
                     setCodes('password')
@@ -75,6 +76,7 @@ export const Login = () => {
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 console.log("Valid email address");
             } else {
+                alert('invalid email address')
                 event.target.lemail.value = '';
             }
             user = { email: email, password: password }
@@ -96,10 +98,10 @@ export const Login = () => {
             }
             console.log(email, password, password2, name)
             //name
-            if (!(/^[a-zA-Z]+$/.test(name))) {
-                console.log('שם צריך להיות רק אותיות באנגלית');
-                event.target.sname.value = '';
-            }
+            // if (!(/^[a-zA-Z]+$/.test(name))) {
+            //     console.log('שם צריך להיות רק אותיות באנגלית');
+            //     event.target.sname.value = '';
+            // }
             /////pasword
             if (/^(?=.*[a-zA-Z])[a-zA-Z\d]{4,}$/.test(password)) {
             } else {
@@ -109,6 +111,7 @@ export const Login = () => {
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 console.log("Valid email address");
             } else {
+                alert('כתובת מייל שגויה')
                 event.target.semail.value = '';
             }
 
@@ -123,7 +126,8 @@ export const Login = () => {
 
             })
             .catch(r => {
-                console.log(r);
+                console.log(r.response.data, 'r');
+                alert(r.response.data)
             }
             )
     }

@@ -8,11 +8,14 @@ import { ServerGetUser } from "../../api/serverSettings";
 import { ServerGroups } from "../../api/serverGroups";
 import Cookies from "js-cookie";
 import { Loading } from "../Loading/Loading";
+import '../Shopper/Shopper.css';
+import { useAlert } from "react-hook-popup";
 
 export const Customer = ({ setOrderId }) => {
      const [user, setUser] = useState(null);
      const [groups, setGroups] = useState(null);
      const [showGroups, setShowGroups] = useState(true);
+     const[alert] = useAlert()
 
      const _navigate = useNavigate(Context);
 
@@ -27,6 +30,8 @@ export const Customer = ({ setOrderId }) => {
                ServerGroups()
                     .then(r => JSON.parse(r))
                     .then(r => {
+                         if(r.length == 0)
+                              alert('לא תוכל לבצע הזמנה- כי אינך חבר בקבוצה')
                          setGroups(r)
                     });
           }
@@ -60,48 +65,53 @@ export const Customer = ({ setOrderId }) => {
 
      }
 
-
-     if (user == null) {
-          return <>loading...</>
+     const shouldDisableSave = () => {
+          if (groups == null)
+               return true
+          if (groups.length == 0)
+               return true
+          return false
      }
-     return <>
 
-          <img className="bag" src="src/assets/img/bag.gif" width="300px" />
-          <h2 className="hello"> היי {user.name},</h2>
-          <h4 className="startCustomer">ספר לנו מה ברצונך לקנות</h4>
-          <form className="fo" onSubmit={saveOrder}>
-               <label htmlFor="">באיזה קבוצה אתה מעונין:</label>
-               <button onClick={() => {
-                    event.preventDefault()
-                    setShowGroups(!showGroups)
-               }}><img src="src/assets/img/down-arrow.png" height="10px"/></button>
-               <div hidden={!showGroups}>
-                    {groups ?
-                         <>
-                              {groups.map((g) => (
-                                   <div key={g.id}>
-                                        <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
-                                        <label htmlFor={g.id}>{g.name} </label>
-                                        <br />
-                                   </div>
-                              ))}
-                         </>
-                         :
-                         <>
-                              <Loading />
-                         </>
+     if (user != null)
+          return <>
 
-                    }
-               </div>
-               <br />
-               <label className="lableProduct" htmlFor="">שם מוצר: </label>
-               <br />
-               {/* <label className="lableProduct" htmlFor="product">שם מוצר</label> */}
-               <input className="productName" type="text" name="productName" id="productName" placeholder=" חלב" />
-               <textarea className="details" name="details" id="details" cols="30" rows="10" placeholder="הקלד כאן פרטים נוספים:" />
-               <button className="submit2" type="submit">אישור </button>
-          </form>
+               <img className="bag" src="src/assets/img/bag.gif" width="300px" />
+               <h2 className="hello"> היי {user.name},</h2>
+               <h4 className="startCustomer">ספר לנו מה ברצונך לקנות</h4>
+               <form className="fo" onSubmit={saveOrder}>
+                    <label htmlFor="">באיזה קבוצה אתה מעונין:</label>
+                    <button onClick={() => {
+                         event.preventDefault()
+                         setShowGroups(!showGroups)
+                    }}><img src="src/assets/img/down-arrow.png" height="10px" /></button>
+                    <div hidden={!showGroups}>
+                         {groups ?
+                              <>
+                                   {groups.map((g) => (
+                                        <div key={g.id}>
+                                             <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
+                                             <label htmlFor={g.id}>{g.name} </label>
+                                             <br />
+                                        </div>
+                                   ))}
+                              </>
+                              :
+                              <>
+                                   <Loading />
+                              </>
 
-     </>
+                         }
+                    </div>
+                    <br />
+                    <label className="lableProduct" htmlFor="">שם מוצר: </label>
+                    <br />
+                    {/* <label className="lableProduct" htmlFor="product">שם מוצר</label> */}
+                    <input className="productName" type="text" name="productName" id="productName" placeholder=" חלב" />
+                    <textarea className="details" name="details" id="details" cols="30" rows="10" placeholder="הקלד כאן פרטים נוספים:" />
+                    <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>אישור </button>
+               </form>
+
+          </>
 
 }

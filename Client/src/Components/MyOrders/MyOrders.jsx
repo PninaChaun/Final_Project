@@ -1,23 +1,29 @@
 import { useEffect, useState } from "react"
 import { ServerDeleteOrder, ServerMyOrders } from "../../api/serverOrder"
-import { Confirm } from "../confirm/confirm"
 import { Loading } from "../Loading/Loading"
-
+import {useConfirm, usePopup} from 'react-hook-popup'
 
 export const MyOrders = () => {
     const [orders, setOrders] = useState(null)
-    const [confirm, setConfirm] = useState(null)
     const [reload, setReload] = useState(true)
- 
+    const[confirm]  = useConfirm()
 
+ 
     useEffect(()=>{
         ServerMyOrders()
         .then(r=>JSON.parse(r))
         .then(r=>setOrders(r) )
     },[reload])
 
-const removeOrder=(orderId)=>{
-    setConfirm(orderId)
+const removeOrder=async (orderId)=>{
+    const confirmed = await confirm('למחוק הזמנה?')
+    if (confirmed){
+        ServerDeleteOrder(orderId)
+        .then(()=>{setReload(!reload)})
+
+    }else{
+        console.log('not deleting');
+    }
 }
 
 if (orders == null)
@@ -50,8 +56,6 @@ else
                 </table>
 
             </div>
-                        <Confirm orderId = {confirm} setOrderId={setConfirm} reload={reload} setReload={setReload}/>
-
 </>
 
 }
