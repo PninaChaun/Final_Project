@@ -13,6 +13,11 @@ margin-right: 50px;
 margin-top: 10px;
 box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
 }
+
+.submitShopper:disabled{
+    background: #cf8452;
+    cursor:not-allowed;
+}
 .store{
     width: 200px;
     height: 45px;

@@ -1,23 +1,34 @@
 import { useEffect, useState } from "react"
 import { ServerDeleteOrder, ServerMyOrders } from "../../api/serverOrder"
-
+import { Loading } from "../Loading/Loading"
+import {useConfirm, usePopup} from 'react-hook-popup'
 
 export const MyOrders = () => {
-    const [orders, setOrders] = useState([])
+    const [orders, setOrders] = useState(null)
     const [reload, setReload] = useState(true)
- 
+    const[confirm]  = useConfirm()
 
+ 
     useEffect(()=>{
         ServerMyOrders()
         .then(r=>JSON.parse(r))
         .then(r=>setOrders(r) )
     },[reload])
 
-const removeOrder=(orderId)=>{
-    ServerDeleteOrder(orderId)
-    .then(setReload(!reload))
+const removeOrder=async (orderId)=>{
+    const confirmed = await confirm('למחוק הזמנה?')
+    if (confirmed){
+        ServerDeleteOrder(orderId)
+        .then(()=>{setReload(!reload)})
+
+    }else{
+        console.log('not deleting');
+    }
 }
 
+if (orders == null)
+    return  <Loading />
+else
     return <>                
                 <div className="div">
                 <table className="user-table" >
@@ -38,13 +49,13 @@ const removeOrder=(orderId)=>{
                                 <th>{order.productName}</th>
                                 <th>{order.details}</th>
                                 <th><img src="src/assets/img/logo.png" alt="" width="30px" onClick={()=>{removeOrder(order.orderId)}} /></th>
+
                             </tr>
                         ))}
                     </tbody>
                 </table>
 
             </div>
-
 </>
 
 }

@@ -4,6 +4,7 @@ import { ServerGetUser, ServerUpdateUser } from "../../api/serverSettings";
 import { useNavigate } from "react-router-dom";
 import Context from "../../context/context";
 import '../Settings/Settings.css'
+import { Loading } from "../Loading/Loading";
 
 
 
@@ -33,7 +34,7 @@ export const Settings =  () => {
     }
 
     if (!user) {
-        return  <div>Loading...</div>;
+        return   <Loading />
       }
     return <div>
 

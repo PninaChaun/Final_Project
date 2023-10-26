@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import './chat.css'
 import Cookies from 'js-cookie';
 import { ServerOrderDetails } from '../../api/serverOrder';
+import { Loading } from '../Loading/Loading';
 
 export  function Chat({ userId }) {
   const chatboxEl = useRef();
@@ -62,6 +63,6 @@ export  function Chat({ userId }) {
   }, [talkLoaded , userId]);
 
   return <div  ref={chatboxEl} id="talkjs-container" >
-  <i>Loading chat... have patience</i>
+  <Loading />
 </div> ;
 }

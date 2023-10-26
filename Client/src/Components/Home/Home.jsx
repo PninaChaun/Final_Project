@@ -41,8 +41,8 @@ export const Home = ({ group, setGroup }) => {
     }
 
     return <>
-        <li className='li'> <Link to='shopper' className='link'>אני יקנה </Link></li>
-        <li className='li'>  <Link to='customer' className='link'>להוסיף קניה</Link></li>
+        <li className='li'> <Link to='shopper' className='link'>אני הולך לחנות</Link></li>
+        <li className='li'>  <Link to='customer' className='link'>הזמנת מוצר </Link></li>
 
 <br />
         <div className="checkbox-wrapper-34" >

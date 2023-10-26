@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 import MyRouter from './Components/MyRouter.jsx'
 import PotentialCustomer from './Components/PotentialCustomer/PotentialCustomer'
 // import onmessage from './WorkerThreads/shopperThread.js'
+import { PopupProvider } from 'react-hook-popup';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -20,9 +21,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Link to='orders' className='menu-link'> הזמנות </Link>
 
 
-      
-
+      <PopupProvider>
       <MyRouter />
+      </PopupProvider>
       {/* <PotentialCustomer/> */}
       </>
     </BrowserRouter>

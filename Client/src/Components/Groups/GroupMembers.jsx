@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { ServerGroupsMembers } from "../../api/serverGroups"
+import { Loading } from "../Loading/Loading"
 
 export const GroupMembers = ({ group_id, reload }) => {
 
@@ -13,6 +14,9 @@ export const GroupMembers = ({ group_id, reload }) => {
             }
             )
     }, [reload])
+
+    if (members.length == 0)
+    return <Loading />
 
     if (members != []){
         return <>
