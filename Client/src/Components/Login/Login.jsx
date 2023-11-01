@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import '../Login/Login.css'
 import { Link } from 'react-router-dom'
 import { useAlert } from 'react-hook-popup';
+import { TextField, createTheme } from "@mui/material";
 
 export const Login = () => {
     const [login, setLogin] = useState(true);
@@ -17,6 +18,14 @@ export const Login = () => {
     const [codes, setCodes] = useState('email');
     const [email, setEmail] = useState('');
     const[alert] = useAlert()
+
+    let theme = createTheme({
+        palette: {
+          primary: {
+            main: '#0e7f87',
+          }
+        },
+      });
 
 
     const forgotPassword = () => {
@@ -143,23 +152,24 @@ export const Login = () => {
 
             {login ?
                 <>
-                    <button className="register" type="button" onClick={() => setLogin(false)}>להרשמה</button>
+                    <Button variant="outlined" className="register" type="button" theme={theme} onClick={() => setLogin(false)}>להרשמה</Button>
                     <br />
-                    <input className="inputLogin " type="email" name="lemail" placeholder="username@domain.com" />
+                    <TextField variant="standard" className="inputLogin " type="email" name="lemail" label="username@domain.com" />
                     <br />
-                    <input className="inputLogin " type="password" name="lpassword" id="lpassword" placeholder="הכנס סיסמא" />
+                    <TextField variant="standard" className="inputLogin " type="password" name="lpassword" id="lpassword" label="הכנס סיסמא" />
 
                 </>
                 :
                 <>
-                    <button type="button" variant="contained" onClick={() => setLogin(true)}>להתחברות</button>
-                    <input className="inputLogin " type="email" name="semail" placeholder="username@domain.com" />
-                    <input className="inputLogin " type="password" name="spassword" id="spassword" placeholder="הכנס סיסמא" />
-                    <input className="inputLogin " type="password" name="spassword2" id="spassword2" placeholder="אימות סיסמא" />
-                    <input className="inputLogin " type="text" name="sname" id="sname" placeholder="הכנס שם" />
-                    <input className="inputLogin " type="number" name="saveOrder" id="saveOrder" min={1} placeholder="משך זמן בשעות שמירת הזמנה" />
-                    <input className="inputLogin " type="number" name="saveStore" id="saveStore" min={1} placeholder="משך זמן בשעות שמירת הליכה לחנות" />
-                    <input className="inputLogin " type="text" name="address" id="address" placeholder="כתובת " />
+                    <Button type="button" variant="outlined" theme={theme} onClick={() => setLogin(true)}>להתחברות</Button>
+
+                    <TextField variant="outlined" className="inputLogin " type="email" name="semail" label="הכנס כתובת מייל" />
+                    <TextField variant="outlined" className="inputLogin " type="password" name="spassword" id="spassword" label="הכנס סיסמא" />
+                    <TextField variant="outlined" className="inputLogin " type="password" name="spassword2" id="spassword2" label="אימות סיסמא" />
+                    <TextField variant="outlined" className="inputLogin " type="text" name="sname" id="sname" label="הכנס שם" />
+                    <TextField variant="outlined" className="inputLogin " type="number" name="saveOrder" id="saveOrder" min={1} label="משך זמן בשעות שמירת הזמנה" />
+                    <TextField variant="outlined" className="inputLogin " type="number" name="saveStore" id="saveStore" min={1} label="משך זמן בשעות שמירת הליכה לחנות" />
+                    <TextField variant="outlined" className="inputLogin " type="text" name="address" id="address" label="כתובת " />
                 </>
             }
             <br />
@@ -176,7 +186,7 @@ export const Login = () => {
                         {codes == 'email' ?
                             <form onSubmit={codeInEmail}>
                                 <label htmlFor="">הכנס מייל </label>
-                                <input className="inputLogin " type="email" name="email" placeholder="username@domain.com" /><br />
+                                <TextField variant="standard" className="inputLogin " type="email" name="email" label="username@domain.com" /><br />
                                 <button >send code</button>
                             </form>
                             : 
@@ -184,13 +194,13 @@ export const Login = () => {
                             { codes == 'code' ?
                                 <form onSubmit={ifCodesTrue}>
                                     <p>שלחנו למייל שלך קוד אימות  בן 6 ספרות נא הזן אותו </p>
-                                    <input type="text" className="inputLogin" name="code" id="code" defaultValue={''} />
+                                    <TextField variant="standard" type="text" className="inputLogin" name="code" id="code" defaultValue={''} />
                                 <button >verify code</button>
                                 </form>
                                 :
                                 <form onSubmit={newPassword}>
                                    <p>בחר סיסמא חדשה: </p>
-                                    <input type="password" className="inputLogin" name="pass" id="pass" defaultValue={''} />
+                                    <TextField variant="standard" type="password" className="inputLogin" name="pass" id="pass" defaultValue={''} />
                                     {/* //TODO אימות סיסמא */}
                                 <button >verify code</button>
                                 </form>
