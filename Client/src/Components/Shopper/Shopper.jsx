@@ -10,11 +10,15 @@ import { ServerGroups } from "../../api/serverGroups";
 import { ServerGetUser } from "../../api/serverSettings";
 import { Loading } from "../Loading/Loading";
 import { useAlert } from "react-hook-popup";
+import { Checkbox, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
      const [user, setUser] = useState(null);
      const [showGroups, setShowGroups] = useState(true);
      const [groups, setGroups] = useState(null);
      const _navigate = useNavigate(Context);
+
+     const [checked, setChecked] = useState([]);
+
      const[alert] = useAlert()
 
 
@@ -39,19 +43,30 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
           fetchData();
      }, []);
 
+     const handleToggle = (value) => () => {
+          const currentIndex = checked.indexOf(value.id);
+          const newChecked = [...checked];
+
+          if (currentIndex === -1) {
+               newChecked.push(value.id);
+          } else {
+               newChecked.splice(currentIndex, 1);
+          }
+
+          setChecked(newChecked);
+     };
+
      const saveShopper = ($event) => {
           event.preventDefault();
           Cookies.set('prevRequest', new Date(1970, 1))
 
           const store = event.target.store.value;
-          let group_ids = []
-          for (let i = 0; i < groups.length; i++) {
-               let group_id = groups[i].id
-               let is_checked = event.target['group' + String(group_id)].checked
-               if (is_checked) {
-                    group_ids.push(group_id)
-               }
+          let group_ids = checked
+          if (group_ids.length ==0 ){
+               alert('לא ניתן לעדכן הליכה לחנות ללא בחירת קבוצות')
+               return
           }
+               
           let shopInfo = { 'store': store, "groups": group_ids }
 
           const x = ServerShopper(shopInfo)
@@ -94,13 +109,38 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
                     <div hidden={!showGroups}>
                          {groups ?
                               <>
-                                   {groups.map((g) => (
-                                        <div key={g.id}>
-                                             <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
-                                             <label htmlFor={g.id}>{g.name} </label>
-                                             <br />
-                                        </div>
-                                   ))}
+                                   <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                        {groups.map((value) => {
+                                             const labelId = `checkbox-list-label-${value}`;
+
+                                             return (
+                                                  <ListItem
+                                                       key={value.id}
+                                                      
+                                                       disablePadding
+                                                  >
+                                                       <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
+                                                            <ListItemIcon>
+                                                                 <Checkbox
+                                                                      edge="start"
+                                                                      checked={checked.indexOf(value.id) !== -1}
+                                                                      tabIndex={-1}
+                                                                      disableRipple
+                                                                      inputProps={{ 'aria-labelledby': labelId }}
+
+                                                                      // color="#FF0000"
+                                                                 />
+                                                            </ListItemIcon>
+                                                            <ListItemText id={labelId} primary={value.name} />
+                                                       </ListItemButton>
+                                                  </ListItem>
+                                             );
+                                        })}
+
+
+                                   </List>
+
+
                               </>
                               :
                               <>

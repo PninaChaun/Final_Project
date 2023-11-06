@@ -60,7 +60,12 @@ export const Customer = ({ setOrderId }) => {
           let productName = event.target['productName'].value;
           let details = event.target.details.value;
           let group_ids = checked
-          let order = { productName: productName, details: details, groups: group_ids }
+          if (group_ids.length ==0 ){
+               alert('לא ניתן ליצור הזמנה ללא בחירת קבוצות')
+               return
+          }
+               
+          let order = { 'productName': productName, 'details': details, 'groups': group_ids }
 
           ServerOrder(order)
                .then((result) => JSON.parse(result))
@@ -127,14 +132,6 @@ export const Customer = ({ setOrderId }) => {
 
 
                                    </List>
-
-                                   {/* {groups.map((g) => (
-                                        <div key={g.id}>
-                                             <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
-                                             <label htmlFor={g.id}>{g.name} </label>
-                                             <br />
-                                        </div>
-                                   ))} */}
                               </>
                                    :
                                    <>

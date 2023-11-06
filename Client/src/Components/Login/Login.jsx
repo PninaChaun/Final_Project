@@ -36,7 +36,6 @@ export const Login = () => {
         event.preventDefault()
         setEmail(event.target.email.value)
         setCodes('code')
-
         ServerForgotPassword(event.target.email.value)
 
     }
@@ -63,8 +62,7 @@ export const Login = () => {
                     setCodes('password')
                 }
                 else {
-                    //TODO הודעת שגיאה
-                    console.log('wrong code');
+                    alert('wrong code')
                 }
             })
 
@@ -77,13 +75,11 @@ export const Login = () => {
             let email = event.target.lemail.value;
             let password = event.target.lpassword.value;
             if (/^(?=.*[a-zA-Z])[a-zA-Z\d]{4,}$/.test(password)) {
-                console.log("Valid password");
             } else {
                 event.target.lpassword.value = '';
             }
 
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                console.log("Valid email address");
             } else {
                 alert('invalid email address')
                 event.target.lemail.value = '';
@@ -105,7 +101,6 @@ export const Login = () => {
                 alert("אימות סיסמא לא נכון")
                 event.target.spassword2.value = ""
             }
-            console.log(email, password, password2, name)
             //name
             // if (!(/^[a-zA-Z]+$/.test(name))) {
             //     console.log('שם צריך להיות רק אותיות באנגלית');
@@ -118,7 +113,6 @@ export const Login = () => {
             }
             ///email
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                console.log("Valid email address");
             } else {
                 alert('כתובת מייל שגויה')
                 event.target.semail.value = '';
@@ -135,7 +129,6 @@ export const Login = () => {
 
             })
             .catch(r => {
-                console.log(r.response.data, 'r');
                 alert(r.response.data)
             }
             )
@@ -154,7 +147,7 @@ export const Login = () => {
                 <>
                     <Button variant="outlined" className="register" type="button" theme={theme} onClick={() => setLogin(false)}>להרשמה</Button>
                     <br />
-                    <TextField variant="standard" className="inputLogin " type="email" name="lemail" label="username@domain.com" />
+                    <TextField variant="standard" className="inputLogin " type="email" name="lemail" label="הכנס מייל" />
                     <br />
                     <TextField variant="standard" className="inputLogin " type="password" name="lpassword" id="lpassword" label="הכנס סיסמא" />
 
@@ -173,21 +166,20 @@ export const Login = () => {
                 </>
             }
             <br />
-            <button className="submitLogin" type="submit">אישור</button>
+            <Button className="submitLogin" variant="text" theme={theme} type="submit">אישור</Button>
         </form>
 
         {login ?
 
             <>
-                <h4 onClick={forgotPassword}>שכחתי ססימא</h4>
+                <h4 style= {{cursor: 'pointer'}} onClick={forgotPassword}>שכחתי ססימא</h4>
 
                 {forgot ?
                     <>
                         {codes == 'email' ?
                             <form onSubmit={codeInEmail}>
-                                <label htmlFor="">הכנס מייל </label>
-                                <TextField variant="standard" className="inputLogin " type="email" name="email" label="username@domain.com" /><br />
-                                <button >send code</button>
+                                <TextField variant="standard" className="inputLogin " type="email" name="email" label="הכנס מייל" /><br />
+                                <Button variant="text" theme={theme} type="submit" >send code</Button>
                             </form>
                             : 
                             <>
@@ -195,14 +187,14 @@ export const Login = () => {
                                 <form onSubmit={ifCodesTrue}>
                                     <p>שלחנו למייל שלך קוד אימות  בן 6 ספרות נא הזן אותו </p>
                                     <TextField variant="standard" type="text" className="inputLogin" name="code" id="code" defaultValue={''} />
-                                <button >verify code</button>
+                                <Button variant="text" theme={theme} >verify code</Button>
                                 </form>
                                 :
                                 <form onSubmit={newPassword}>
                                    <p>בחר סיסמא חדשה: </p>
                                     <TextField variant="standard" type="password" className="inputLogin" name="pass" id="pass" defaultValue={''} />
                                     {/* //TODO אימות סיסמא */}
-                                <button >verify code</button>
+                                <Button variant="text" theme={theme}>verify code</Button>
                                 </form>
                         }
                         </>

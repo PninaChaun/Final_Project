@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Context from "../../context/context";
 import '../Settings/Settings.css'
 import { Loading } from "../Loading/Loading";
+import { TextField } from "@mui/material";
 
 
 
@@ -30,7 +31,9 @@ export const Settings =  () => {
         event.preventDefault();
         
         ServerUpdateUser(user)
-        _navigate('/');
+        .then(()=> _navigate('/'))
+        .catch(()=> alert('אימייל זה תפוס'))
+       
     }
 
     if (!user) {
@@ -38,24 +41,18 @@ export const Settings =  () => {
       }
     return <div>
 
-         <h1 className="name">{user.name}</h1>
+         <h1 className="name">שם: {user.name}</h1>
+         <p className="name">מייל: {user.email}</p>
         <form  className="form" onSubmit={saveChanges}>
-            <label  htmlFor="saveOrder">שמירת הזמנה</label>
+         
+            <TextField required type="number" name="saveOrder" id="saveOrder" label="משך זמן שמירת ההזמנה" value={user.saveOrder} onChange={(e)=>setUser({...user, 'saveOrder':e.target.value})}/>
             <br />
-            <input type="number" name="saveOrder" id="saveOrder" placeholder="משך זמן שמירת ההזמנה" value={user.saveOrder} onChange={(e)=>setUser({...user, 'saveOrder':e.target.value})}/>
+          
+            <TextField required type="number" name="saveStore" id="saveStore" label="משך זמן שמירת ההליכה לחנות" value={user.saveStore}  onChange={(e)=>setUser({...user, 'saveStore':e.target.value})}/>
+       
             <br />
-            <label htmlFor="saveStore">שמירת הליכה לחנות</label>
+            <TextField required type="text" name="name" id="name" label="שם משתמש" value={user.name} onChange={(e)=>setUser({...user, 'name':e.target.value})} />
             <br />
-            <input type="number" name="saveStore" id="saveStore" placeholder="משך זמן שמירת ההליכה לחנות" value={user.saveStore}  onChange={(e)=>setUser({...user, 'saveStore':e.target.value})}/>
-            <br />
-            <label htmlFor="name">שם משתמש</label>
-            <br />
-            <input type="text" name="name" id="name" placeholder="שם משתמש" value={user.name} onChange={(e)=>setUser({...user, 'name':e.target.value})} />
-            <br />
-            <label htmlFor="email">אימייל</label>
-            <br />
-            <input type="email" name="email" id="email" placeholder="אימייל"  value={user.email} onChange={(e)=>setUser({...user, 'email':e.target.value})}/>
-           <br />
            <button className="submit" type="submit">אישור</button>
         </form>
     </div>
