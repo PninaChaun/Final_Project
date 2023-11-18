@@ -143,7 +143,7 @@ export const Login = () => {
 
             {login ?
                 <>
-                    <button className="register" type="button" onClick={() => setLogin(false)}>להרשמה</button>
+                    <Button className="register" type="button" onClick={() => setLogin(false)}>להרשמה</Button>
                     <br />
                     <input className="inputLogin " type="email" name="lemail" placeholder="username@domain.com" />
                     <br />

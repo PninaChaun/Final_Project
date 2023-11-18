@@ -14,9 +14,9 @@ export class EmailService {
 
             subject: subject, // Subject line
             // text: text, // plaintext body
-            html: '<img className="logo" src="src/assets/img/logo.png" width="150px" />\
+            html: '<img className="logo"  src="src/img/logo.png" width="150px" />\
             <b>'+text+'</b> \
-            <a href="http://localhost:5173"><button>הצטרפות לקבוצה</button></a>'
+            <a href="http://localhost:5173"><button> לכניסה לאתר</button ></a>'
           })
           .then(() => {console.log('sent email');
           })

@@ -51,7 +51,7 @@ export function Chats({ showChat, setShowChat}) {
                             {/* <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לתשלום ב-payPal{chat.name}</button>
                             <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לתשלום ב-bit{chat.name}</button> */}
                                 {/* <th> onClick={()=>{removeOrder(order.orderId)}} </th> */}
-                          <a href="http:///www.paypal.com"><img src="src/assets/img/logo.png" alt="" width="70px"/> </a>
+                          <a href="http:///www.paypal.com"><img src="src/assets/img/cart.png" alt="" width="70px"/> </a>
                                                       {/* <a href="https://www.paypal.com/il/signin"><button>הצטרפות לקבוצה</button></a>' */}
 
 
