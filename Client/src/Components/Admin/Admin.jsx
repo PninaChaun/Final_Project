@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { ServerAdmin } from "../../api/serverAdmin";
 import React from 'react';
 import './Admin.css'
-export const Admin = () => {
 
+export const Admin = () => {
     const [users, setUsers] = useState(null);
 
     useEffect(() => {

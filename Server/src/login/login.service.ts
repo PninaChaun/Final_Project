@@ -60,7 +60,7 @@ export class LoginService {
 
                     const payload = { username: user.name, id: newId };
                     ///send
-                    this.email.sendEmail(user.email,'shbop4you', 'היי' + user.name+","+'\nברוכה הבאה לאפלקציה Shop4you ' +'\n תודה שבחרת להשתמש באפלקציה שלנו')
+                    this.email.sendEmail(user.email,'הצטרפות לאפליקציה shop4you', 'היי' + user.name+","+'\nברוכה הבאה לאפלקציה Shop4you ' +'\n תודה שבחרת להשתמש באפלקציה שלנו')
 
                     return { stat: 201, desc: this.createToken(payload) };
                 } else

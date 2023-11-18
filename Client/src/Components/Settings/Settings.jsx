@@ -37,7 +37,8 @@ export const Settings =  () => {
         return   <Loading />
       }
     return <div>
-
+            <img className="settings" src="src/assets/img/settings.gif" width="150px" />
+    
          <h1 className="name">{user.name}</h1>
         <form  className="form" onSubmit={saveChanges}>
             <label  htmlFor="saveOrder">שמירת הזמנה</label>

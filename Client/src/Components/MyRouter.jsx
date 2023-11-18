@@ -14,11 +14,14 @@ import { PotentialShopper } from "./PotentialShopper/PotentialShopper";
 import { Admin } from "./Admin/Admin";
 import { Groups } from "./Groups/Groups";
 import { Home } from "./Home/Home";
-import { JoinGroup } from "../JoinGroup/JoinGroup";
+import { JoinGroup } from "./JoinGroup/JoinGroup";
 import { FindCustomer } from "../api/serverFindCustomer";
 import { FindShopper } from "../api/serverFindShopper";
 import { Chats } from "./Chats/Chats";
 import { MyOrders } from "./MyOrders/MyOrders";
+// import { Body } from "./Body";
+ 
+ 
 
 const ProtectedRoute = ({ children }) => {
     const token = Cookies.get('token')
@@ -89,14 +92,17 @@ export default function MyRouter() {
                         element={
                             <ProtectedRoute>
                                 <Routes>
+                                <Route path="/app" element={<App />} />
                                     <Route path="/" element={<Home group={group} setGroup={setGroup} />} />
                                     <Route path="/shopper" element={<Shopper order={order} setOrder={setOrder} shopId={shopId} setshopId={setshopId} />} />
                                     <Route path="/customer" element={<Customer setOrderId={setOrderId} />} />
                                     <Route path="/chat" element={<Chats showChat={showChat} setShowChat={setShowChat} />} />
-                                    <Route path="/settings" element={<Settings />} />
+                                    <Route path="/settings" element={<Settings  />} />
                                     <Route path="/orders" element={<MyOrders />} />
                                     <Route path="/admin" element={<Admin />} />
                                     <Route path="/groups" element={<Groups />} />
+                                    {/* <Route path="/body" element={<Body/>} /> */}
+
 
                                 </Routes>
                             </ProtectedRoute>
