@@ -10,15 +10,18 @@ import Cookies from "js-cookie";
 import { Loading } from "../Loading/Loading";
 import '../Shopper/Shopper.css';
 import { useAlert } from "react-hook-popup";
+import { List, ListItem,  ListItemIcon, ListItemButton , Checkbox, ListItemText } from '@mui/material'
 
 export const Customer = ({ setOrderId }) => {
      const [user, setUser] = useState(null);
      const [groups, setGroups] = useState(null);
      const [showGroups, setShowGroups] = useState(true);
-     const[alert] = useAlert()
+
+     const [checked, setChecked] = useState([]);
+
+     const [alert] = useAlert()
 
      const _navigate = useNavigate(Context);
-
      useEffect(() => {
           async function fetchData() {
                ServerGetUser()
@@ -30,7 +33,7 @@ export const Customer = ({ setOrderId }) => {
                ServerGroups()
                     .then(r => JSON.parse(r))
                     .then(r => {
-                         if(r.length == 0)
+                         if (r.length == 0)
                               alert('לא תוכל לבצע הזמנה- כי אינך חבר בקבוצה')
                          setGroups(r)
                     });
@@ -39,19 +42,30 @@ export const Customer = ({ setOrderId }) => {
           fetchData();
      }, []);
 
+     const handleToggle = (value) => () => {
+          const currentIndex = checked.indexOf(value.id);
+          const newChecked = [...checked];
+
+          if (currentIndex === -1) {
+               newChecked.push(value.id);
+          } else {
+               newChecked.splice(currentIndex, 1);
+          }
+
+          setChecked(newChecked);
+     };
+
      const saveOrder = ($event) => {
           event.preventDefault()
           let productName = event.target['productName'].value;
           let details = event.target.details.value;
-          let group_ids = []
-          for (let i = 0; i < groups.length; i++) {
-               let group_id = groups[i].id
-               let is_checked = event.target['group' + String(group_id)].checked
-               if (is_checked) {
-                    group_ids.push(group_id)
-               }
+          let group_ids = checked
+          if (group_ids.length ==0 ){
+               alert('לא ניתן ליצור הזמנה ללא בחירת קבוצות')
+               return
           }
-          let order = { productName: productName, details: details, groups: group_ids }
+               
+          let order = { 'productName': productName, 'details': details, 'groups': group_ids }
 
           ServerOrder(order)
                .then((result) => JSON.parse(result))
@@ -88,28 +102,51 @@ export const Customer = ({ setOrderId }) => {
                     <div hidden={!showGroups}>
                          {groups ?
                               <>
-                                   {groups.map((g) => (
-                                        <div key={g.id}>
-                                             <input type="checkbox" defaultChecked="true" id={g.id} name={'group' + g.id} />
-                                             <label htmlFor={g.id}>{g.name} </label>
-                                             <br />
-                                        </div>
-                                   ))}
+                                   <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                        {groups.map((value) => {
+                                             const labelId = `checkbox-list-label-${value}`;
+
+                                             return (
+                                                  <ListItem
+                                                       key={value.id}
+                                                      
+                                                       disablePadding
+                                                  >
+                                                       <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
+                                                            <ListItemIcon>
+                                                                 <Checkbox
+                                                                      edge="start"
+                                                                      checked={checked.indexOf(value.id) !== -1}
+                                                                      tabIndex={-1}
+                                                                      disableRipple
+                                                                      inputProps={{ 'aria-labelledby': labelId }}
+
+                                                                      // color="#FF0000"
+                                                                 />
+                                                            </ListItemIcon>
+                                                            <ListItemText id={labelId} primary={value.name} />
+                                                       </ListItemButton>
+                                                  </ListItem>
+                                             );
+                                        })}
+
+
+                                   </List>
                               </>
-                              :
-                              <>
-                                   <Loading />
-                              </>
+                                   :
+                                   <>
+                                        <Loading />
+                                   </> 
 
                          }
-                    </div>
-                    <br />
-                    <label className="lableProduct" htmlFor="">שם מוצר: </label>
-                    <br />
-                    {/* <label className="lableProduct" htmlFor="product">שם מוצר</label> */}
-                    <input className="productName" type="text" name="productName" id="productName" placeholder=" חלב" />
-                    <textarea className="details" name="details" id="details" cols="30" rows="10" placeholder="הקלד כאן פרטים נוספים:" />
-                    <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>אישור </button>
+                              </div>
+                         <br />
+                         <label className="lableProduct" htmlFor="">שם מוצר: </label>
+                         <br />
+                         {/* <label className="lableProduct" htmlFor="product">שם מוצר</label> */}
+                         <input className="productName" type="text" name="productName" id="productName" placeholder=" חלב" />
+                         <textarea className="details" name="details" id="details" cols="30" rows="10" placeholder="הקלד כאן פרטים נוספים:" />
+                         <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>אישור </button>
                </form>
 
           </>

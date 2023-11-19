@@ -65,6 +65,14 @@ export class DataBaseConnectionService {
         return 200;
     };
 
+    emailAvailable = async(email:string)=>{
+        let used =await db.collection('users').findOne({email:email})
+        if (used)
+            return false
+        else 
+            return true
+    }
+
     insertUser = async (user: UserDTO) => {
 
         let newId = await this.getNextSequenceValue('users')

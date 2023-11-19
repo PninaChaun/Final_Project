@@ -4,14 +4,23 @@ import './Groups.css';
 import { ServerCreateGroup, ServerGroups, ServerInvite, ServerRemoveMember } from "../../api/serverGroups";
 import { GroupMembers } from "./GroupMembers";
 import { Loading } from "../Loading/Loading";
-import {useConfirm}  from 'react-hook-popup'
+import { useConfirm } from 'react-hook-popup'
+import { ListItemButton, ListItemText, createTheme } from "@mui/material";
 export const Groups = () => {
 
   const [groups, setGroups] = useState(null)
   const [show, setShow] = useState(-1)
   const [reload, setReload] = useState(false) //forcing reload GroupMembers to show new invite
   const [addMemberreload, setaddMemberreload] = useState(false) //forcing reload GroupMembers to show new invite
-  const[confirm] = useConfirm()
+  const [confirm] = useConfirm()
+
+  let theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FF0000',
+      }
+    },
+  });
 
   useEffect(() => {
     ServerGroups()
@@ -38,7 +47,7 @@ export const Groups = () => {
       })
   }
 
-  const addFriend =()=>{
+  const addFriend = () => {
     event.preventDefault()
     setaddMemberreload(!addMemberreload);
   }
@@ -63,52 +72,59 @@ export const Groups = () => {
     event.preventDefault()
 
     const confirmed = await confirm('?אתה בטוח שברצונך לצאת מהקבוצה?')
-    if (confirmed){
-        ServerRemoveMember(id)
-      .then(() => {
-        setReload(!reload)
-      })
+    if (confirmed) {
+      ServerRemoveMember(id)
+        .then(() => {
+          setReload(!reload)
+        })
     }
 
-  
+
   }
 
   if (groups == null) {
-    return  <Loading />
+    return <Loading />
   }
 
   return <>
     <label >הקבוצות להם אתה שייך:</label>
     <ul>
       {groups.map((group) => (
-        <li className="group_name" key={group.id}>
-          <button className="nameGroup" onClick={() => showMembers(group.id)}> {group.name} </button>
+        <div className="group_name" key={group.id}>
+          <ListItemButton theme={theme}  onClick={() => showMembers(group.id)}>
+            <ListItemText  primary={group.name} />
+            </ListItemButton>
+          
           {show == group.id ?
             <>
+            <br />
               <GroupMembers group_id={group.id} reload={reload} />
               <form onSubmit={inviteFriend}>
-                
-               <li className="lil"> <button className="buttonUseState" onClick={()=>addFriend()} >להוספת חבר לקבוצה</button></li>
+              <br />
+                <li className="lil"> <button className="buttonUseState" onClick={() => addFriend()} >להוספת חבר לקבוצה</button></li>
+
                 {addMemberreload ?
 
-                  <><div className="border">
+                  <>
+                  <br />
+                  <div className="border">
                     <br /> <label htmlFor="">הכנס מייל:</label>
-                    <input type="text" className="inputGroup" placeholder="friend-email@gmail.com" name="email" required/><br />
+                    <input type="text" className="inputGroup" placeholder="friend-email@gmail.com" name="email" required /><br />
                     <label htmlFor=""> הכנס שם:</label>
                     <input type="text" className="inputGroup" placeholder="דויד (אופציונלי)" name="name" />
                     <button type="submit" className="submitGroups2" > להוספה ושליחת הזמנה לקבוצה </button><br />
-                    </div>
-                   </>
+                  </div>
+                  </>
                   :
                   <></>}
-               <li className="lil"> <button type="button"  className="buttonUseState" onClick={() => removeMember(group.id)}>ליצאיה מהקבוצה</button></li>
+                <li className="lil"> <button type="button" className="buttonUseState" onClick={() => removeMember(group.id)}>ליצאיה מהקבוצה</button></li>
 
               </form>
             </>
             : <>
             </>
           }
-        </li>
+        </div>
       ))}
     </ul>
     <button className="buttonUseState" onClick={() => setReload(!reload)} >להוספת קבוצה</button>
