@@ -12,25 +12,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './App.css'
-import {useWindowSize} from 'react-use';
-function App({setGroup}) { 
+function App() { 
 
-    const Demo = () => {
-        const {width, height} = useWindowSize();
-    
-         return <>
-      
-           <div>
-             <div>{width}</div>
-             <div>height: {height}</div>{console.log(width)}
-           </div> <Home />
-           <style>
-            <body>
-            width=width
-            </body>
-           </style>
-           </>
-       };
-Demo()
 }
 export default App;
