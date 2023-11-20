@@ -13,9 +13,6 @@ import { OrdersService } from './orders/orders.service';
 import { AutenticationService } from './autentication/autentication.service';
 import { ShopperService } from './shopper/shopper.service';
 import { ShopperController } from './shopper/shopper.controller';
-import { AdminAuthorizationService } from './admin-authorization/admin-authorization.service';
-import { AdminController } from './admin/admin.controller';
-import { AdminService } from './admin/admin.service';
 import { GroupsController } from './groups/groups.controller';
 import { GroupsService } from './groups/groups.service';
 import { EmailService } from './email/email.service';
@@ -33,7 +30,7 @@ import { ChatService } from './chat/chat.service';
         from: '"shop4you" <shop.for.community@gmail.com>',
       },
     }),],
-  controllers: [AppController, LoginController, OrdersController, ShopperController, AdminController, GroupsController, InvitesController, ChatController],
-  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService, AdminAuthorizationService, AdminService, GroupsService, EmailService, InvitesService, ChatService],
+  controllers: [AppController, LoginController, OrdersController, ShopperController,GroupsController, InvitesController, ChatController],
+  providers: [AppService, LoginService, DataBaseConnectionService, JwtService, OrdersService, AutenticationService, ShopperService,  GroupsService, EmailService, InvitesService, ChatService],
 })
 export class AppModule {}

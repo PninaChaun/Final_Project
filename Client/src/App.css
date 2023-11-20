@@ -5,17 +5,19 @@ body {
     margin: auto;
     width: 45vh;
     height: 100vh;
-    border: 2px black solid;
+    /* border: 2px black solid; */
 }
 
+/* לא בטוח בשימוש */
 ::placeholder {
     color: #DEDEDE;
-    text-align: right;
+    text-align: left;
     font-family: Rubik;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 126.421%;
+
     /* 15.17px */
     letter-spacing: 0.06px;
 }

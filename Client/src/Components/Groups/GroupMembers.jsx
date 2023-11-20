@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { ServerGroupsMembers } from "../../api/serverGroups"
 import { Loading } from "../Loading/Loading"
+import './Groups.css'
 
 export const GroupMembers = ({ group_id, reload }) => {
 

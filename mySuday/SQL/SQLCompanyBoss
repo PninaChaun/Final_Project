@@ -1,5 +1,0 @@
-SELECT m1.FirstName as FirstName,m1.LastName as LastName,m1.ReportsTo as ReportsTo,m1.Position as Position ,m1.AGE as Age,
-case ReportsTo when  "Jenny Richards" then "CEO" else "None" end "Boss Title"
-FROM maintable_ON2AE as m1 
-WHERE ReportsTo = "Jenny Richards" or  ReportsTo is null
-order by Age

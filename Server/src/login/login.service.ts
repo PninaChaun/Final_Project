@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { log } from 'console';
 import { UserDTO } from 'src/DTO/user.dto';
 import { DataBaseConnectionService } from 'src/data-base-connection/data-base-connection.service';
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { EmailService } from 'src/email/email.service';
@@ -24,12 +24,13 @@ export class LoginService {
     }
 
     async updateUser(user: UserDTO) {
-        return this.ser.updateUser(user)
+        return await this.ser.updateUser(user)
+
     }
 
     async login(user: UserDTO) {
         this.users = await this.ser.getUsers();
-        user.password = await this.hashPassword(user.password);
+        // user.password = await this.hashPassword(user.password);
 
         if (user.name == undefined) {
             //login
@@ -67,6 +68,8 @@ export class LoginService {
 
     async forgotPassword(email) {
         let user = await this.ser.getUserByEmail(email)
+        console.log(user);
+        
         if(!user)
             return 401
 
@@ -74,8 +77,8 @@ export class LoginService {
         for (let i = 0; i <2; i++) { //TODO change loop to 6 iterations
             pass += Math.round(Math.random() * 9)
         }
-        this.codes[email] = pass
         console.log(pass, 'code');
+        this.codes[email] = pass
         
         this.email.sendEmail(email, 'קוד אימות ', " קוד האימות הוא:" + pass)
         return 200
@@ -94,7 +97,7 @@ export class LoginService {
 
     async newPassword(email, newPassword){
         
-        let payload = await this.ser.changePassword(email,await this.hashPassword(newPassword))
+        let payload = await this.ser.changePassword(email,newPassword)
         
         let token = this.createToken(payload)
         
@@ -113,8 +116,8 @@ export class LoginService {
         }
     }
 
-    async hashPassword(password: string): Promise<string> {
-        const hash = await bcrypt.hash(password, this.salt);
-        return hash;
-    }
+    // async hashPassword(password: string): Promise<string> {
+    //     const hash = await bcrypt.hash(password, this.salt);
+    //     return hash;
+    // }
 }

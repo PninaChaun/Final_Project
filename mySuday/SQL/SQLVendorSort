@@ -1,4 +1,0 @@
-SELECT c.GroupID, FirstName, LastName, Job, ExternalID, CompanyName,  count(*) as Count FROM maintable_MJIC0 m
-inner join cb_vendorinformation c on c.GroupID=m.GroupID
-group by FirstName
-order by Count asc,CompanyName

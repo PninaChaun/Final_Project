@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import { Loading } from "../Loading/Loading";
 import '../Shopper/Shopper.css';
 import { useAlert } from "react-hook-popup";
-import { List, ListItem,  ListItemIcon, ListItemButton , Checkbox, ListItemText } from '@mui/material'
+import { List, ListItem,  ListItemIcon, ListItemButton , Checkbox, ListItemText, Button } from '@mui/material'
 
 export const Customer = ({ setOrderId }) => {
      const [user, setUser] = useState(null);
@@ -95,10 +95,10 @@ export const Customer = ({ setOrderId }) => {
                <h4 className="startCustomer">ספר לנו מה ברצונך לקנות</h4>
                <form className="fo" onSubmit={saveOrder}>
                     <label htmlFor="">באיזה קבוצה אתה מעונין:</label>
-                    <button onClick={() => {
+                    <Button onClick={() => {
                          event.preventDefault()
                          setShowGroups(!showGroups)
-                    }}><img src="src/assets/img/down-arrow.png" height="10px" /></button>
+                    }}><img src="src/assets/img/down-arrow.png" height="10px" /></Button>
                     <div hidden={!showGroups}>
                          {groups ?
                               <>

@@ -1,8 +1,0 @@
-SELECT m1.id as ID, m1.name as Name, c.DivisionName as DivisionName,
-m2.name as ManagerName, m1.salary as Salary
-FROM maintable_V0GBE as m1 
-left join cb_companydivisions as c on m1.divisionid = c.id
-left join maintable_V0GBE as m2
-on m1.managerid = m2.id
-order by m1.salary desc
-limit 2, 1

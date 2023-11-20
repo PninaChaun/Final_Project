@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { Link } from 'react-router-dom'
+import { Form, Link } from 'react-router-dom'
 import './Groups.css';
 import { ServerCreateGroup, ServerGroups, ServerInvite, ServerRemoveMember } from "../../api/serverGroups";
 import { GroupMembers } from "./GroupMembers";
 import { Loading } from "../Loading/Loading";
 import { useConfirm } from 'react-hook-popup'
-import { ListItemButton, ListItemText, createTheme } from "@mui/material";
+import { Button, FormControl, Grid, ListItemButton, ListItemText, createTheme } from "@mui/material";
 export const Groups = () => {
 
   const [groups, setGroups] = useState(null)
@@ -16,11 +16,15 @@ export const Groups = () => {
 
   let theme = createTheme({
     palette: {
-      primary: {
-        main: '#FF0000',
-      }
+        primary: {
+            main: '#FF8F45',
+            contrastText: 'white'
+        },
+        secondary: {
+            main: '#19acb7'
+        },
     },
-  });
+});
 
   useEffect(() => {
     ServerGroups()
@@ -97,16 +101,14 @@ export const Groups = () => {
           
           {show == group.id ?
             <>
-            <br />
               <GroupMembers group_id={group.id} reload={reload} />
               <form onSubmit={inviteFriend}>
-              <br />
-                <li className="lil"> <button className="buttonUseState" onClick={() => addFriend()} >להוספת חבר לקבוצה</button></li>
+                <Grid container spacing={2}>
+                <Grid item> <Button variant="outlined" theme={theme}  onClick={() => addFriend()} >הוספת חבר לקבוצה</Button></Grid>
 
                 {addMemberreload ?
 
                   <>
-                  <br />
                   <div className="border">
                     <br /> <label htmlFor="">הכנס מייל:</label>
                     <input type="text" className="inputGroup" placeholder="friend-email@gmail.com" name="email" required /><br />
@@ -117,8 +119,8 @@ export const Groups = () => {
                   </>
                   :
                   <></>}
-                <li className="lil"> <button type="button" className="buttonUseState" onClick={() => removeMember(group.id)}>ליצאיה מהקבוצה</button></li>
-
+                <Grid item> <Button type="button" variant="outlined" theme={theme} onClick={() => removeMember(group.id)}>יציאה מהקבוצה</Button></Grid>
+                </Grid>
               </form>
             </>
             : <>
@@ -127,13 +129,14 @@ export const Groups = () => {
         </div>
       ))}
     </ul>
-    <button className="buttonUseState" onClick={() => setReload(!reload)} >להוספת קבוצה</button>
+    <Button variant="contained" theme={theme} className="buttonUseState" onClick={() => setReload(!reload)} >להוספת קבוצה</Button>
     {reload ? <>
-      <br /><label htmlFor="">בחירת שם לקבוצה: </label>
-      <form action="" onSubmit={addGroup}>
+    <br />
+      <FormControl  onSubmit={addGroup}>
+      <label htmlFor="">בחירת שם לקבוצה: </label>
         <input type="text" className="inputGroup" placeholder="שכונת נוף ציון" name="name" required /><br />
-        <button className="submitGroups" type="submit" >אישור</button>
-      </form>
+        <Button variant="contained"  theme={theme} className="submitGroups" type="submit" >אישור</Button>
+      </FormControl>
     </>
       : <></>
     }

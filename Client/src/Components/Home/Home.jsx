@@ -6,7 +6,9 @@ import { useEffect, useState } from 'react';
 import { ServerGroups } from '../../api/serverInvites';
 import { serverInShop, serverLeaveShop } from '../../api/serverShopper';
 import Context from '../../context/context';
-import { createTheme } from '@mui/material';
+import { Grid, Switch, createTheme } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+// import { useN01SwitchStyles } from '@mui-treasury/styles/switch/n01';
 
 export const Home = ({ group, setGroup }) => {
     const _navigate = useNavigate(Context);
@@ -17,9 +19,10 @@ export const Home = ({ group, setGroup }) => {
         palette: {
             primary: {
                 main: '#FF8F45',
+                contrastText: 'white'
             },
             secondary: {
-                main: '#FF0000'
+                main: '#19acb7'
             },
         },
     });
@@ -51,33 +54,21 @@ export const Home = ({ group, setGroup }) => {
     if (token == undefined) {
         //TODO להעביר ל URL של לוגין
     }
-
-    return <>
-        <Button variant='contained' theme={theme} onClick={() => _navigate('/shopper')} sx={{
-            width: '35%',
-            color: 'white',
-            margin: '2px'
-        }}>אני הולך לחנות</Button>
-
-        <Button variant='contained' theme={theme} onClick={() => _navigate('/customer')} sx={{
-            width: '35%',
-            color: 'white',
-            margin: '2px'
-        }}>הזמנת מוצר</Button>
-        <br />
-        <div className="checkbox-wrapper-34" >
-            <p >אני נמצא בחנות</p>
-            <input className='tgl tgl-ios' id='toggle-34' type='checkbox' name="inStore" checked={inShop.active} onChange={LeaveShop} />
-            <label className='tgl-btn' htmlFor='toggle-34'></label>
-        </div>
+  
+    return <> <Grid container spacing={1}>
+        <Grid item >
+            <Button variant='contained' theme={theme} className='whiteLetters' onClick={() => _navigate('/shopper')}>אני הולך לחנות</Button>
+        </Grid>
+        <Grid item>
+        <Button  variant='contained' theme={theme} className='whiteLetters' onClick={() => _navigate('/customer')}>הזמנת מוצר</Button>
+        </Grid>
+        </Grid>
+        <FormControlLabel
+    control = {
+        <Switch theme={theme} checked={inShop.active} onChange={LeaveShop} inputProps={{'aria-label': 'controlled'}}></Switch>
+    }
+    label ="אני נמצא בחנות"/>
         <h4 className='labelhome'>נשמח לראותך שוב</h4>
-
-
-
-
-
-
-
-
+    
     </>
 }

@@ -11,7 +11,6 @@ import { Context } from '../context/context'
 import { PotentialCustomer } from "./PotentialCustomer/PotentialCustomer";
 import App from "../App";
 import { PotentialShopper } from "./PotentialShopper/PotentialShopper";
-import { Admin } from "./Admin/Admin";
 import { Groups } from "./Groups/Groups";
 import { Home } from "./Home/Home";
 import { JoinGroup } from "../JoinGroup/JoinGroup";
@@ -95,7 +94,6 @@ export default function MyRouter() {
                                     <Route path="/chat" element={<Chats showChat={showChat} setShowChat={setShowChat} />} />
                                     <Route path="/settings" element={<Settings />} />
                                     <Route path="/orders" element={<MyOrders />} />
-                                    <Route path="/admin" element={<Admin />} />
                                     <Route path="/groups" element={<Groups />} />
 
                                 </Routes>

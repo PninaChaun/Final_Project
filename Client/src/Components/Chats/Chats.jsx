@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { ServerGetChats, serverDeleteChat } from '../../api/serverChat';
 import { Chat } from '../Chat/Chat';
 import '../Groups/Groups.css'
+import { Button } from '@mui/material';
 
 
 export function Chats({ showChat, setShowChat}) {
@@ -43,11 +44,11 @@ export function Chats({ showChat, setShowChat}) {
         <ul>
             {chats.map((chat) => (
                 <li className="group_name" key={chat.id}>
-                    <button className="nameGroup" onClick={() => openChat(chat.id)}> {chat.name} </button>
+                    <Button className="nameGroup" onClick={() => openChat(chat.id)}> {chat.name} </Button>
                     {showChat == chat.id ?
                         <>
                             <Chat userId={chat.id} />
-                            <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לסיום שיחת הצאט עם   {chat.name}</button>
+                            <Button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לסיום שיחת הצאט עם   {chat.name}</Button>
                             {/* <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לתשלום ב-payPal{chat.name}</button>
                             <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לתשלום ב-bit{chat.name}</button> */}
                                 {/* <th> onClick={()=>{removeOrder(order.orderId)}} </th> */}

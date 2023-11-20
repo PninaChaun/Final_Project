@@ -1,6 +1,0 @@
-
-SELECT m.GroupID ,i.CompanyName as CompanyName  ,count(i.GroupID) as Count
- FROM maintable_AVM1P  m
- join cb_vendorinformation i on i.GroupID=m.GroupID
- group by m.GroupID
- order by count(i.GroupID),i.GroupID
