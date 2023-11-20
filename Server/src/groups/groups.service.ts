@@ -62,7 +62,7 @@ export class GroupsService {
         
         let inviterName = await this.srv.getUserName(invite.inviterId)
         let groupName =await this.srv.getGroupName(invite.groupId)
-        this.email.sendEmail(invite.email,'shop4you', 'היי' + invite.name+","+'\n הוזמנת ע"י '+inviterName +'\n להצטרף לקבוצת: '+ groupName)
+        this.email.sendEmail(invite.email,' shop4you הצטרפות לקבוצה באפלקצית ', 'היי' + invite.name+","+'\n הוזמנת ע"י '+inviterName +'\n להצטרף לקבוצת: '+ groupName)
 
         return response;
     }

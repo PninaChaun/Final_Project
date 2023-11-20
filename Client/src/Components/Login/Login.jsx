@@ -145,7 +145,9 @@ export const Login = () => {
 
             {login ?
                 <>
+
                     <Button variant="outlined" className="register" type="button" theme={theme} onClick={() => setLogin(false)}>להרשמה</Button>
+
                     <br />
                     <TextField variant="standard" className="inputLogin " type="email" name="lemail" label="הכנס מייל" />
                     <br />
@@ -154,6 +156,7 @@ export const Login = () => {
                 </>
                 :
                 <>
+
                     <Button type="button" variant="outlined" theme={theme} onClick={() => setLogin(true)}>להתחברות</Button>
 
                     <TextField variant="outlined" className="inputLogin " type="email" name="semail" label="הכנס כתובת מייל" />

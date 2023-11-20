@@ -24,7 +24,7 @@ export  function Chat({ userId }) {
           id: current.id,
           name: current.name,
           // email: current.email,
-          photoUrl: 'src/assets/img/logo.png',
+          photoUrl: 'src/assets/img/cart.png',
           welcomeMessage: 'Hello!',
           role: 'default',
         });
@@ -34,7 +34,7 @@ export  function Chat({ userId }) {
           id: other.id,
           name: other.name,
           // email: other.email,
-          photoUrl: 'src/assets/img/logo.png',
+          photoUrl: 'src/assets/img/cart.png',
           welcomeMessage: 'Hello!',
           role: 'default',
         });

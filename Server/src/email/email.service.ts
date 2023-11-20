@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { createReadStream } from 'fs';
-
 @Injectable()
 export class EmailService {
     constructor(private readonly mailerService: MailerService) {}
@@ -9,6 +8,7 @@ export class EmailService {
     public sendEmail(to, subject, text): void {
         this.mailerService
           .sendMail({
+
             to: to, // list of receivers
             from: '"shop4you" <shop.for.community@gmail.com>', // sender address
 
@@ -28,5 +28,4 @@ export class EmailService {
           .catch((e) => {console.log(e,'did not send email');
           });
       }
-
 }

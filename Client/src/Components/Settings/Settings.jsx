@@ -41,8 +41,7 @@ export const Settings =  () => {
       }
     return <div>
 
-         <h1 className="name">שם: {user.name}</h1>
-         <p className="name">מייל: {user.email}</p>
+         <h1 className="name">{user.name}</h1>
         <form  className="form" onSubmit={saveChanges}>
          
             <TextField required type="number" name="saveOrder" id="saveOrder" label="משך זמן שמירת ההזמנה" value={user.saveOrder} onChange={(e)=>setUser({...user, 'saveOrder':e.target.value})}/>

@@ -7,8 +7,8 @@ import { group, log } from 'console';
 import { inviteDTO } from 'src/DTO/invite.dto';
 import { groupDTO } from 'src/DTO/group.dto';
 import { EmailService } from 'src/email/email.service';
-
-const client = new MongoClient("mongodb://shopforcommunity:pnina&hm@ac-tnsyddv-shard-00-00.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-01.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-02.tq3q4yi.mongodb.net:27017/?replicaSet=atlas-b1zzr7-shard-0&ssl=true&authSource=admin");
+// const client = new MongoClient("mongodb://shopforcommunity:pnina&hm@ac-tnsyddv-shard-00-00.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-01.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-02.tq3q4yi.mongodb.net:27017/?replicaSet=atlas-b1zzr7-shard-0&ssl=true&authSource=admin");
+const client = new MongoClient("mongodb://localhost:27017");
 client.connect(err => {
     if (err) {
         console.error('Failed to connect to MongoDB!', err);

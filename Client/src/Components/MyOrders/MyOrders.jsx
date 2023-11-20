@@ -48,7 +48,7 @@ else
                                 <th>{order.beginDate}</th>
                                 <th>{order.productName}</th>
                                 <th>{order.details}</th>
-                                <th><img src="src/assets/img/logo.png" alt="" width="30px" onClick={()=>{removeOrder(order.orderId)}} /></th>
+                                <th><img src="src/assets/img/garbage.png" alt="" width="30px" onClick={()=>{removeOrder(order.orderId)}} /></th>
 
                             </tr>
                         ))}

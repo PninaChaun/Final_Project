@@ -1,5 +1,5 @@
 import Popup from 'reactjs-popup';
-import { ServerJoinGroup, ServerLeaveInvite } from '../api/serverInvites';
+import { ServerJoinGroup, ServerLeaveInvite } from '../../api/serverInvites';
 
 export const JoinGroup = ({ group, setGroup }) => {
 
