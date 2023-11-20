@@ -26,6 +26,19 @@ const removeOrder=async (orderId)=>{
     }
 }
 
+const formatDate = (datetime, part) =>{
+    if (part =='date'){
+        let date = datetime.split('T')[0]
+        return date
+    }
+    else{
+        let time = datetime.split('T')[1]
+        let hours = time.split('.')[0].split(':')[0]
+        let minutes = time.split('.')[0].split(':')[1]
+        return hours +':'+minutes
+    }
+    
+}
 if (orders == null)
     return  <Loading />
 else
@@ -35,6 +48,7 @@ else
                     <thead>
                         <tr>
                             <th className="title">תאריך:</th>
+                            <th className="title">שעה:</th>
                             <th className="title">מוצר:</th>
                             <th className="title">פרטים נוספים </th>
                             <th className="title"> ביטול הזמנה </th>
@@ -45,7 +59,8 @@ else
                         {console.log(orders, 'orders')}
                         {orders.map((order) => (
                             <tr key={order.orderId}>
-                                <th>{order.beginDate}</th>
+                                <th>{formatDate(order.beginDate, 'date') }</th>
+                                <th>{formatDate(order.beginDate, 'time') }</th>
                                 <th>{order.productName}</th>
                                 <th>{order.details}</th>
                                 <th><img src="src/assets/img/garbage.png" alt="" width="30px" onClick={()=>{removeOrder(order.orderId)}} /></th>
