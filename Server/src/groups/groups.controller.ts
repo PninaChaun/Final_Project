@@ -15,7 +15,7 @@ export class GroupsController {
     constructor(private srv: GroupsService) { }
 
     @UseGuards(AutenticationService)
-    @Get()
+    @Get() //The groups I am part of
     async getMyGroups(@Request() req, @Res() res: Response) {
         let userId = req['user'].id;
         try {
@@ -29,7 +29,7 @@ export class GroupsController {
     }
 
     @UseGuards(AutenticationService)
-    @Get(':group_id')
+    @Get(':group_id') //Get group members
     async getMembers(@Request() req, @Param('group_id') group_id: string, @Res() res: Response) {
         let members = await this.srv.getMembers(parseInt(group_id))
         let invites = await this.srv.getInvites(parseInt(group_id))
@@ -37,12 +37,11 @@ export class GroupsController {
     }
 
     @UseGuards(AutenticationService)
-    @Post(':group_id')
+    @Post(':group_id') //Invite to group  //TODO-NICE move to invites
     async insertinvite(@Request() req, @Param('group_id') group_id: string, @Body() invite: inviteDTO, @Res() res: Response) {
 
         invite.inviterId = req['user'].id;
         invite.groupId =parseInt(group_id)
-
         let is_member = await this.srv.isMember(invite.groupId, invite.email)
         let response = ''
 
@@ -62,7 +61,6 @@ export class GroupsController {
             }
         }
         else{
-
             response= 'member'
         }
         
@@ -71,7 +69,7 @@ export class GroupsController {
     }
     
     @UseGuards(AutenticationService)
-    @Post()
+    @Post() //Create a new group
     async insertGroup(@Request() req, @Body() group: groupDTO, @Res() res: Response){
         let userId = req['user'].id;
         
@@ -82,12 +80,10 @@ export class GroupsController {
     }
     
     @UseGuards(AutenticationService)
-    @Put()
+    @Put() //Leave group
     async removeMemmber(@Request() req,@Body() body: any, @Res() res: Response){
         let userId = req['user'].id;
         let stat = await this.srv.DeleteMember(body.group_id, userId)  
         res.status(stat).send()
     }
-    
-
 }

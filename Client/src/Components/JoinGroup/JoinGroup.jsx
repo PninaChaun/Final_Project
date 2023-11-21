@@ -8,35 +8,31 @@ export const JoinGroup = ({ group, setGroup }) => {
         setGroup(updatedGroup);
     }
 
-    const saveJoin = (inviteId) =>{
+    const saveJoin = (inviteId) => {
         removegroup()
         ServerJoinGroup(inviteId)
     }
 
-    const leaveGroup =(inviteId)=>{
+    const leaveGroup = (inviteId) => {
         removegroup()
         ServerLeaveInvite(inviteId)
     }
-    //     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך 
-  
-        if (group.length > 0) {
-            let currrent_group = group[0]
-    
-            return <Popup open={true} position="right center">
-                <div className="PotentialCustomer">
-    
+
+    if (group.length > 0) {
+        let currrent_group = group[0]
+        return <Popup open={true} position="right center">
+            <div className="PotentialCustomer">
                 <img className="logo" src="src/assets/img/logo.png" width="100px" />
-                    <p >היי : {currrent_group.name}  <br />
-                        קבוצה : {currrent_group.groupName}  <br />
-                        המזמין: {currrent_group.inviterName}  <br />
-                    </p>
-                    <button className="submitCustomer" type="submit" onClick={() => saveJoin(currrent_group.id)}>אישור הצטרפות</button>
-                    <button className="submitCustomer" type="submit" onClick={() => removegroup()}>שאל אותי מאוחר יותר</button>
-                    <button type="submit" className="submitCustomer" onClick={() => leaveGroup(currrent_group.id)} >לא מאשר הצטרפות </button>
-                     <br />     <br />   
-                    
-                </div>
-            </Popup>
+                <p >היי : {currrent_group.name}  <br />
+                    קבוצה : {currrent_group.groupName}  <br />
+                    המזמין: {currrent_group.inviterName}  <br />
+                </p>
+                <button className="submitCustomer" type="submit" onClick={() => saveJoin(currrent_group.id)}>אישור הצטרפות</button>
+                <button className="submitCustomer" type="submit" onClick={() => removegroup()}>שאל אותי מאוחר יותר</button>
+                <button type="submit" className="submitCustomer" onClick={() => leaveGroup(currrent_group.id)} >לא מאשר הצטרפות </button>
+                <br />     <br />
+            </div>
+        </Popup>
     }
 }
 

@@ -1,5 +1,5 @@
 import { AutenticationService } from 'src/autentication/autentication.service';
-import { Body, Controller, Post, Request, Res, Param, Get,Delete, UseGuards, Put } from '@nestjs/common';
+import { Body, Controller, Post, Request, Res, Param, Get, Delete, UseGuards, Put } from '@nestjs/common';
 import { InvitesService } from './invites.service';
 import { Response } from 'express';
 
@@ -9,7 +9,7 @@ export class InvitesController {
     constructor(private srv: InvitesService) { }
 
     @UseGuards(AutenticationService)
-    @Get()
+    @Get() //The groups I am invited to
     async getMyGroups(@Request() req, @Res() res: Response) {
         let userId = req['user'].id;
 
@@ -24,15 +24,15 @@ export class InvitesController {
     }
 
     @UseGuards(AutenticationService)
-    @Post(':inviteId')
-    async insertinvite(@Request() req, @Param('inviteId') inviteId: string, @Res() res: Response) {
-        let userId =req['user'].id;
-        let status = await this.srv.insertInvite(parseInt(inviteId), userId)
+    @Post(':inviteId') //Accept invitation
+    async JoinGroup(@Request() req, @Param('inviteId') inviteId: string, @Res() res: Response) {
+        let userId = req['user'].id;
+        let status = await this.srv.JoinGroup(parseInt(inviteId), userId)
         res.status(status).send()
     }
 
     @UseGuards(AutenticationService)
-    @Delete(':inviteId')
+    @Delete(':inviteId') //Dismiss invite
     async leaveInvite(@Request() req, @Param('inviteId') inviteId: string, @Res() res: Response) {
         let status = await this.srv.leaveInvite(parseInt(inviteId))
         res.status(status).send()

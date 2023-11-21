@@ -7,8 +7,8 @@ import { group, log } from 'console';
 import { inviteDTO } from 'src/DTO/invite.dto';
 import { groupDTO } from 'src/DTO/group.dto';
 import { EmailService } from 'src/email/email.service';
-// const client = new MongoClient("mongodb://shopforcommunity:pnina&hm@ac-tnsyddv-shard-00-00.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-01.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-02.tq3q4yi.mongodb.net:27017/?replicaSet=atlas-b1zzr7-shard-0&ssl=true&authSource=admin");
-const client = new MongoClient("mongodb://localhost:27017");
+const client = new MongoClient("mongodb://shopforcommunity:pnina&hm@ac-tnsyddv-shard-00-00.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-01.tq3q4yi.mongodb.net:27017,ac-tnsyddv-shard-00-02.tq3q4yi.mongodb.net:27017/?replicaSet=atlas-b1zzr7-shard-0&ssl=true&authSource=admin");
+// const client = new MongoClient("mongodb://localhost:27017");
 client.connect(err => {
     if (err) {
         console.error('Failed to connect to MongoDB!', err);
@@ -20,12 +20,6 @@ const db = client.db('project');
 
 @Injectable()
 export class DataBaseConnectionService {
-    constructor() { }
-
-    getUsers = () => {
-        let col = db.collection('users').find({}).toArray();
-        return col;
-    }
 
     getUser = async (id: Number) => {
         let col = await db.collection('users').findOne({ id: id })
@@ -47,8 +41,8 @@ export class DataBaseConnectionService {
         return col;
     }
 
-    getShop = (id: Number) => {
-        let col = db.collection('shoppers').findOne({ shopId: id });
+    getShop = async (id: Number) => {
+        let col = await db.collection('shoppers').findOne({ shopId: id });
         return col;
     }
 
@@ -63,34 +57,22 @@ export class DataBaseConnectionService {
         //db.collection('users').replaceOne({ id: user.id },{...u})
 
         return 200;
-    };
+    }
 
-    emailAvailable = async(email:string)=>{
-        let used =await db.collection('users').findOne({email:email})
+    emailAvailable = async (email: string) => {
+        let used = await db.collection('users').findOne({ email: email })
         if (used)
             return false
-        else 
+        else
             return true
     }
 
     insertUser = async (user: UserDTO) => {
-
         let newId = await this.getNextSequenceValue('users')
-
         user.saveOrder = user.saveOrder
 
         db.collection('users').insertMany([{ ...user, id: newId, groups: [], chat: [], orders: [], shopId: -1 }])
         return newId
-    }
-
-    getOrders = (userId) => {
-        let col = db.collection('orders').find({ userId: userId }).toArray();
-        return col;
-    }
-
-    getOrder = (orderId) => {
-        let col = db.collection('orders').findOne({ orderId: orderId });
-        return col;
     }
 
     getAllOrders = async (user_groups: any, prevTime: Date) => {
@@ -141,6 +123,7 @@ export class DataBaseConnectionService {
             return { stat: 500, orderId: null };
         }
     }
+
     //TODO לשמור את השעה של saveOrder saveStore int not string
     deactivateOrder = async (orderId: Number, userId) => {
         db.collection('orders').updateOne({ orderId: orderId }, { $set: { active: false } })
@@ -151,18 +134,16 @@ export class DataBaseConnectionService {
     }
 
     deactivateShopper = async (shopId: Number) => {
-        // let shop = await this.getShop(shopId)
-
-        // shop = shop[0]
-        // db.collection('shoppers').deleteOne({ shopId: shopId }).then(
-        //     db.collection('shoppers').insertOne({ ...shop, active: false }) )
         db.collection('shoppers').updateOne({ shopId: shopId }, { $set: { active: false } })
-
         return 200;
     }
 
+    private getOrder = async (orderId) => {
+        let col = db.collection('orders').findOne({ orderId: orderId });
+        return col;
+    }
+
     updateOrder_addShopperId = async (shopId: number, orderId: Number) => {
-        //TODO_AFTER change all await to then
         //TODO_AFTER why .toArray() and then [0]  in getUser, getOrder...
         //TODO_AFTER try to change updates to update and not to delete and insert
 
@@ -264,7 +245,6 @@ export class DataBaseConnectionService {
         }
 
     }
-
 
     getInvites = async (group_id) => {
         let group = await db.collection('groups').findOne({ id: group_id })

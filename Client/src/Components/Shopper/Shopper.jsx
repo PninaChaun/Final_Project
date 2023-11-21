@@ -12,16 +12,13 @@ import { Loading } from "../Loading/Loading";
 import { useAlert } from "react-hook-popup";
 import { Checkbox, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
-  
+
      const [user, setUser] = useState(null);
      const [showGroups, setShowGroups] = useState(true);
      const [groups, setGroups] = useState(null);
      const _navigate = useNavigate(Context);
-
      const [checked, setChecked] = useState([]);
-
-     const[alert] = useAlert()
-
+     const [alert] = useAlert()
 
      useEffect(() => {
 
@@ -36,7 +33,7 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
                     .then(r => JSON.parse(r))
                     .then(r => {
                          if (r.length == 0)
-                         alert('לא תוכל לקנות לחברים - כי אינך חבר בקבוצה')
+                              alert('לא תוכל לקנות לחברים - כי אינך חבר בקבוצה')
                          setGroups(r)
                     });
           }
@@ -63,11 +60,11 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
 
           const store = event.target.store.value;
           let group_ids = checked
-          if (group_ids.length ==0 ){
+          if (group_ids.length == 0) {
                alert('לא ניתן לעדכן הליכה לחנות ללא בחירת קבוצות')
                return
           }
-               
+
           let shopInfo = { 'store': store, "groups": group_ids }
 
           const x = ServerShopper(shopInfo)
@@ -79,7 +76,6 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
                .catch((error) => {
                     console.log(error);
                })
-          // 
      }
 
      const shouldDisableSave = () => {
@@ -117,7 +113,7 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
                                              return (
                                                   <ListItem
                                                        key={value.id}
-                                                      
+
                                                        disablePadding
                                                   >
                                                        <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
@@ -129,7 +125,7 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
                                                                       disableRipple
                                                                       inputProps={{ 'aria-labelledby': labelId }}
 
-                                                                      // color="#FF0000"
+                                                                 // color="#FF0000"
                                                                  />
                                                             </ListItemIcon>
                                                             <ListItemText id={labelId} primary={value.name} />
@@ -137,20 +133,14 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
                                                   </ListItem>
                                              );
                                         })}
-
-
                                    </List>
-
-
                               </>
                               :
                               <>
                                    <Loading />
                               </>
-
                          }
                     </div>
-
                     <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>שמירה </button>
                </form>
           </div>

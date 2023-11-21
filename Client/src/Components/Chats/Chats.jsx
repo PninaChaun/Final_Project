@@ -7,12 +7,10 @@ import '../Groups/Groups.css'
 import { Button } from '@mui/material';
 
 
-export function Chats({ showChat, setShowChat}) {
+export function Chats({ showChat, setShowChat }) {
 
     const [chats, setChats] = useState([])
     const [reload, setReload] = useState(false) //forcing reload GroupMembers to show new invite
-
-
 
     useEffect(() => {
         ServerGetChats()
@@ -20,7 +18,6 @@ export function Chats({ showChat, setShowChat}) {
             .then(
                 r => {
                     setChats(r)
-                    // setChats(r.reverse()) // show current chat first
                 }
             )
     }, [reload])
@@ -33,13 +30,12 @@ export function Chats({ showChat, setShowChat}) {
         }
     }
 
-    const deleteChat=(chatId)=>{
+    const deleteChat = (chatId) => {
         serverDeleteChat(chatId)
 
         setReload(!reload)
     }
 
-    ///chatid=userid
     return <>
         <ul>
             {chats.map((chat) => (
@@ -49,13 +45,7 @@ export function Chats({ showChat, setShowChat}) {
                         <>
                             <Chat userId={chat.id} />
                             <Button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לסיום שיחת הצאט עם   {chat.name}</Button>
-                            {/* <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לתשלום ב-payPal{chat.name}</button>
-                            <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לתשלום ב-bit{chat.name}</button> */}
-                                {/* <th> onClick={()=>{removeOrder(order.orderId)}} </th> */}
-                          <a href="http:///www.paypal.com"><img src="src/assets/img/cart.png" alt="" width="70px"/> </a>
-                                                      {/* <a href="https://www.paypal.com/il/signin"><button>הצטרפות לקבוצה</button></a>' */}
-
-
+                            <a href="http:///www.paypal.com"><img src="src/assets/img/cart.png" alt="" width="70px" /> </a>
                         </>
                         :
                         <></>
@@ -63,8 +53,5 @@ export function Chats({ showChat, setShowChat}) {
                 </li>
             ))}
         </ul>
-
     </>
-
-
 }

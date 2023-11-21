@@ -8,7 +8,6 @@ import { serverInShop, serverLeaveShop } from '../../api/serverShopper';
 import Context from '../../context/context';
 import { Grid, Switch, createTheme } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
-// import { useN01SwitchStyles } from '@mui-treasury/styles/switch/n01';
 
 export const Home = ({ group, setGroup }) => {
     const _navigate = useNavigate(Context);
@@ -52,23 +51,23 @@ export const Home = ({ group, setGroup }) => {
 
     const token = Cookies.get('token')
     if (token == undefined) {
-        //TODO להעביר ל URL של לוגין
+        _navigate('/login')
     }
-  
+
     return <> <Grid container spacing={1}>
         <Grid item >
             <Button variant='contained' theme={theme} className='whiteLetters' onClick={() => _navigate('/shopper')}>אני הולך לחנות</Button>
         </Grid>
         <Grid item>
-        <Button  variant='contained' theme={theme} className='whiteLetters' onClick={() => _navigate('/customer')}>הזמנת מוצר</Button>
+            <Button variant='contained' theme={theme} className='whiteLetters' onClick={() => _navigate('/customer')}>הזמנת מוצר</Button>
         </Grid>
-        </Grid>
+    </Grid>
         <FormControlLabel
-    control = {
-        <Switch theme={theme} checked={inShop.active} onChange={LeaveShop} inputProps={{'aria-label': 'controlled'}}></Switch>
-    }
-    label ="אני נמצא בחנות"/>
+            control={
+                <Switch theme={theme} checked={inShop.active} onChange={LeaveShop} inputProps={{ 'aria-label': 'controlled' }}></Switch>
+            }
+            label="אני נמצא בחנות" />
         <h4 className='labelhome'>נשמח לראותך שוב</h4>
-    
+
     </>
 }

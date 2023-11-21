@@ -1,49 +1,49 @@
 import { useEffect, useState } from "react"
 import { ServerDeleteOrder, ServerMyOrders } from "../../api/serverOrder"
 import { Loading } from "../Loading/Loading"
-import {useConfirm, usePopup} from 'react-hook-popup'
+import { useConfirm } from 'react-hook-popup'
 
 export const MyOrders = () => {
     const [orders, setOrders] = useState(null)
     const [reload, setReload] = useState(true)
-    const[confirm]  = useConfirm()
+    const [confirm] = useConfirm()
 
- 
-    useEffect(()=>{
+
+    useEffect(() => {
         ServerMyOrders()
-        .then(r=>JSON.parse(r))
-        .then(r=>setOrders(r) )
-    },[reload])
+            .then(r => JSON.parse(r))
+            .then(r => setOrders(r))
+    }, [reload])
 
-const removeOrder=async (orderId)=>{
-    const confirmed = await confirm('למחוק הזמנה?')
-    if (confirmed){
-        ServerDeleteOrder(orderId)
-        .then(()=>{setReload(!reload)})
+    const removeOrder = async (orderId) => {
+        const confirmed = await confirm('למחוק הזמנה?')
+        if (confirmed) {
+            ServerDeleteOrder(orderId)
+                .then(() => { setReload(!reload) })
 
-    }else{
-        console.log('not deleting');
+        } else {
+            console.log('not deleting');
+        }
     }
-}
 
-const formatDate = (datetime, part) =>{
-    if (part =='date'){
-        let date = datetime.split('T')[0]
-        return date
+    const formatDate = (datetime, part) => {
+        if (part == 'date') {
+            let date = datetime.split('T')[0]
+            return date
+        }
+        else {
+            let time = datetime.split('T')[1]
+            let hours = time.split('.')[0].split(':')[0]
+            let minutes = time.split('.')[0].split(':')[1]
+            return hours + ':' + minutes
+        }
+
     }
-    else{
-        let time = datetime.split('T')[1]
-        let hours = time.split('.')[0].split(':')[0]
-        let minutes = time.split('.')[0].split(':')[1]
-        return hours +':'+minutes
-    }
-    
-}
-if (orders == null)
-    return  <Loading />
-else
-    return <>                
-                <div className="div">
+    if (orders == null)
+        return <Loading />
+    else
+        return <>
+            <div className="div">
                 <table className="user-table" >
                     <thead>
                         <tr>
@@ -59,18 +59,16 @@ else
                         {console.log(orders, 'orders')}
                         {orders.map((order) => (
                             <tr key={order.orderId}>
-                                <th>{formatDate(order.beginDate, 'date') }</th>
-                                <th>{formatDate(order.beginDate, 'time') }</th>
+                                <th>{formatDate(order.beginDate, 'date')}</th>
+                                <th>{formatDate(order.beginDate, 'time')}</th>
                                 <th>{order.productName}</th>
                                 <th>{order.details}</th>
-                                <th><img src="src/assets/img/garbage.png" alt="" width="30px" onClick={()=>{removeOrder(order.orderId)}} /></th>
+                                <th><img src="src/assets/img/garbage.png" alt="" width="30px" onClick={() => { removeOrder(order.orderId) }} /></th>
 
                             </tr>
                         ))}
                     </tbody>
                 </table>
-
             </div>
-</>
-
+        </>
 }

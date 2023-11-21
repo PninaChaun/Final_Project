@@ -1,42 +1,45 @@
-.submitShopper{
-margin-top: 3px;
-width: 106px;
-height: 29px;
-flex-shrink: 0;
-border-radius: 9px;
-background: #FF8F45;
-color: white;
-text-align: center;
-font-size:small;
-border: #FF8F45;
-margin-right: 50px;
-margin-top: 10px;
-box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
+.submitShopper {
+    margin-top: 3px;
+    width: 106px;
+    height: 29px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #FF8F45;
+    color: white;
+    text-align: center;
+    font-size: small;
+    border: #FF8F45;
+    margin-right: 50px;
+    margin-top: 10px;
+    box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
 }
 
-.submitShopper:disabled{
+.submitShopper:disabled {
     background: #cf8452;
-    cursor:not-allowed;
+    cursor: not-allowed;
 }
-.store{
+
+.store {
     width: 200px;
     height: 45px;
     flex-shrink: 0;
-    
+
     border-radius: 9px;
     background: #FFF;
     box-shadow: 1px 1px 1px 0px rgba(191, 191, 191, 0.19);
-    
+
     color: #070606;
     text-align: right;
     font-family: Rubik;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 126.421%; /* 15.17px */
+    line-height: 126.421%;
+    /* 15.17px */
     letter-spacing: 0.06px;
 }
-.labelShopper{
+
+.labelShopper {
 
     margin-bottom: 10px;
     margin-top: 30px;

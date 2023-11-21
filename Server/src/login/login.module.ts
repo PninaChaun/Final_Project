@@ -11,7 +11,7 @@ import { DataBaseConnectionService } from 'src/data-base-connection/data-base-co
         JwtModule.register({
           global: true,
           secret: jwtConstants.secret,
-          signOptions: { expiresIn: '60s' },
+          signOptions: { expiresIn: '5H' },
         }),
       ],
       providers: [DataBaseConnectionService,LoginService],

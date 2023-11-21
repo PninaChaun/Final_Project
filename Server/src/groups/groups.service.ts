@@ -9,7 +9,7 @@ export class GroupsService {
 
     constructor(private srv:DataBaseConnectionService, private email:EmailService){}
 
-    async getMyGroups(userId){
+    getMyGroups = async(userId)=>{
         let groups = await this.srv.getMyGroups(userId)
         return groups
     }
@@ -58,7 +58,6 @@ export class GroupsService {
 
         let invite_id = await this.srv.insertinvite(invite);
         let response = this.srv.addToGroupInvite(invite.groupId, invite_id)
-
         
         let inviterName = await this.srv.getUserName(invite.inviterId)
         let groupName =await this.srv.getGroupName(invite.groupId)

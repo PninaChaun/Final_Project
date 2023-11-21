@@ -6,7 +6,7 @@ import Context from "../../context/context";
 import '../PotentialShopper/PotentialShopper.css'
 import { serverAddChat } from "../../api/serverChat";
 
-export const PotentialShopper = ({ shopper, setShopper,setChatId, orderId, setShowChat }) => {
+export const PotentialShopper = ({ shopper, setShopper, setChatId, orderId, setShowChat }) => {
     const _navigate = useNavigate(Context);
 
     const openChat = () => {
@@ -17,14 +17,13 @@ export const PotentialShopper = ({ shopper, setShopper,setChatId, orderId, setSh
         _navigate('/chat')
 
     }
-    //     //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך 
+
     if (shopper != null) {
         return <Popup open={true} position="right center">
-            {/* <audio src='/src/assets/mp3/mp3.mp3' autoPlay="true" ></audio> */}
-
+            <audio src='/src/assets/mp3/mp3.mp3' autoPlay="true" ></audio>
             <img className="logo" src="src/assets/img/logo.png" width="100px" />
             <div className="UserShopper">
-                { console.log(shopper) }
+                {console.log(shopper)}
                 <p className="shopperUser">שם: {shopper['user'].name}  <br />
                     חנות: {shopper['shopper'].store}
                 </p>

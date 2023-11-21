@@ -1,56 +1,61 @@
-.startCustomer{
+.startCustomer {
     color: var(--unnamed, #4D4D4D);
-font-family: Rubik;
-font-size: 25px;
-font-style: normal;
-font-weight: 400;
-line-height: 123.936%;
+    font-family: Rubik;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 123.936%;
 }
-.details{
+
+.details {
     margin-top: 12px;
-    width:270;
+    width: 270;
     height: 180px;
     flex-shrink: 0;
 
     border-radius: 13px;
-border: 1px solid var(--bababa, #BABABA);
+    border: 1px solid var(--bababa, #BABABA);
 }
-.submit2{
+
+.submit2 {
     width: 106px;
-height: 29px;
-flex-shrink: 0;
+    height: 29px;
+    flex-shrink: 0;
 
-border-radius: 9px;
-background: #FF8F45;
-color: white;
-text-align: center;
-font-size:small;
-border: #FF8F45;
-margin-right: 80px;
+    border-radius: 9px;
+    background: #FF8F45;
+    color: white;
+    text-align: center;
+    font-size: small;
+    border: #FF8F45;
+    margin-right: 80px;
 
-/* Drop Shadow */
-box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
-} 
-.bag{
-    width: 231.48px;
-height: 231.48px;
-flex-shrink: 0;
+    /* Drop Shadow */
+    box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
 }
-.productName{
-    
+
+.bag {
     width: 231.48px;
-height: 45px;
-flex-shrink: 0;
-border-radius: 9px;
-background: #FFF;
+    height: 231.48px;
+    flex-shrink: 0;
+}
+
+.productName {
+
+    width: 231.48px;
+    height: 45px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #FFF;
 
 
-/* Drop Shadow */
-box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
+    /* Drop Shadow */
+    box-shadow: 1px 1px 11px 0px rgba(191, 191, 191, 0.19);
 
 
 }
- /* .product{
+
+/* .product{
     width: 35px;
     color: #DEDEDE; 
 text-align: cente; 
@@ -61,29 +66,32 @@ font-weight: 400;
 line-height: 126.421%;  
  letter-spacing: 0.06px; 
 } */
-.lableProduct{
+.lableProduct {
     /* color: var(--unnamed, #4D4D4D); */
     margin-bottom: 4px;
-font-family: Rubik;
-font-size:18px;
-font-style: normal;
-font-weight: 300;
-line-height: 123.936%; 
+    font-family: Rubik;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 123.936%;
 
-    
+
 }
-.fo{
+
+.fo {
     /* color: #DEDEDE !important; */
     text-align: right;
     font-family: Rubik;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 126.421%; /* 15.17px */
+    line-height: 126.421%;
+    /* 15.17px */
     letter-spacing: 0.04px;
     /* width: 20px; */
 
 }
-.hello{
+
+.hello {
     color: #FF8F45;
 }

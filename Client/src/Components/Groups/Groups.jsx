@@ -63,8 +63,6 @@ export const Groups = () => {
     let currentGroup = show
     setaddMemberreload(!addMemberreload);
 
-
-
     ServerInvite(currentGroup, email, name)
       .then(() => {
         setReload(!reload)

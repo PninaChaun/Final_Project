@@ -2,23 +2,19 @@ import { useNavigate } from "react-router-dom"
 import { ServerOrder } from "../../api/serverOrder";
 import Context from "../../context/context";
 import { useEffect, useState } from "react";
-import { FindShopper } from "../../api/serverFindShopper";
 import './Customer.css'
 import { ServerGetUser } from "../../api/serverSettings";
 import { ServerGroups } from "../../api/serverGroups";
-import Cookies from "js-cookie";
 import { Loading } from "../Loading/Loading";
 import '../Shopper/Shopper.css';
 import { useAlert } from "react-hook-popup";
-import { List, ListItem,  ListItemIcon, ListItemButton , Checkbox, ListItemText, Button } from '@mui/material'
+import { List, ListItem, ListItemIcon, ListItemButton, Checkbox, ListItemText, Button } from '@mui/material'
 
 export const Customer = ({ setOrderId }) => {
      const [user, setUser] = useState(null);
      const [groups, setGroups] = useState(null);
      const [showGroups, setShowGroups] = useState(true);
-
      const [checked, setChecked] = useState([]);
-
      const [alert] = useAlert()
 
      const _navigate = useNavigate(Context);
@@ -60,13 +56,11 @@ export const Customer = ({ setOrderId }) => {
           let productName = event.target['productName'].value;
           let details = event.target.details.value;
           let group_ids = checked
-          if (group_ids.length ==0 ){
+          if (group_ids.length == 0) {
                alert('לא ניתן ליצור הזמנה ללא בחירת קבוצות')
                return
           }
-               
           let order = { 'productName': productName, 'details': details, 'groups': group_ids }
-
           ServerOrder(order)
                .then((result) => JSON.parse(result))
                .then((result) => {
@@ -76,7 +70,6 @@ export const Customer = ({ setOrderId }) => {
                .catch((error) => {
                     console.log(error);
                })
-
      }
 
      const shouldDisableSave = () => {
@@ -89,7 +82,6 @@ export const Customer = ({ setOrderId }) => {
 
      if (user != null)
           return <>
-
                <img className="bag" src="src/assets/img/bag.gif" width="300px" />
                <h2 className="hello"> היי {user.name},</h2>
                <h4 className="startCustomer">ספר לנו מה ברצונך לקנות</h4>
@@ -109,9 +101,7 @@ export const Customer = ({ setOrderId }) => {
                                              return (
                                                   <ListItem
                                                        key={value.id}
-                                                      
-                                                       disablePadding
-                                                  >
+                                                       disablePadding>
                                                        <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
                                                             <ListItemIcon>
                                                                  <Checkbox
@@ -119,9 +109,7 @@ export const Customer = ({ setOrderId }) => {
                                                                       checked={checked.indexOf(value.id) !== -1}
                                                                       tabIndex={-1}
                                                                       disableRipple
-                                                                      inputProps={{ 'aria-labelledby': labelId }}
-
-                                                                      // color="#FF0000"
+                                                                      inputProps={{ 'aria-labelledby': labelId }}                                                             // color="#FF0000"
                                                                  />
                                                             </ListItemIcon>
                                                             <ListItemText id={labelId} primary={value.name} />
@@ -133,20 +121,19 @@ export const Customer = ({ setOrderId }) => {
 
                                    </List>
                               </>
-                                   :
-                                   <>
-                                        <Loading />
-                                   </> 
+                              :
+                              <>
+                                   <Loading />
+                              </>
 
                          }
-                              </div>
-                         <br />
-                         <label className="lableProduct" htmlFor="">שם מוצר: </label>
-                         <br />
-                         {/* <label className="lableProduct" htmlFor="product">שם מוצר</label> */}
-                         <input className="productName" type="text" name="productName" id="productName" placeholder=" חלב" />
-                         <textarea className="details" name="details" id="details" cols="30" rows="10" placeholder="הקלד כאן פרטים נוספים:" />
-                         <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>אישור </button>
+                    </div>
+                    <br />
+                    <label className="lableProduct" htmlFor="">שם מוצר: </label>
+                    <br />
+                    <input className="productName" type="text" name="productName" id="productName" placeholder=" חלב" />
+                    <textarea className="details" name="details" id="details" cols="30" rows="10" placeholder="הקלד כאן פרטים נוספים:" />
+                    <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>אישור </button>
                </form>
 
           </>

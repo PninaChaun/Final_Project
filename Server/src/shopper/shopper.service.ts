@@ -13,31 +13,25 @@ export class ShopperService {
         shopper.active = true;
         shopper.datetime = new Date();
 
-        // return new Promise((resolve,reject)=>{
-            
-        const status =await this.srv.insertShopper(shopper);
+        const status = await this.srv.insertShopper(shopper);
         return status;
-        // resolve(status);
-        // })
-
-
     }
 
-    async findPotentialCustomer(userId: Number, prevTime: Date, shopId:Number) {
+    async findPotentialCustomer(userId: Number, prevTime: Date, shopId: Number) {
         // let myGroups = await this.srv.getMyGroups(userId)
-        let shop:ShopperDTO = await this.srv.getShop(shopId)
+        let shop: ShopperDTO = await this.srv.getShop(shopId)
         let myGroups = shop.groups
         console.log(myGroups);
-        
+
 
         let ordersUsers = []
         return this.srv.getAllOrders(myGroups, prevTime).then(
-            async(o) => {                
+            async (o) => {
                 let orders: orderDTO[] = o['col']
                 for (let i = 0; i < orders.length; i++) {
                     let order = orders[i]
                     let user = await this.srv.getUser(order.userId)
-                    
+
                     ordersUsers.push({ order, user })
                 }
             }).then(r => {
@@ -45,21 +39,21 @@ export class ShopperService {
             })
     }
 
-    async saveBuy(shopId:number, orderId:number){
-        
+    async saveBuy(shopId: number, orderId: number) {
+
         const status = await this.srv.updateOrder_addShopperId(shopId, orderId)
         return status
     }
 
-    async IfInShop(userId: Number){
+    async IfInShop(userId: Number) {
         return await this.srv.IfInShop(userId)
     }
 
-    async leaveShop (userId: Number)  {
-        let user:UserDTO =await this.srv.getUser(userId)
+    async leaveShop(userId: Number) {
+        let user: UserDTO = await this.srv.getUser(userId)
         console.log(user, 'ser - user');
-        
+
         await this.srv.deactivateShopper(user.shopId)
     }
-    
+
 }

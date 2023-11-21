@@ -7,64 +7,61 @@ import { serverAddChat } from "../../api/serverChat";
 import { ServerGetUser } from "../../api/serverSettings";
 import { useEffect, useState } from "react";
 
-export const PotentialCustomer = ({ order, setOrder, shopId, setChatId, setShowChat}) => {
+export const PotentialCustomer = ({ order, setOrder, shopId, setChatId, setShowChat }) => {
     const _navigate = useNavigate(Context);
-    const [user,setUser]=useState(null);
+    const [user, setUser] = useState(null);
     useEffect(() => {
         async function fetchData() {
-        ServerGetUser().then(
-            user=>{
-                setUser(JSON.parse(user))
-            }
-        )
-          
+            ServerGetUser().then(
+                user => {
+                    setUser(JSON.parse(user))
+                }
+            )
         }
         fetchData();
-      }, []);
+    }, []);
 
     const removeOrder = () => {
         const updatedOrders = [...order.slice(1)];
         setOrder(updatedOrders);
     }
 
-    const saveBuy = (orderId) => {        
+    const saveBuy = (orderId) => {
         serverSaveBuy(orderId, shopId)
-        .then(()=>{
-            setChatId(orderId)
-            serverAddChat(order[0]['user'].id)
-            setShowChat(order[0]['user'].id)
-        }
-        ).then(
-            ()=>{
-            removeOrder()
-            _navigate('/chat')
+            .then(() => {
+                setChatId(orderId)
+                serverAddChat(order[0]['user'].id)
+                setShowChat(order[0]['user'].id)
             }
-        )
+            ).then(
+                () => {
+                    removeOrder()
+                    _navigate('/chat')
+                }
+            )
 
     }
 
-    //TODO הפופאפ נסגר כשלוחצים איפהשהוא במסך
     if (order.length > 0) {
         let currrent_order = order[0]
-          if (!user) {
-        return   <Loading />
-      }
+        if (!user) {
+            return <Loading />
+        }
         return <Popup open={true} position="right center">
             <audio src='/src/assets/mp3/mp3.mp3' autoPlay="true" ></audio>
             <div className="PotentialCustomer">
 
-            <img className="logo" src="src/assets/img/logo.png" width="100px" />
-            {/* <p>{order.length}</p> */} 
-            <p > היי{user.name},<br />  {currrent_order['user'].name} רוצה <br />
-                    מוצר - {currrent_order['order'].productName} 
-                     <br />
+                <img className="logo" src="src/assets/img/logo.png" width="100px" />
+                <p > היי{user.name},<br />  {currrent_order['user'].name} רוצה <br />
+                    מוצר - {currrent_order['order'].productName}
+                    <br />
                     ופרטים נוספים: {currrent_order['order'].details}  <br />
                     כתובת: {currrent_order['user'].address}  <br />
                 </p>
                 <button className="submitCustomer" type="submit" onClick={() => saveBuy(currrent_order['order'].orderId)}>אישור קניה</button>
                 <button type="submit" className="submitCustomer" onClick={() => removeOrder()} >לא מאשר קניה </button>
-                 <br />     <br />   
-                
+                <br />     <br />
+
             </div>
         </Popup>
     }

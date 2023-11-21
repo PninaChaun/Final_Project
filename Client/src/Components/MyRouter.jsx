@@ -18,15 +18,12 @@ import { FindCustomer } from "../api/serverFindCustomer";
 import { FindShopper } from "../api/serverFindShopper";
 import { Chats } from "./Chats/Chats";
 import { MyOrders } from "./MyOrders/MyOrders";
-// import { Body } from "./Body";
- 
- 
+
+
 
 const ProtectedRoute = ({ children }) => {
     const token = Cookies.get('token')
     if (!token) {
-        // let path = location.href
-        // Cookies.set('initial_path', path)
         return <Navigate to="/login" replace />;
     }
     return children;
@@ -42,7 +39,6 @@ export default function MyRouter() {
     const [showChat, setShowChat] = useState(-1)
     const [chatId, setChatId] = useState(null)
 
-//TODO now - send orderID to server so can select orders - groups relevant
     //shopper looking for orders
     useEffect(() => {
         const interval = setInterval(() => {
@@ -58,7 +54,7 @@ export default function MyRouter() {
                         });
                 }
             }
-        }, 5000); 
+        }, 5000);
 
         return () => clearInterval(interval);
     }, [shopId, order]);
@@ -66,20 +62,20 @@ export default function MyRouter() {
     //customer looking for shopper
     useEffect(() => {
         let intervalId = setInterval(() => {
-             if (orderId != null) {
-                  console.log(orderId,'if');
+            if (orderId != null) {
+                console.log(orderId, 'if');
 
-                  FindShopper(orderId)
-                       .then(r => JSON.parse(r))
-                       .then(r => {
-                            if (Object.keys(r).length > 0) {
-                                 setShopper(r);
-                                 clearInterval(intervalId);
-                            }
-                       });
-             }
+                FindShopper(orderId)
+                    .then(r => JSON.parse(r))
+                    .then(r => {
+                        if (Object.keys(r).length > 0) {
+                            setShopper(r);
+                            clearInterval(intervalId);
+                        }
+                    });
+            }
         }, 5000);
-   }, [orderId]);
+    }, [orderId]);
 
     return (
         <div>
@@ -91,17 +87,13 @@ export default function MyRouter() {
                         element={
                             <ProtectedRoute>
                                 <Routes>
-                                <Route path="/app" element={<App />} />
                                     <Route path="/" element={<Home group={group} setGroup={setGroup} />} />
                                     <Route path="/shopper" element={<Shopper order={order} setOrder={setOrder} shopId={shopId} setshopId={setshopId} />} />
                                     <Route path="/customer" element={<Customer setOrderId={setOrderId} />} />
                                     <Route path="/chat" element={<Chats showChat={showChat} setShowChat={setShowChat} />} />
-                                    <Route path="/settings" element={<Settings  />} />
+                                    <Route path="/settings" element={<Settings />} />
                                     <Route path="/orders" element={<MyOrders />} />
                                     <Route path="/groups" element={<Groups />} />
-                                    {/* <Route path="/body" element={<Body/>} /> */}
-
-
                                 </Routes>
                             </ProtectedRoute>
                         }
@@ -110,7 +102,7 @@ export default function MyRouter() {
                 </Routes>
             </Context.Provider>
 
-            <PotentialCustomer order={order} setOrder={setOrder} shopId={shopId} setChatId={setChatId}  setShowChat={setShowChat}  />
+            <PotentialCustomer order={order} setOrder={setOrder} shopId={shopId} setChatId={setChatId} setShowChat={setShowChat} />
             <PotentialShopper shopper={shopper} setShopper={setShopper} setChatId={setChatId} orderId={orderId} setShowChat={setShowChat} />
             <JoinGroup group={group} setGroup={setGroup} />
         </div>

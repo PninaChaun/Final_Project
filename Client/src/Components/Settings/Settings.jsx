@@ -9,50 +9,49 @@ import { TextField } from "@mui/material";
 
 
 
-export const Settings =  () => {
+export const Settings = () => {
 
-    const [user,setUser]=useState(null);
+    const [user, setUser] = useState(null);
     const _navigate = useNavigate(Context);
 
     useEffect(() => {
         async function fetchData() {
-        ServerGetUser().then(
-            user=>{
-                setUser(JSON.parse(user))
-            }
-        )
-          
+            ServerGetUser().then(
+                user => {
+                    setUser(JSON.parse(user))
+                }
+            )
+
         }
         fetchData();
-      }, []);
+    }, []);
 
-
-    const saveChanges=($event)=>{
+    const saveChanges = ($event) => {
         event.preventDefault();
-        
+
         ServerUpdateUser(user)
-        .then(()=> _navigate('/'))
-        .catch(()=> alert('אימייל זה תפוס'))
-       
+            .then(() => _navigate('/'))
+            .catch(() => alert('אימייל זה תפוס'))
+
     }
 
     if (!user) {
-        return   <Loading />
-      }
+        return <Loading />
+    }
     return <div>
 
-         <h1 className="name">{user.name}</h1>
-        <form  className="form" onSubmit={saveChanges}>
-         
-            <TextField required type="number" name="saveOrder" id="saveOrder" label="משך זמן שמירת ההזמנה" value={user.saveOrder} onChange={(e)=>setUser({...user, 'saveOrder':e.target.value})}/>
+        <h1 className="name">{user.name}</h1>
+        <form className="form" onSubmit={saveChanges}>
+
+            <TextField required type="number" name="saveOrder" id="saveOrder" label="משך זמן שמירת ההזמנה" value={user.saveOrder} onChange={(e) => setUser({ ...user, 'saveOrder': e.target.value })} />
             <br />
-          
-            <TextField required type="number" name="saveStore" id="saveStore" label="משך זמן שמירת ההליכה לחנות" value={user.saveStore}  onChange={(e)=>setUser({...user, 'saveStore':e.target.value})}/>
-       
+
+            <TextField required type="number" name="saveStore" id="saveStore" label="משך זמן שמירת ההליכה לחנות" value={user.saveStore} onChange={(e) => setUser({ ...user, 'saveStore': e.target.value })} />
+
             <br />
-            <TextField required type="text" name="name" id="name" label="שם משתמש" value={user.name} onChange={(e)=>setUser({...user, 'name':e.target.value})} />
+            <TextField required type="text" name="name" id="name" label="שם משתמש" value={user.name} onChange={(e) => setUser({ ...user, 'name': e.target.value })} />
             <br />
-           <button className="submit" type="submit">אישור</button>
+            <button className="submit" type="submit">אישור</button>
         </form>
     </div>
 
