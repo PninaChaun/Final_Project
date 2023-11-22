@@ -43,6 +43,13 @@ export const Login = () => {
     const newPassword = () => {
         event.preventDefault()
         let pass = event.target.pass.value
+        let pass2 = event.target.pass2.value
+        if (pass != pass2) {
+            alert('אימות סיסמא לא תואם לסיסמא, נסה שוב')
+            event.target.pass = ''
+            event.target.pass2 = ''
+            return
+        }
         ServerResetPassword(email, pass)
             .then(r => JSON.parse(r))
             .then(r => {
@@ -187,7 +194,8 @@ export const Login = () => {
                                     <form onSubmit={newPassword}>
                                         <p>בחר סיסמא חדשה: </p>
                                         <TextField variant="standard" type="password" className="inputLogin" name="pass" id="pass" defaultValue={''} />
-                                        {/* //TODO אימות סיסמא */}
+                                        <label htmlFor="pass2">אימות סיסמא</label>
+                                        <TextField variant="standard" type="password2" className="inputLogin" name="pass" id="pass2" defaultValue={''} />
                                         <Button variant="text" theme={theme}>verify code</Button>
                                     </form>
                                 }

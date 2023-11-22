@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
-import { useContext, useState } from "react";
-import { serverSaveBuy } from "../../api/serverSaveBuy";
 import Context from "../../context/context";
 import '../PotentialShopper/PotentialShopper.css'
 import { serverAddChat } from "../../api/serverChat";

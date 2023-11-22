@@ -31,7 +31,7 @@ export class LoginService {
         }
         else { //sign up
             let user_email = this.ser.emailAvailable(user.email);
-            if (user_email)
+            if (!user_email)
                 return { stat: 400, desc: 'this email already exists' };
             else
                 if (user.name && user.password && user.email) {
@@ -63,7 +63,7 @@ export class LoginService {
             return 401
 
         let pass = ''
-        for (let i = 0; i < 6; i++) { //TODO change loop to 6 iterations
+        for (let i = 0; i < 6; i++) {
             pass += Math.round(Math.random() * 9)
         }
         this.codes[email] = pass

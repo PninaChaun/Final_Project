@@ -5,7 +5,7 @@ import { ServerCreateGroup, ServerGroups, ServerInvite, ServerRemoveMember } fro
 import { GroupMembers } from "./GroupMembers";
 import { Loading } from "../Loading/Loading";
 import { useConfirm } from 'react-hook-popup'
-import { Button, FormControl, Grid, ListItemButton, ListItemText, createTheme } from "@mui/material";
+import { Button, FormControl, FormLabel, Grid, Input, ListItemButton, ListItemText, createTheme } from "@mui/material";
 export const Groups = () => {
 
   const [groups, setGroups] = useState(null)
@@ -130,11 +130,11 @@ export const Groups = () => {
     <Button variant="contained" theme={theme} className="buttonUseState" onClick={() => setReload(!reload)} >להוספת קבוצה</Button>
     {reload ? <>
     <br />
-      <FormControl  onSubmit={addGroup}>
-      <label htmlFor="">בחירת שם לקבוצה: </label>
-        <input type="text" className="inputGroup" placeholder="שכונת נוף ציון" name="name" required /><br />
-        <Button variant="contained"  theme={theme} className="submitGroups" type="submit" >אישור</Button>
-      </FormControl>
+      <form onSubmit={addGroup}>
+        <FormLabel htmlFor="">בחירת שם לקבוצה: </FormLabel>
+        <Input type="text" className="inputGroup" placeholder="שכונת נוף ציון" name="name" required /><br />
+        <Button type="submit" variant="contained"  theme={theme} className="submitGroups" role="submit" >אישור</Button>
+      </form>
     </>
       : <></>
     }

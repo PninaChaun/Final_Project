@@ -7,7 +7,6 @@ import { GroupsService } from './groups.service';
 import { log } from 'handlebars/runtime';
 import { inviteDTO } from 'src/DTO/invite.dto';
 import { groupDTO } from 'src/DTO/group.dto';
-// TODO_AFTER remove all unnecessary imports
 
 @Controller('groups')
 export class GroupsController {

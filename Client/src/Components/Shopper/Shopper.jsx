@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ServerShopper } from "../../api/serverShopper";
-import PotentialCustomer from "../PotentialCustomer/PotentialCustomer";
-import { useContext, useEffect, useState } from "react";
-import { FindCustomer } from "../../api/serverFindCustomer";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import Context from "../../context/context";
 import '../Shopper/Shopper.css';
