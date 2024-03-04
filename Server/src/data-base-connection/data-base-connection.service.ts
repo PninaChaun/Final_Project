@@ -78,15 +78,15 @@ export class DataBaseConnectionService {
     getAllOrders = async (user_groups: any, prevTime: Date) => {
         let orders = []
         let allOrders = await db.collection('orders').find({ active: true, beginDate: { $gt: prevTime } }).toArray()
-        for (let i = 0; i < allOrders.length; i++) {
-            for (let j = 0; j < user_groups.length; j++) {
-                console.log(allOrders[i].groups, 'allOrders[i].groups');
-                console.log(user_groups, 'user_groups');
-
-                if (user_groups[j] == allOrders[i].groups) {
-                    orders.push(allOrders[i])
-                    break
+        for (let i = 0; i < allOrders.length; i++) { //orders
+            for (let j = 0; j < user_groups.length; j++) { //groups of shopper
+                for (let k = 0; k < allOrders[i].groups.length; k++) { //groups of order
+                    if (user_groups[j] == allOrders[i].groups[k]) {
+                        orders.push(allOrders[i])
+                        break
+                    }
                 }
+
             }
 
         }
@@ -96,9 +96,8 @@ export class DataBaseConnectionService {
         }
 
 
-        // }
-
     }
+
 
     insertOrder = async (order: orderDTO, userId) => {
         try {

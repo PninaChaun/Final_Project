@@ -44,6 +44,8 @@ export const Login = () => {
         event.preventDefault()
         let pass = event.target.pass.value
         let pass2 = event.target.pass2.value
+        // console.log(pass);
+        // console.log(pass2);
         if (pass != pass2) {
             alert('אימות סיסמא לא תואם לסיסמא, נסה שוב')
             event.target.pass = ''
@@ -167,7 +169,7 @@ export const Login = () => {
                 </>
             }
             <br />
-            <Button className="submitLogin" variant="text" theme={theme} type="submit">אישור</Button>
+            <button className="submitLogin" variant="text" theme={theme} type="submit">אישור</button>
         </form>
 
         {login ?
@@ -188,15 +190,15 @@ export const Login = () => {
                                     <form onSubmit={ifCodesTrue}>
                                         <p>שלחנו למייל שלך קוד אימות  בן 6 ספרות נא הזן אותו </p>
                                         <TextField variant="standard" type="text" className="inputLogin" name="code" id="code" defaultValue={''} />
-                                        <Button variant="text" theme={theme} >verify code</Button>
+                                        <button variant="text" theme={theme} >אימות  הקוד</button>
                                     </form>
                                     :
                                     <form onSubmit={newPassword}>
                                         <p>בחר סיסמא חדשה: </p>
                                         <TextField variant="standard" type="password" className="inputLogin" name="pass" id="pass" defaultValue={''} />
                                         <label htmlFor="pass2">אימות סיסמא</label>
-                                        <TextField variant="standard" type="password2" className="inputLogin" name="pass" id="pass2" defaultValue={''} />
-                                        <Button variant="text" theme={theme}>verify code</Button>
+                                        <TextField variant="standard" type="password" className="inputLogin" name="pass2" id="pass2" defaultValue={''} />
+                                        <button variant="text" theme={theme}>אישור </button>
                                     </form>
                                 }
                             </>

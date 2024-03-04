@@ -13,7 +13,7 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
 
      const [user, setUser] = useState(null);
      const [showGroups, setShowGroups] = useState(true);
-     const [groups, setGroups] = useState(null);
+     const [groups, setGroups] = useState([]);
      const _navigate = useNavigate(Context);
      const [checked, setChecked] = useState([]);
      const [alert] = useAlert()
@@ -38,6 +38,15 @@ export const Shopper = ({ order, setOrder, shopId, setshopId }) => {
 
           fetchData();
      }, []);
+
+     useEffect(()=>{
+          
+          const newChecked = [];
+          for (let index = 0; index < groups.length; index++)
+               newChecked.push(groups[index].id)
+
+          setChecked(newChecked);
+     }, [groups])
 
      const handleToggle = (value) => () => {
           const currentIndex = checked.indexOf(value.id);

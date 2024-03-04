@@ -12,7 +12,7 @@ import { List, ListItem, ListItemIcon, ListItemButton, Checkbox, ListItemText, B
 
 export const Customer = ({ setOrderId }) => {
      const [user, setUser] = useState(null);
-     const [groups, setGroups] = useState(null);
+     const [groups, setGroups] = useState([]);
      const [showGroups, setShowGroups] = useState(true);
      const [checked, setChecked] = useState([]);
      const [alert] = useAlert()
@@ -37,6 +37,15 @@ export const Customer = ({ setOrderId }) => {
 
           fetchData();
      }, []);
+
+     useEffect(()=>{
+          
+          const newChecked = [];
+          for (let index = 0; index < groups.length; index++)
+               newChecked.push(groups[index].id)
+
+          setChecked(newChecked);
+     }, [groups])
 
      const handleToggle = (value) => () => {
           const currentIndex = checked.indexOf(value.id);
@@ -131,7 +140,7 @@ export const Customer = ({ setOrderId }) => {
                     <br />
                     <label className="lableProduct" htmlFor="">שם מוצר: </label>
                     <br />
-                    <input className="productName" type="text" name="productName" id="productName" placeholder=" חלב" />
+                    <input className="productName" type="text"  name="productName" id="productName" placeholder=" חלב" />
                     <textarea className="details" name="details" id="details" cols="30" rows="10" placeholder="הקלד כאן פרטים נוספים:" />
                     <button className="submitShopper" type="submit" disabled={shouldDisableSave()}>אישור </button>
                </form>

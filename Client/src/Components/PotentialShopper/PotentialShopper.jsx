@@ -19,9 +19,8 @@ export const PotentialShopper = ({ shopper, setShopper, setChatId, orderId, setS
     if (shopper != null) {
         return <Popup open={true} position="right center">
             <audio src='/src/assets/mp3/mp3.mp3' autoPlay="true" ></audio>
+            <div className="UserShopper" >
             <img className="logo" src="src/assets/img/logo.png" width="100px" />
-            <div className="UserShopper">
-                {console.log(shopper)}
                 <p className="shopperUser">שם: {shopper['user'].name}  <br />
                     חנות: {shopper['shopper'].store}
                 </p>

@@ -4,9 +4,8 @@ import Cookies from 'js-cookie';
 import { ServerGetChats, serverDeleteChat } from '../../api/serverChat';
 import { Chat } from '../Chat/Chat';
 import '../Groups/Groups.css'
-import { Button } from '@mui/material';
-
-
+import { Button } from '@mui/material'
+import './chats.css'
 export function Chats({ showChat, setShowChat }) {
 
     const [chats, setChats] = useState([])
@@ -44,8 +43,10 @@ export function Chats({ showChat, setShowChat }) {
                     {showChat == chat.id ?
                         <>
                             <Chat userId={chat.id} />
-                            <Button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לסיום שיחת הצאט עם   {chat.name}</Button>
-                            <a href="http:///www.paypal.com"><img src="src/assets/img/cart.png" alt="" width="70px" /> </a>
+                            <button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לסיום שיחת הצאט עם   {chat.name}</button>
+
+                            {/* <Button type="button" className="buttonUseState" onClick={() => deleteChat(chat.id)}>לסיום שיחת הצאט עם   {chat.name}</Button> */}
+                            <a href="http:///www.paypal.com"><img src="src/assets/img/paypl.png" alt="" width="70px" /> </a>
                         </>
                         :
                         <></>
